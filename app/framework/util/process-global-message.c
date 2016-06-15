@@ -69,7 +69,7 @@ bool emAfProcessGlobalCommand(EmberAfClusterCommand *cmd)
       && clusterId != ZCL_IDENTIFY_CLUSTER_ID) {
     emberAfCorePrintln("disabled");
     emberAfDebugPrintln("%pd, dropping global cmd:%x", "disable", zclCmd);
-    emberAfSendDefaultResponse(cmd, EMBER_ZCL_STATUS_FAILURE);
+//    emberAfSendDefaultResponse(cmd, EMBER_ZCL_STATUS_FAILURE);
     return true;
   }
 

@@ -7,6 +7,7 @@
 // *****************************************************************************
 
 #include "app/framework/include/af.h"
+#include "app/framework/util/af-main.h"
 #include "app/util/serial/command-interpreter2.h"
 #include "address-table.h"
 

@@ -98,7 +98,10 @@ void emberAfPluginGpioSensorDebounceEventHandler(void)
   emberEventControlSetInactive(emberAfPluginGpioSensorDebounceEventControl);
   lastSensorStatus = newSensorStatus;
 
+  if (emberAfNetworkState() == EMBER_JOINED_NETWORK)
+  {
   emberAfPluginGpioSensorStateChangedCallback(newSensorStatus);
+  }
 }
 
 //------------------------------------------------------------------------------

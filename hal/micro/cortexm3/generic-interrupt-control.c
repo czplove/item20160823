@@ -19,7 +19,7 @@
 
 //------------------------------------------------------------------------------
 // Plugin private macro definitions
-
+#define HAL_GIC_USE_IRQC_ISR
 //------------------------------------------------------------------------------
 // Forward Declaration of private functions
 static void genericIsr(HalGenericInterruptControlIrqCfg* irqCfg);

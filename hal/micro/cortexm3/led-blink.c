@@ -56,7 +56,7 @@ static void clearBit(uint8_t *data, uint8_t bit);
 static gpioBlinkState ledEventState = LED_ON;
 static uint8_t ledBlinkCount = 0x00;
 static uint16_t ledBlinkTime;
-static uint8_t activeLed = BOARDLED1;
+static uint8_t activeLed = BOARDLED0;
 static uint16_t blinkPattern[MAX_BLINK_PATTERN_LENGTH];
 static uint8_t blinkPatternLength;
 static uint8_t blinkPatternPointer;

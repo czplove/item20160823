@@ -19,17 +19,15 @@ bool emberAfPluginLowVoltageShutdownOkToShutdownCallback(uint16_t shutdownVoltag
   return true;
 }
 
-/** @brief Pre Shutdown
+/** @brief Get Voltage
  *
  * This function is called by the Low Voltage Shutdown plugin just prior to
- * shutting down, allowing the application to do any last-minute clean-up
- * before the chip goes offline until next reset. (Can't prevent shutdown from
- * this context; use Ok To Shutdown callback for that instead.)
+ * shutting down, allowing the application to get the VDD voltage before the
+ * chip goes offline until next reset.
  *
- * @param shutdownVoltage The voltage (in mV) read from VDD at shutdown time,
- * which can be used to determine the risk in doing any further activities
- * prior to shutdown. Ver.: always
+ * @param currentVoltage The voltage (in mV) read from VDD at get voltage time.
+ * Ver.: always
  */
-void emberAfPluginLowVoltageShutdownPreShutdownCallback(uint16_t shutdownVoltage)
+void emberAfPluginLowVoltageShutdownGetVoltageCallback(uint16_t currentVoltage)
 {
 }
