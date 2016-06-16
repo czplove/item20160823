@@ -2,16 +2,16 @@
  * @brief User-configurable stack memory allocation defaults
  *
  * @note Application developers should \b not modify any portion
- * of this file. Doing so may cause mysterious bugs. Allocations should be 
- * adjusted only by defining the appropriate macros in the application's 
+ * of this file. Doing so may cause mysterious bugs. Allocations should be
+ * adjusted only by defining the appropriate macros in the application's
  * CONFIGURATION_HEADER.
  *
  * See @ref configuration for documentation.
  * <!-- Author(s): Lee Taylor, lee@ember.com -->
  * <!--Copyright 2005 by Ember Corporation. All rights reserved.         *80*-->
  */
- 
-//  Todo: 
+
+//  Todo:
 //  - explain how to use a configuration header
 //  - the documentation of the custom handlers should
 //    go in hal/ember-configuration.c, not here
@@ -22,17 +22,17 @@
  *
  * All configurations have defaults, therefore many applications may not need
  * to do anything special.  However, you can override these defaults
- * by creating a CONFIGURATION_HEADER and within this header, 
- * defining the appropriate macro to a different size.  For example, to 
+ * by creating a CONFIGURATION_HEADER and within this header,
+ * defining the appropriate macro to a different size.  For example, to
  * reduce the number of allocated packet buffers from 24 (the default) to 8:
  * @code
- * #define EMBER_PACKET_BUFFER_COUNT 8 
+ * #define EMBER_PACKET_BUFFER_COUNT 8
  * @endcode
  *
  * The convenience stubs provided in @c hal/ember-configuration.c can be overridden
- * by  defining the appropriate macro and providing the corresponding callback 
- * function.  For example, an application with custom debug channel input must 
- * implement @c emberDebugHandler() to process it.  Along with 
+ * by  defining the appropriate macro and providing the corresponding callback
+ * function.  For example, an application with custom debug channel input must
+ * implement @c emberDebugHandler() to process it.  Along with
  * the function definition, the application should provide the following
  * line in its CONFIGURATION_HEADER:
  * @code
@@ -65,7 +65,7 @@
   #define EMBER_API_MINOR_VERSION 0
 #endif
 
-/** @brief Specifies the stack profile.  The default is Profile 0. 
+/** @brief Specifies the stack profile.  The default is Profile 0.
  *
  * You can set this to Profile 1 (ZigBee) or Profile 2 (ZigBee Pro) in your
  * application's configuration header (.h) file using:
@@ -128,7 +128,7 @@
   #error "Unsupported security level"
 #endif
 
-#ifdef EMBER_CHILD_TABLE_SIZE 
+#ifdef EMBER_CHILD_TABLE_SIZE
   #if (EMBER_MAX_END_DEVICE_CHILDREN < EMBER_CHILD_TABLE_SIZE)
     #undef EMBER_CHILD_TABLE_SIZE
   #endif
@@ -155,12 +155,12 @@
 /** @brief The maximum number of link and master keys that a node can
  *  store, <b>not</b> including the Trust Center Link Key.
  *  The stack maintains special storage for the Trust Center
- *  Link Key.  
+ *  Link Key.
  *
  *  For the Trust Center, this controls how many totally unique
  *  Trust Center Link Keys may be stored.  The rest of the devices
  *  in the network will use a global or hashed link key.
- *  
+ *
  *  For normal nodes, this controls the number of Application
  *  Link Keys it can store.  The Trust Center Link Key
  *  is stored separately from this table.
@@ -198,9 +198,9 @@
   #error "EMBER_MAX_DEPTH cannot be greater than 15"
 #endif
 
-/** @brief The maximum number of hops for a message. 
+/** @brief The maximum number of hops for a message.
  *
- * When the radius is not supplied by the Application (i.e. 0) or 
+ * When the radius is not supplied by the Application (i.e. 0) or
  * the stack is sending a message, then the default is two times
  * the max depth (::EMBER_MAX_DEPTH).
  */
@@ -208,7 +208,7 @@
   #define EMBER_MAX_HOPS (2 * EMBER_MAX_DEPTH)
 #endif
 
-/** @brief The number of Packet Buffers available to the Stack. 
+/** @brief The number of Packet Buffers available to the Stack.
  * The default is 75.
  *
  * Each buffer requires 36 bytes of RAM (32 for the buffer itself plus 4 bytes
@@ -218,7 +218,7 @@
   #define EMBER_PACKET_BUFFER_COUNT 75
 #endif
 /** @brief The maximum number of router neighbors the stack
- * can keep track of.  
+ * can keep track of.
  *
  * A neighbor is a node within radio range.
  * The maximum allowed value is 16.  End device children are kept
@@ -234,7 +234,7 @@
   #define EMBER_NEIGHBOR_TABLE_SIZE 16
 #endif
 /** @brief The maximum amount of time (in milliseconds) that the MAC
- * will hold a message for indirect transmission to a child. 
+ * will hold a message for indirect transmission to a child.
  *
  * The default is 3000 milliseconds (3 sec).
  * The maximum value is 30 seconds (30000 milliseconds).larger values
@@ -252,21 +252,21 @@
 /** @brief This defines the behavior for what address multicasts are sent to
  *    The normal address is RxOnWhenIdle=true (0xFFFD).  However setting this
  *    to true can change locally generated multicasts to be sent to the sleepy
- *    broadcast address (0xFFFF). Changing the default is NOT ZigBee Pro 
+ *    broadcast address (0xFFFF). Changing the default is NOT ZigBee Pro
  *    compliant and may not be interoperable.
  */
 #ifndef EMBER_SEND_MULTICASTS_TO_SLEEPY_ADDRESS
   #define EMBER_SEND_MULTICASTS_TO_SLEEPY_ADDRESS false
 #endif
-  
+
 
 /** @brief The maximum amount of time, in units determined by
  * ::EMBER_END_DEVICE_POLL_TIMEOUT_SHIFT, that an
- * ::EMBER_END_DEVICE or ::EMBER_SLEEPY_END_DEVICE can wait between polls. 
+ * ::EMBER_END_DEVICE or ::EMBER_SLEEPY_END_DEVICE can wait between polls.
  * The timeout value in seconds is
  *  ::EMBER_END_DEVICE_POLL_TIMEOUT << ::EMBER_END_DEVICE_POLL_TIMEOUT_SHIFT.
- * If no poll is heard within this time, then the parent 
- * removes the end device from its tables.  Note: there is a separate 
+ * If no poll is heard within this time, then the parent
+ * removes the end device from its tables.  Note: there is a separate
  * ::EMBER_MOBILE_NODE_POLL_TIMEOUT for mobile end devices.
  *
  * Using the default values of both ::EMBER_END_DEVICE_POLL_TIMEOUT
@@ -280,7 +280,7 @@
 /** @brief The units used for timing out end devices on their parents.
  * See ::EMBER_END_DEVICE_POLL_TIMEOUT for an explanation of how this
  * value is used.
- * 
+ *
  * The default value of 6 means gives ::EMBER_END_DEVICE_POLL_TIMEOUT
  * a default unit of 64 seconds, or approximately one minute.
  * The maximum value for ::EMBER_END_DEVICE_POLL_TIMEOUT_SHIFT is 14.
@@ -289,20 +289,20 @@
   #define EMBER_END_DEVICE_POLL_TIMEOUT_SHIFT 6
 #endif
 /** @brief The maximum amount of time (in quarter-seconds) that a mobile
- * node can wait between polls. 
- * If no poll is heard within this 
- * timeout, then the parent removes the mobile node from its tables. 
- * The default is 20 quarter seconds (5 seconds).  The maximum is 255 
+ * node can wait between polls.
+ * If no poll is heard within this
+ * timeout, then the parent removes the mobile node from its tables.
+ * The default is 20 quarter seconds (5 seconds).  The maximum is 255
  * quarter seconds.
  */
 #ifndef EMBER_MOBILE_NODE_POLL_TIMEOUT
   #define EMBER_MOBILE_NODE_POLL_TIMEOUT 20
 #endif
 /** @brief The maximum number of APS retried messages that the
- * stack can be transmitting at any time. 
+ * stack can be transmitting at any time.
  * Here, "transmitting" means
  * the time between the call to ::emberSendUnicast() and the subsequent
- * callback to ::emberMessageSentHandler().  
+ * callback to ::emberMessageSentHandler().
  *
  * @note  A message will
  * typically use one packet buffer for the message header and one or
@@ -321,7 +321,7 @@
   #define EMBER_BINDING_TABLE_SIZE 0
 #endif
 /** @brief The maximum number of EUI64<->network address associations
- * that the stack can maintain.  The default value is 8. 
+ * that the stack can maintain.  The default value is 8.
  *
  * Address table entries are 10 bytes in size.
  */
@@ -329,10 +329,10 @@
   #define EMBER_ADDRESS_TABLE_SIZE 8
 #endif
 /** @brief The number of child table entries reserved for use only by
- * mobile nodes. The default value is 0. 
+ * mobile nodes. The default value is 0.
  *
  * The maximum number of non-mobile
- * children for a parent is ::EMBER_CHILD_TABLE_SIZE - 
+ * children for a parent is ::EMBER_CHILD_TABLE_SIZE -
  * ::EMBER_RESERVED_MOBILE_CHILD_ENTRIES.
  */
 #ifndef EMBER_RESERVED_MOBILE_CHILD_ENTRIES
@@ -396,7 +396,7 @@
  * only on compatible Ember stacks.  Be very careful when changing the broadcast
  * table size as it effects timing of the broadcasts as well as number of
  * possible broadcasts.  Additionally, this value must be universal for
- * all devices in the network otherwise a single router can overwhelm 
+ * all devices in the network otherwise a single router can overwhelm
  * all its neighbors with more broadcasts than they can support.
  * In general, this value should be left alone.
  *
@@ -429,9 +429,9 @@
 
 
 /** @brief Settings to control if and where assert information will
- * be printed. 
+ * be printed.
  *
- * The output can be suppressed by defining @c EMBER_ASSERT_OUTPUT_DISABLED. 
+ * The output can be suppressed by defining @c EMBER_ASSERT_OUTPUT_DISABLED.
  * The serial port to which the output is sent
  * can be changed by defining ::EMBER_ASSERT_SERIAL_PORT as the desired port.
  *
@@ -443,7 +443,7 @@
 #endif
 
 /** @brief The absolute maximum number of payload bytes in an alarm message.
- * 
+ *
  * The three length bytes in ::EMBER_UNICAST_ALARM_CLUSTER messages
  * do not count towards this limit.
  *
@@ -459,12 +459,12 @@
 
 /** @brief The sizes of the broadcast and unicast alarm buffers in bytes.
  *
- * Devices have a single broadcast alarm buffer.  
- * Routers have one unicast alarm buffer for each child table entry. 
+ * Devices have a single broadcast alarm buffer.
+ * Routers have one unicast alarm buffer for each child table entry.
  * The total RAM used for alarms is
  * @code
- *   EMBER_BROADCAST_ALARM_DATA_SIZE 
- *   + (EMBER_UNICAST_ALARM_DATA_SIZE * 
+ *   EMBER_BROADCAST_ALARM_DATA_SIZE
+ *   + (EMBER_UNICAST_ALARM_DATA_SIZE *
  *      EMBER_CHILD_TABLE_SIZE)
  * @endcode
  *
@@ -531,7 +531,7 @@
  *  it will hold the first request and wait for a second matching request.
  *  If both arrive within this time period, the Trust Center will reply to
  *  both with the new key.  If both requests are not received then the
- *  Trust Center will discard the request.  The time is in minutes.  
+ *  Trust Center will discard the request.  The time is in minutes.
  *  The maximum time is 10 minutes.  A value of 0 minutes indicates that the
  *  Trust Center will not buffer the request but instead respond immediately.
  *  Only 1 outstanding request is supported at a time.
@@ -568,7 +568,7 @@
  * Very rarely, a corrupt beacon can pass the CRC check and trigger a
  * false PAN id conflict.  This is more likely to happen in very large
  * dense networks.  Setting this value to 2 or 3 dramatically reduces
- * the chances of a spurious PAN id change. The maximum value is 63.  
+ * the chances of a spurious PAN id change. The maximum value is 63.
  * The default value is 1.
  */
 #ifndef EMBER_PAN_ID_CONFLICT_REPORT_THRESHOLD
