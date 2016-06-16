@@ -105,19 +105,16 @@
  * abstraction on top of the 3 LEDs for verbose coding.
  */
 enum HalBoardLedPins {
-//  BOARDLED0 = 			PORTA_PIN(6),
-//  BOARDLED1 = 			PORTB_PIN(7),
-
-  BOARDLED0 = 			PORTB_PIN(7),
-  BOARDLED1 = 			PORTA_PIN(6),
-  BOARDLED2 = 			PORTC_PIN(0),
+  BOARDLED0 = PORTA_PIN(0),
+  BOARDLED1 = PORTA_PIN(1),
+  BOARDLED2 = PORTC_PIN(5),
   BOARDLED3 = BOARDLED2,
-  BOARD_ACTIVITY_LED  = BOARDLED2,
-  BOARD_HEARTBEAT_LED = BOARDLED2
+  BOARD_ACTIVITY_LED  = BOARDLED3,
+  BOARD_HEARTBEAT_LED = BOARDLED3
 };
 
 /** @} END OF LED DEFINITIONS  */
-#define GPIO_SENSOR_PIN                     4
+#define GPIO_SENSOR_PIN                     5
 #define GPIO_SENSOR_PORT                    HAL_GIC_GPIO_PORTB
 #define GPIO_SENSOR_IRQ                     HAL_GIC_IRQ_NUMC
 
@@ -147,7 +144,7 @@ enum HalBoardLedPins {
 #define BUTTON0_IN          GPIO_PBIN
 /**
  * @brief Point the proper IRQ at the desired pin for BUTTON0.
- * @note IRQA is fixed and as such does not need any selection operation.
+ * @note IRQB is fixed and as such does not need any selection operation.
  */
 #define BUTTON0_SEL()       do { } while(0)
 /**
@@ -177,17 +174,16 @@ enum HalBoardLedPins {
  * are compiled in.
  * Remember there may be other things that might want to use IRQC.
  */
-//#define BUTTON1             PORTB_PIN(4)
+//#define BUTTON1              PORTC_PIN(1)
 /**
  * @brief The GPIO input register for BUTTON1.
  */
-#define BUTTON1_IN          GPIO_PBIN
+#define BUTTON1_IN          GPIO_PCIN
 /**
  * @brief Point the proper IRQ at the desired pin for BUTTON1.
- * Remember there may be other things that might want to use IRQC.
- * @note For this board, IRQC is pointed at PA3
+ * @note For this board, IRQC is pointed at PC1
  */
-#define BUTTON1_SEL()       do { GPIO_IRQCSEL = PORTB_PIN(4); } while(0)
+#define BUTTON1_SEL()       do { GPIO_IRQCSEL = PORTC_PIN(1); } while(0)
 /**
  * @brief The interrupt service routine for BUTTON1.
  * Remember there may be other things that might want to use IRQC.
@@ -216,7 +212,7 @@ enum HalBoardLedPins {
  * are compiled in.
  * Remember there may be other things that might want to use IRQD.
  */
-//#define BUTTON2             PORTB_PIN(5)
+#define BUTTON2             PORTB_PIN(7)
 /**
  * @brief The GPIO input register for BUTTON2.
  */
@@ -225,7 +221,7 @@ enum HalBoardLedPins {
  * @brief Point the proper IRQ at the desired pin for BUTTON2.
  * @note IRQD is fixed and as such does not need any selection operation.
  */
-#define BUTTON2_SEL()       do {GPIO_IRQDSEL = PORTB_PIN(5);  } while(0)
+#define BUTTON2_SEL()       do { GPIO_IRQDSEL = PORTB_PIN(7); } while(0)
 /**
  * @brief The interrupt service routine for BUTTON2.
  */
@@ -1023,26 +1019,26 @@ GpioMaskType gpioRadioPowerBoardMask = 0
  */
 #define DEFINE_POWERUP_GPIO_CFG_VARIABLES()                                   \
 uint16_t gpioCfgPowerUp[6] = {                                                  \
-                            ((GPIOCFG_IN         <<PA0_CFG_BIT)|              \
-                             (GPIOCFG_IN         <<PA1_CFG_BIT)|              \
+                            ((GPIOCFG_OUT        <<PA0_CFG_BIT)|              \
+                             (GPIOCFG_OUT        <<PA1_CFG_BIT)|              \
                              (GPIOCFG_IN         <<PA2_CFG_BIT)|              \
                              (GPIOCFG_IN         <<PA3_CFG_BIT)),             \
                             ((GPIOCFG_IN         <<PA4_CFG_BIT)|              \
                              (GPIOCFG_IN         <<PA5_CFG_BIT)|              \
-                             (GPIOCFG_OUT        <<PA6_CFG_BIT)|              \
+                             (GPIOCFG_IN         <<PA6_CFG_BIT)|              \
                              (GPIOCFG_IN         <<PA7_CFG_BIT)),             \
                             ((GPIOCFG_IN         <<PB0_CFG_BIT)|              \
                              (GPIOCFG_OUT_ALT    <<PB1_CFG_BIT)| /* SC1SDA */ \
                              (GPIOCFG_OUT_ALT    <<PB2_CFG_BIT)| /* SC1SCL */ \
                              (GPIOCFG_IN         <<PB3_CFG_BIT)),             \
                             ((GPIOCFG_IN         <<PB4_CFG_BIT)|              \
-                             (GPIOCFG_IN         <<PB5_CFG_BIT)|              \
+                             (GPIOCFG_IN          <<PB5_CFG_BIT)|              \
                              /* Red Led */                                    \
                              (GPIOCFG_IN         <<PB6_CFG_BIT)|              \
                              /* Green Led */                                  \
                              (GPIOCFG_IN         <<PB7_CFG_BIT)),             \
                             ((GPIOCFG_IN         <<PC0_CFG_BIT)|              \
-                             (GPIOCFG_IN         <<PC1_CFG_BIT)|              \
+                             (GPIOCFG_OUT        <<PC1_CFG_BIT)|              \
                              (GPIOCFG_IN         <<PC2_CFG_BIT)|              \
                              (GPIOCFG_IN         <<PC3_CFG_BIT)),             \
                             ((GPIOCFG_IN         <<PC4_CFG_BIT)|              \
@@ -1057,8 +1053,8 @@ uint16_t gpioCfgPowerUp[6] = {                                                  
  */
 #define DEFINE_POWERUP_GPIO_OUTPUT_DATA_VARIABLES()                       \
 uint8_t gpioOutPowerUp[3] = {                                               \
-                           ((GPIOOUT_PULLUP     <<PA0_BIT)|               \
-                            (GPIOOUT_PULLUP     <<PA1_BIT)|               \
+                           ((0                  <<PA0_BIT)|               \
+                            (0                  <<PA1_BIT)|               \
                             (GPIOOUT_PULLUP     <<PA2_BIT)|               \
                             (GPIOOUT_PULLUP     <<PA3_BIT)|               \
                             (GPIOOUT_PULLUP     <<PA4_BIT)|               \
@@ -1075,7 +1071,7 @@ uint8_t gpioOutPowerUp[3] = {                                               \
                             (GPIOOUT_PULLUP     <<PB6_BIT)|               \
                             (GPIOOUT_PULLUP     <<PB7_BIT)),              \
                            ((GPIOOUT_PULLUP     <<PC0_BIT)|               \
-                            (1                  <<PC1_BIT)|               \
+                            (GPIOOUT_PULLUP     <<PC1_BIT)|               \
                             (1                  <<PC2_BIT)|               \
                             (GPIOOUT_PULLUP     <<PC3_BIT)|               \
                             (GPIOOUT_PULLUP     <<PC4_BIT)|               \
@@ -1091,13 +1087,13 @@ uint8_t gpioOutPowerUp[3] = {                                               \
  */
 #define DEFINE_POWERDOWN_GPIO_CFG_VARIABLES()                                   \
 uint16_t gpioCfgPowerDown[6] = {                                                  \
-                            ((PWRUP_CFG_USBDM    <<PA0_CFG_BIT)|              \
-                             (PWRUP_CFG_USBDP    <<PA1_CFG_BIT)|              \
-                             (PWRUP_CFG_ENUMCTRL <<PA2_CFG_BIT)|              \
+                            ((GPIOCFG_OUT        <<PA0_CFG_BIT)|              \
+                             (GPIOCFG_OUT        <<PA1_CFG_BIT)|              \
+                             (GPIOCFG_IN         <<PA2_CFG_BIT)|              \
                              (GPIOCFG_IN         <<PA3_CFG_BIT)),             \
-                            ((PWRUP_CFG_PTI_EN   <<PA4_CFG_BIT)|              \
+                            ((GPIOCFG_IN         <<PA4_CFG_BIT)|              \
                              (GPIOCFG_IN         <<PA5_CFG_BIT)|              \
-                             (PWRUP_CFG_DFL_RHO  <<PA6_CFG_BIT)|              \
+                             (GPIOCFG_IN         <<PA6_CFG_BIT)|              \
                              (GPIOCFG_IN         <<PA7_CFG_BIT)),             \
                             ((GPIOCFG_IN         <<PB0_CFG_BIT)|              \
                              (GPIOCFG_OUT_ALT    <<PB1_CFG_BIT)| /* SC1SDA */ \
@@ -1106,14 +1102,14 @@ uint16_t gpioCfgPowerDown[6] = {                                                
                             ((GPIOCFG_IN         <<PB4_CFG_BIT)|              \
                              (GPIOCFG_IN         <<PB5_CFG_BIT)|              \
                              /* Red Led */                                    \
-                             (GPIOCFG_OUT        <<PB6_CFG_BIT)|              \
+                             (GPIOCFG_IN         <<PB6_CFG_BIT)|              \
                              /* Green Led */                                  \
-                             (GPIOCFG_OUT        <<PB7_CFG_BIT)),             \
+                             (GPIOCFG_IN         <<PB7_CFG_BIT)),             \
                             ((GPIOCFG_IN         <<PC0_CFG_BIT)|              \
                              (GPIOCFG_OUT        <<PC1_CFG_BIT)|              \
                              (GPIOCFG_IN         <<PC2_CFG_BIT)|              \
-                             (GPIOCFG_IN_PUD     <<PC3_CFG_BIT)),             \
-                            ((GPIOCFG_IN_PUD     <<PC4_CFG_BIT)|              \
+                             (GPIOCFG_IN         <<PC3_CFG_BIT)),             \
+                            ((GPIOCFG_IN         <<PC4_CFG_BIT)|              \
                              (GPIOCFG_IN         <<PC5_CFG_BIT)|              \
                              (GPIOCFG_ANALOG     <<PC6_CFG_BIT)|              \
                              (GPIOCFG_ANALOG     <<PC7_CFG_BIT))              \
@@ -1125,8 +1121,8 @@ uint16_t gpioCfgPowerDown[6] = {                                                
  */
 #define DEFINE_POWERDOWN_GPIO_OUTPUT_DATA_VARIABLES()                       \
 uint8_t gpioOutPowerDown[3] = {                                               \
-                           ((GPIOOUT_PULLUP     <<PA0_BIT)|               \
-                            (GPIOOUT_PULLUP     <<PA1_BIT)|               \
+                           ((0                  <<PA0_BIT)|               \
+                            (0                  <<PA1_BIT)|               \
                             (GPIOOUT_PULLUP     <<PA2_BIT)|               \
                             (GPIOOUT_PULLUP     <<PA3_BIT)|               \
                             (GPIOOUT_PULLUP     <<PA4_BIT)|               \
@@ -1143,7 +1139,7 @@ uint8_t gpioOutPowerDown[3] = {                                               \
                             (GPIOOUT_PULLUP     <<PB6_BIT)|               \
                             (GPIOOUT_PULLUP     <<PB7_BIT)),              \
                            ((GPIOOUT_PULLUP     <<PC0_BIT)|               \
-                            (1                  <<PC1_BIT)|               \
+                            (GPIOOUT_PULLUP     <<PC1_BIT)|               \
                             (1                  <<PC2_BIT)|               \
                             (GPIOOUT_PULLUP     <<PC3_BIT)|               \
                             (GPIOOUT_PULLUP     <<PC4_BIT)|               \
@@ -1255,7 +1251,7 @@ uint8_t gpioOutPowerDown[3] = {                                               \
 #define WAKE_ON_PA0   false
 #define WAKE_ON_PA1   false
 #define WAKE_ON_PA2   false
-#define WAKE_ON_PA3   true
+#define WAKE_ON_PA3   false
 #define WAKE_ON_PA4   false
 #define WAKE_ON_PA5   false
 #define WAKE_ON_PA6   false
@@ -1268,17 +1264,17 @@ uint8_t gpioOutPowerDown[3] = {                                               \
   #define WAKE_ON_PB2   false
 #endif
 #define WAKE_ON_PB3   false
-#define WAKE_ON_PB4   true
-#define WAKE_ON_PB5   false
-#define WAKE_ON_PB6   true
-#define WAKE_ON_PB7   false
+#define WAKE_ON_PB4   false
+#define WAKE_ON_PB5   true
+#define WAKE_ON_PB6   true   //BUTTON0
+#define WAKE_ON_PB7   true
 #define WAKE_ON_PC0   false
 #define WAKE_ON_PC1   false
 #define WAKE_ON_PC2   false
 #define WAKE_ON_PC3   false
 #define WAKE_ON_PC4   false
 #define WAKE_ON_PC5   false
-#define WAKE_ON_PC6   false
+#define WAKE_ON_PC6   false   //BUTTON1
 #define WAKE_ON_PC7   false
 //@} //END OF GPIO Wake Source Definitions
 

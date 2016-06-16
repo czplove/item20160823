@@ -172,6 +172,7 @@
           <state>NULL_BTL</state>
           <state>CORTEXM3</state>
           <state>CORTEXM3_EMBER_MICRO</state>
+          <state>CONTACT_SWITCH_NETVOX</state>
           <state>CORTEXM3_EM357</state>
           <state>PHY_EM3XX</state>
           <state>APPLICATION_TOKEN_HEADER="app/framework/util/tokens.h"</state>
@@ -635,7 +636,7 @@
         </option>
         <option>
           <name>OOCOutputFile</name>
-          <state>ContactSwitch.hex</state>
+          <state>ContactSwitch-netvox.hex</state>
         </option>
         <option>
           <name>OOCCommandLineProducer</name>
