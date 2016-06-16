@@ -29,7 +29,7 @@ extern uint8_t emAvailableMemory[];
 //------------------------------------------------------------------------------
 // API Version
 
-const uint8_t emApiVersion 
+const uint8_t emApiVersion
   = (EMBER_API_MAJOR_VERSION << 4) + EMBER_API_MINOR_VERSION;
 
 //------------------------------------------------------------------------------
@@ -216,7 +216,7 @@ EmApsUnicastMessageData *emApsUnicastMessageData = (EmApsUnicastMessageData *) &
 #define END_emApsUnicastMessageData        \
  (END_emAddressTable + align(EMBER_APS_UNICAST_MESSAGE_COUNT * sizeof(EmApsUnicastMessageData)))
 
-uint16_t emberApsAckTimeoutMs = 
+uint16_t emberApsAckTimeoutMs =
  ((EMBER_APSC_MAX_ACK_WAIT_HOPS_MULTIPLIER_MS
    * EMBER_MAX_HOPS)
   + EMBER_APSC_MAX_ACK_WAIT_TERMINAL_SECURITY_MS);
@@ -439,8 +439,8 @@ void emberRawTransmitCompleteHandler(EmberMessageBuffer message,
 #endif
 
 #ifndef EMBER_APPLICATION_HAS_INCOMING_MFG_TEST_MESSAGE_HANDLER
-void emberIncomingMfgTestMessageHandler(uint8_t messageType, 
-                                        uint8_t dataLength, 
+void emberIncomingMfgTestMessageHandler(uint8_t messageType,
+                                        uint8_t dataLength,
                                         uint8_t *data) {}
 #endif
 

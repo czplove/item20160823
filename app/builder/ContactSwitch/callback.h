@@ -10712,9 +10712,11 @@ bool emberAfIasAceClusterArmResponseCallback(uint8_t armNotification);
  *
  * @param numberOfZones   Ver.: always
  * @param zoneIds   Ver.: always
+ * @param armDisarmCode   Ver.: since ha-1.2.1-05-3520-30
  */
 bool emberAfIasAceClusterBypassCallback(uint8_t numberOfZones,
-                                           uint8_t* zoneIds);
+                                           uint8_t* zoneIds,
+                                           uint8_t* armDisarmCode);
 /** @brief IAS ACE Cluster Bypass Response
  *
  * 
@@ -10898,10 +10900,12 @@ bool emberAfIasAceClusterGetZoneInformationCallback(uint8_t zoneId);
  * @param zoneId   Ver.: always
  * @param zoneType   Ver.: always
  * @param ieeeAddress   Ver.: always
+ * @param zoneLabel   Ver.: since ha-1.2.1-05-3520-30
  */
 bool emberAfIasAceClusterGetZoneInformationResponseCallback(uint8_t zoneId,
                                                                uint16_t zoneType,
-                                                               uint8_t* ieeeAddress);
+                                                               uint8_t* ieeeAddress,
+                                                               uint8_t* zoneLabel);
 /** @brief IAS ACE Cluster Get Zone Status
  *
  * 
@@ -10932,9 +10936,13 @@ bool emberAfIasAceClusterGetZoneStatusResponseCallback(uint8_t zoneStatusComplet
  *
  * @param panelStatus   Ver.: always
  * @param secondsRemaining   Ver.: always
+ * @param audibleNotification   Ver.: since ha-1.2.1-05-3520-30
+ * @param alarmStatus   Ver.: since ha-1.2.1-05-3520-30
  */
 bool emberAfIasAceClusterPanelStatusChangedCallback(uint8_t panelStatus,
-                                                       uint8_t secondsRemaining);
+                                                       uint8_t secondsRemaining,
+                                                       uint8_t audibleNotification,
+                                                       uint8_t alarmStatus);
 /** @brief IAS ACE Cluster Panic
  *
  * 
@@ -11036,9 +11044,13 @@ bool emberAfIasAceClusterSetBypassedZoneListCallback(uint8_t numberOfZones,
  *
  * @param zoneId   Ver.: always
  * @param zoneStatus   Ver.: always
+ * @param audibleNotification   Ver.: since ha-1.2.1-05-3520-30
+ * @param zoneLabel   Ver.: since ha-1.2.1-05-3520-30
  */
 bool emberAfIasAceClusterZoneStatusChangedCallback(uint8_t zoneId,
-                                                      uint16_t zoneStatus);
+                                                      uint16_t zoneStatus,
+                                                      uint8_t audibleNotification,
+                                                      uint8_t* zoneLabel);
 
 /** @} END IAS ACE Cluster Callbacks */
 
@@ -20096,6 +20108,19 @@ void emberAfPluginTamperSwitchTamperActiveCallback(void);
  */
 void emberAfPluginTamperSwitchTamperAlarmCallback(void);
 /** @} END Tamper Switch Interface Plugin Callbacks */
+
+
+/** @name Counters Plugin Callbacks */
+// @{
+
+/** @brief Rollover
+ *
+ * This function is called every time a counter exceeds its threshold.
+ *
+ * @param type The counter that rolled over Ver.: always
+ */
+void emberAfPluginCountersRolloverCallback(EmberCounterType type);
+/** @} END Counters Plugin Callbacks */
 
 
 /** @} END addtogroup */
