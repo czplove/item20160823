@@ -22,7 +22,7 @@
  * status of EMBER_NOT_JOINED) after 20 failed join attempts.
  */
 void emberAfPluginConnectionManagerResetJoinAttempts(void);
-
+void emberAfPluginConnectionManagerResetRejoinAttempts(void);
 /** @brief Leave the current network and attempt to join a new one
  *
  * This function will cause the plugin to leave the current network and

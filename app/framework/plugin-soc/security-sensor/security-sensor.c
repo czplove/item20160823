@@ -17,6 +17,7 @@
 
 #include "app/framework/include/af.h"
 #include "app/framework/plugin-soc/connection-manager/connection-manager.h"
+#include "app/framework/plugin/ezmode-commissioning/ez-mode.h"
 #include "app/framework/plugin/ias-zone-server/ias-zone-server.h"
 #include "hal/micro/led-blink.h"
 #include "hal/micro/gpio-sensor.h"
@@ -39,10 +40,14 @@
 #define INITIAL_REPORT_DELAY_SECONDS  5
 #define INITIAL_REPORT_DELAY_QS   (INITIAL_REPORT_DELAY_SECONDS * 4)
 // Status bit definitions used when generating report to IAS Zone Server
-#define STATUS_ALARM    0x0001
-#define STATUS_NO_ALARM 0x0000
-#define STATUS_TAMPER    0x0004
-#define STATUS_NO_TAMPER 0x0000
+#define STATUS_ALARM                0x0001
+#define STATUS_NO_ALARM             0x0000
+#define STATUS_TAMPER               0x0004
+#define STATUS_NO_TAMPER            0x0000
+#define STATUS_BATTERY_LOW          0x0008
+#define STATUS_BATTERY_OK           0x0000
+#define STATUS_RESTORE_REPORTS      0x0020
+#define STATUS_NO_RESTORE_REPORTS   0x0000
 
 #define GATEWAY_BOOT_DELAY_MS 100
 
@@ -87,6 +92,8 @@ static uint8_t tamperStatus = STATUS_NO_TAMPER;
 // State variable to track the contact sensor state
 static uint8_t contactStatus = STATUS_NO_ALARM; 
 
+
+static uint8_t batteryStatus = STATUS_BATTERY_OK;
 // Number of consecutive button presses received thus far
 static uint8_t consecutiveButtonPressCount = 0;
 
@@ -137,23 +144,21 @@ void emberAfPluginTamperSwitchTamperAlarmCallback(void)
 void emberAfPluginButtonInterfaceButton0PressedShortCallback(
   uint16_t timePressedMs)
 {
-  
+
   // If the button was not held for longer than the debounce time, ignore the
   // press.
   if (timePressedMs < BUTTON_DEBOUNCE_TIME_MS) {
+    consecutiveButtonPressCount = 0;
     return;
   }
-  
-  consecutiveButtonPressCount++;
-    
-  if (timePressedMs > NETWORK_LEAVE_BUTTON_HOLD_TIME_MS) {
-      emberAfAppPrintln("   > LEAVE NETWORK");
-      emberAfPluginConnectionManagerLeaveNetworkAndStartSearchForNewOne();
+  if(timePressedMs > BUTTON_DEBOUNCE_TIME_MS *20 ){
+    consecutiveButtonPressCount = 0;
+    return;
   }
-  
-  emberEventControlSetDelayMS(
-    emberAfPluginSecuritySensorButtonPressCountEventControl,
-    MAX_TIME_BETWEEN_PRESSES_MS);
+  consecutiveButtonPressCount++;
+
+  emberEventControlSetDelayMS(emberAfPluginSecuritySensorButtonPressCountEventControl,
+                              MAX_TIME_BETWEEN_PRESSES_MS);
 }
 
 // This callback is executed when a network join attempt finishes.  It is needed
@@ -195,7 +200,7 @@ void emberAfPluginSecuritySensorInitEventHandler(void)
   emberEventControlSetInactive(emberAfPluginSecuritySensorInitEventControl);
 
   // Set which LED is going to be the activity LED
-  halLedBlinkSetActivityLed(BOARD_ACTIVITY_LED);
+  halLedBlinkSetActivityLed(BOARDLED0);
 }
 
 void emberAfPluginSecuritySensorInitialReportEventHandler(void)
@@ -282,5 +287,18 @@ static void changeTamperStatus(uint8_t status)
 {
   emberAfAppPrintln( "TAMPER STATUS: %2x", status);
   tamperStatus = status;
+  sendZoneAlarmUpdate();
+}
+
+// When the low battery status changes, update the global status variable and
+// the cluster's attribute
+void emberAfPluginBatteryMonitorLowVoltageCallback(HalLowBatteryState newBatteryState)
+{
+  emberAfAppPrintln("Battery new state:  %x", newBatteryState);
+  if (newBatteryState == HAL_LOW_BATTERY_ACTIVE) {
+    batteryStatus = STATUS_BATTERY_LOW;
+  } else {
+    batteryStatus = STATUS_BATTERY_OK;
+  }
   sendZoneAlarmUpdate();
 }
