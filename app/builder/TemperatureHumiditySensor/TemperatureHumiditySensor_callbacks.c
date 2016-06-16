@@ -110,7 +110,7 @@ void emberAfPluginButtonInterfaceButton0PressedShortCallback(uint16_t timePresse
  */
 void emberAfPluginBasicResetToFactoryDefaultsCallback(uint8_t endpoint)
 {
-  emberAfPluginConnectionManagerFactoryReset();
+  emberAfIdentifyClusterServerInitCallback(endpoint);
 }
 
 /** @brief Button0 Pressing
@@ -231,6 +231,9 @@ boolean emberAfStackStatusCallback(EmberStatus status)
   {
   case EMBER_NETWORK_UP:
   case EMBER_TRUST_CENTER_EUI_HAS_CHANGED:  // also means NETWORK_UP
+//    emberAfEzmodeClientCommission(emberAfPrimaryEndpoint(),
+//                                  EMBER_AF_EZMODE_COMMISSIONING_SERVER_TO_CLIENT,
+//                                  clusterlist,REPORTING_CLUSTER_LISTS);  /* ezmode Client */
     {
       emberAfPluginTemperatureMeasurementServerSetMeasurementRate(MEASUREMENT_FREQUENCY_MS);
       EmberAfPluginReportingEntry newEntry;

@@ -105,8 +105,13 @@
  * abstraction on top of the 3 LEDs for verbose coding.
  */
 enum HalBoardLedPins {
+#ifndef SHT10X
   BOARDLED0 = PORTB_PIN(7),
   BOARDLED1 = PORTC_PIN(1),
+#else
+  BOARDLED0 = PORTA_PIN(5),
+  BOARDLED1 = PORTA_PIN(6),
+#endif
   BOARDLED2 = PORTC_PIN(0),
   BOARDLED3 = BOARDLED2,
   BOARD_ACTIVITY_LED  = BOARDLED2,
@@ -134,6 +139,7 @@ enum HalBoardLedPins {
  * @brief The actual GPIO BUTTON0 is connected to.  This define should
  * be used whenever referencing BUTTON0.
  */
+#ifndef SHT10X
 #define BUTTON0             PORTB_PIN(0)
 /**
  * @brief The GPIO input register for BUTTON0.
@@ -164,6 +170,40 @@ enum HalBoardLedPins {
  * @brief The missed interrupt bit for BUTTON0.
  */
 #define BUTTON0_MISS_BIT    INT_MISSIRQA
+
+#else
+#define BUTTON0             PORTB_PIN(6)
+/**
+ * @brief The GPIO input register for BUTTON0.
+ */
+#define BUTTON0_IN          GPIO_PBIN
+/**
+ * @brief Point the proper IRQ at the desired pin for BUTTON0.
+ * @note IRQB is fixed and as such does not need any selection operation.
+ */
+#define BUTTON0_SEL()       do { } while(0)
+/**
+ * @brief The interrupt service routine for BUTTON0.
+ */
+#define BUTTON0_ISR         halIrqBIsr
+/**
+ * @brief The interrupt configuration register for BUTTON0.
+ */
+#define BUTTON0_INTCFG      GPIO_INTCFGB
+/**
+ * @brief The interrupt enable bit for BUTTON0.
+ */
+#define BUTTON0_INT_EN_BIT  INT_IRQB
+/**
+ * @brief The interrupt flag bit for BUTTON0.
+ */
+#define BUTTON0_FLAG_BIT    INT_IRQBFLAG
+/**
+ * @brief The missed interrupt bit for BUTTON0.
+ */
+#define BUTTON0_MISS_BIT    INT_MISSIRQB
+
+#endif
 
 /**
  * @brief The actual GPIO BUTTON1 is connected to.  This define should
@@ -978,6 +1018,7 @@ GpioMaskType gpioRadioPowerBoardMask = 0
 /**
  * @brief Initialize GPIO powerup configuration variables.
  */
+ #ifndef SHT10X
 #define DEFINE_POWERUP_GPIO_CFG_VARIABLES()                                   \
 uint16_t gpioCfgPowerUp[6] = {                                                \
                             ((PWRUP_CFG_USBDM    <<PA0_CFG_BIT)|              \
@@ -1008,10 +1049,42 @@ uint16_t gpioCfgPowerUp[6] = {                                                \
                              (GPIOCFG_ANALOG     <<PC6_CFG_BIT)|              \
                              (GPIOCFG_ANALOG     <<PC7_CFG_BIT))              \
                              }
-
+#else
+#define DEFINE_POWERUP_GPIO_CFG_VARIABLES()                                   \
+uint16_t gpioCfgPowerUp[6] = {                                                \
+                            ((PWRUP_CFG_USBDM    <<PA0_CFG_BIT)|              \
+                             (PWRUP_CFG_USBDP    <<PA1_CFG_BIT)|              \
+                             (PWRUP_CFG_ENUMCTRL <<PA2_CFG_BIT)|              \
+                             (GPIOCFG_OUT        <<PA3_CFG_BIT)),             \
+                            ((GPIOCFG_OUT        <<PA4_CFG_BIT)|              \
+                             (GPIOCFG_OUT        <<PA5_CFG_BIT)|              \
+                             (GPIOCFG_OUT        <<PA6_CFG_BIT)|              \
+                             (GPIOCFG_OUT        <<PA7_CFG_BIT)),             \
+                             /* Button 0  */                                  \
+                            ((GPIOCFG_OUT        <<PB0_CFG_BIT)|              \
+                             (GPIOCFG_OUT_ALT    <<PB1_CFG_BIT)| /* SC1SDA */ \
+                             (GPIOCFG_IN         <<PB2_CFG_BIT)| /* SC1SCL */ \
+                             (GPIOCFG_IN         <<PB3_CFG_BIT)),             \
+                            ((GPIOCFG_OUT_ALT    <<PB4_CFG_BIT)|              \
+                             (GPIOCFG_ANALOG     <<PB5_CFG_BIT)|              \
+                             (GPIOCFG_IN_PUD     <<PB6_CFG_BIT)|              \
+                             /* Green Led */                                  \
+                             (GPIOCFG_OUT_ALT    <<PB7_CFG_BIT)),             \
+                            ((GPIOCFG_OUT_ALT    <<PC0_CFG_BIT)|              \
+                             /* Red Led */                                    \
+                             (GPIOCFG_OUT_ALT    <<PC1_CFG_BIT)|              \
+                             (GPIOCFG_IN         <<PC2_CFG_BIT)|              \
+                             (GPIOCFG_IN         <<PC3_CFG_BIT)),             \
+                            ((GPIOCFG_OUT        <<PC4_CFG_BIT)|              \
+                             (GPIOCFG_IN         <<PC5_CFG_BIT)|              \
+                             (GPIOCFG_ANALOG     <<PC6_CFG_BIT)|              \
+                             (GPIOCFG_ANALOG     <<PC7_CFG_BIT))              \
+                             }
+#endif
 /**
  * @brief Initialize GPIO powerup output variables.
  */
+#ifndef SHT10X
 #define DEFINE_POWERUP_GPIO_OUTPUT_DATA_VARIABLES()                       \
 uint8_t gpioOutPowerUp[3] = {                                             \
                            ((PWRUP_OUT_USBDM    <<PA0_BIT)|               \
@@ -1040,11 +1113,43 @@ uint8_t gpioOutPowerUp[3] = {                                             \
                             (1                  <<PC6_BIT)|               \
                             (1                  <<PC7_BIT))               \
                           }
-
-
+#else
+#define DEFINE_POWERUP_GPIO_OUTPUT_DATA_VARIABLES()                       \
+uint8_t gpioOutPowerUp[3] = {                                             \
+                           ((0                  <<PA0_BIT)|               \
+                            (0                  <<PA1_BIT)|               \
+                            (0                  <<PA2_BIT)|               \
+                            /* nSSEL is default idle high */              \
+                            (1                  <<PA3_BIT)|               \
+                            (PWRUP_OUT_PTI_EN   <<PA4_BIT)|               \
+                            (1                  <<PA5_BIT)|               \
+                            (1                  <<PA6_BIT)|               \
+                            /* LED default off */                         \
+                            (1                  <<PA7_BIT)),              \
+                           ((1                  <<PB0_BIT)|               \
+                            (1                  <<PB1_BIT)|  /* SC1TXD  */\
+                            (1                  <<PB2_BIT)|  /* SC1RXD  */\
+                            (1                  <<PB3_BIT)|  /* SC1nCTS */\
+                            (0                  <<PB4_BIT)|  /* SC1nRTS */\
+                            (0                  <<PB5_BIT)|               \
+                            /* PB6 has button needing a pullup */         \
+                            (GPIOOUT_PULLUP     <<PB6_BIT)|               \
+                            (0                  <<PB7_BIT)),              \
+                           ((1                  <<PC0_BIT)|               \
+                            (0                  <<PC1_BIT)|               \
+                            (1                  <<PC2_BIT)|               \
+                            (0                  <<PC3_BIT)|               \
+                            (0                  <<PC4_BIT)|               \
+                            (PWRUP_OUT_LED2     <<PC5_BIT)|               \
+                            (1                  <<PC6_BIT)|               \
+                            /* Temp Sensor default on */                  \
+                            (1                  <<PC7_BIT))               \
+                          }
+#endif
 /**
  * @brief Initialize powerdown GPIO configuration variables.
  */
+#ifndef SHT10X
 #define DEFINE_POWERDOWN_GPIO_CFG_VARIABLES()                                 \
 uint16_t gpioCfgPowerDown[6] = {                                              \
                             ((PWRUP_CFG_USBDM    <<PA0_CFG_BIT)|              \
@@ -1075,10 +1180,41 @@ uint16_t gpioCfgPowerDown[6] = {                                              \
                              (GPIOCFG_ANALOG     <<PC6_CFG_BIT)|              \
                              (GPIOCFG_ANALOG     <<PC7_CFG_BIT))              \
                              }
-
+#else
+#define DEFINE_POWERDOWN_GPIO_CFG_VARIABLES()                                 \
+uint16_t gpioCfgPowerDown[6] = {                                              \
+                              ((GPIOCFG_IN_PUD     <<PA0_CFG_BIT)|              \
+                               (GPIOCFG_IN_PUD     <<PA1_CFG_BIT)|              \
+                               (GPIOCFG_IN_PUD     <<PA2_CFG_BIT)|              \
+                               (GPIOCFG_OUT        <<PA3_CFG_BIT)),             \
+                              ((PWRDN_CFG_PTI_EN   <<PA4_CFG_BIT)|              \
+                               (GPIOCFG_OUT        <<PA5_CFG_BIT)|              \
+                               (GPIOCFG_OUT        <<PA6_CFG_BIT)|              \
+                               (GPIOCFG_OUT        <<PA7_CFG_BIT)),             \
+                              ((GPIOCFG_OUT        <<PB0_CFG_BIT)|              \
+                               (GPIOCFG_OUT        <<PB1_CFG_BIT)| /* SC1TXD  */\
+                               (GPIOCFG_IN_PUD     <<PB2_CFG_BIT)| /* SC1RXD  */\
+                               (GPIOCFG_IN_PUD     <<PB3_CFG_BIT)),/* SC1nCTS */\
+                              ((GPIOCFG_OUT        <<PB4_CFG_BIT)| /* SC1nRTS */\
+                               /* disable analog for sleep */                   \
+                               (GPIOCFG_IN_PUD     <<PB5_CFG_BIT)|              \
+                               (GPIOCFG_IN_PUD     <<PB6_CFG_BIT)|              \
+                               /* need to use pulldown for sleep */             \
+                               (GPIOCFG_IN_PUD     <<PB7_CFG_BIT)),             \
+                              ((GPIOCFG_IN_PUD     <<PC0_CFG_BIT)|              \
+                               (GPIOCFG_OUT        <<PC1_CFG_BIT)|              \
+                               (GPIOCFG_OUT        <<PC2_CFG_BIT)|              \
+                               (GPIOCFG_IN_PUD     <<PC3_CFG_BIT)),             \
+                              ((GPIOCFG_IN_PUD     <<PC4_CFG_BIT)|              \
+                               (PWRDN_CFG_LED2     <<PC5_CFG_BIT)|              \
+                               (GPIOCFG_ANALOG     <<PC6_CFG_BIT)|              \
+                               (GPIOCFG_ANALOG     <<PC7_CFG_BIT))              \
+                             }
+#endif
 /**
  * @brief Initialize powerdown GPIO output variables.
  */
+#ifndef SHT10X
 #define DEFINE_POWERDOWN_GPIO_OUTPUT_DATA_VARIABLES()                     \
 uint8_t gpioOutPowerDown[3] = {                                           \
                            ((PWRUP_OUT_USBDM    <<PA0_BIT)|               \
@@ -1107,7 +1243,42 @@ uint8_t gpioOutPowerDown[3] = {                                           \
                             (1                  <<PC6_BIT)|               \
                             (1                  <<PC7_BIT))               \
                           }
-
+#else
+#define DEFINE_POWERDOWN_GPIO_OUTPUT_DATA_VARIABLES()                     \
+uint8_t gpioOutPowerDown[3] = {                                           \
+                             ((GPIOOUT_PULLUP     <<PA0_BIT)|               \
+                              (GPIOOUT_PULLUP     <<PA1_BIT)|               \
+                              (GPIOOUT_PULLUP     <<PA2_BIT)|               \
+                              /* nSSEL is idle high */                      \
+                              (1                  <<PA3_BIT)|               \
+                              /* enable is idle low */                      \
+                              (PWRDN_OUT_PTI_EN   <<PA4_BIT)|               \
+                              /* data is idle high */                       \
+                              (1                  <<PA5_BIT)|               \
+                              (1                  <<PA6_BIT)|               \
+                              /* LED off */                                 \
+                              (1                  <<PA7_BIT)),              \
+                             ((0                  <<PB0_BIT)|               \
+                              (GPIOOUT_PULLUP     <<PB1_BIT)|  /* SC1TXD  */\
+                              (GPIOOUT_PULLUP     <<PB2_BIT)|  /* SC1RXD  */\
+                              (GPIOOUT_PULLDOWN   <<PB3_BIT)|  /* SC1nCTS */\
+                              (GPIOOUT_PULLUP     <<PB4_BIT)|  /* SC1nRTS */\
+                              /* tempsense needs pulldown */                \
+                              (GPIOOUT_PULLDOWN   <<PB5_BIT)|               \
+                              /* PB6 has button needing a pullup */         \
+                              (GPIOOUT_PULLUP     <<PB6_BIT)|               \
+                              /* buzzer needs pulldown for sleep */         \
+                              (GPIOOUT_PULLDOWN   <<PB7_BIT)),              \
+                             ((GPIOOUT_PULLUP     <<PC0_BIT)|               \
+                              (0                  <<PC1_BIT)|               \
+                              (1                  <<PC2_BIT)|               \
+                              (GPIOOUT_PULLDOWN   <<PC3_BIT)|               \
+                              (GPIOOUT_PULLDOWN   <<PC4_BIT)|               \
+                              (PWRDN_OUT_LED2     <<PC5_BIT)|               \
+                              (1                  <<PC6_BIT)|               \
+                              (1                  <<PC7_BIT))               \
+                          }
+#endif
 /**
  * @brief Set powerup GPIO configuration registers.
  */
@@ -1214,7 +1385,11 @@ uint8_t gpioOutPowerDown[3] = {                                           \
 #define WAKE_ON_PA5   false
 #define WAKE_ON_PA6   false
 #define WAKE_ON_PA7   false
+#ifndef SHT10X
 #define WAKE_ON_PB0   true //BUTTON0
+#else
+#define WAKE_ON_PB0   false //BUTTON0
+#endif
 #define WAKE_ON_PB1   false
 #if SLEEPY_IP_MODEM_UART  // SC1RXD
   #define WAKE_ON_PB2   true
@@ -1224,7 +1399,11 @@ uint8_t gpioOutPowerDown[3] = {                                           \
 #define WAKE_ON_PB3   false
 #define WAKE_ON_PB4   false
 #define WAKE_ON_PB5   false
+#ifndef SHT10X
 #define WAKE_ON_PB6   false
+#else
+#define WAKE_ON_PB6   true
+#endif
 #define WAKE_ON_PB7   false
 #define WAKE_ON_PC0   false
 #define WAKE_ON_PC1   false

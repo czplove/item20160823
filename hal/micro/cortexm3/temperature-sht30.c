@@ -18,6 +18,7 @@
 #include "hal/micro/i2c-driver.h"
 #include "hal/micro/micro.h"
 #include "hal/micro/temperature.h"
+#include "sht10.h"
 
 #include "app/framework/include/af.h"
 
@@ -62,8 +63,11 @@ void emberAfPluginTemperatureSht30InitEventHandler(void)
   uint16_t resetMsg = SHT30_I2C_RESET_MSG;
   uint8_t resetMsgLen = SHT30_I2C_RESET_MSG_LEN;
 
+#ifndef SHT10X
   // Send the reset command to the temperature sensor
   halI2cWriteBytes(SHT30_I2C_ADDR, (uint8_t*)&resetMsg, resetMsgLen);
+
+#endif
 
   emberEventControlSetInactive(emberAfPluginTemperatureSht30InitEventControl);
 }
@@ -78,6 +82,8 @@ void emberAfPluginTemperatureSht30ReadEventHandler(void)
   uint16_t rawHumidity;
 
   emberEventControlSetInactive(emberAfPluginTemperatureSht30ReadEventControl);
+
+#ifndef SHT10X
 
 //  // perform the I2C read to get a new data value
   status  = halI2cReadBytes(SHT30_I2C_ADDR,
@@ -102,6 +108,11 @@ void emberAfPluginTemperatureSht30ReadEventHandler(void)
     emberAfPluginTemperatureDataReadyCallback(0,0,false);
     return;
   }
+#else
+  calc_sth10_resault(&tempMilliDegreesC, &HumidityValue);
+  WriteSDA1();
+  WriteSCL1();
+#endif
 
   emberAfPluginTemperatureDataReadyCallback(tempMilliDegreesC,HumidityValue, true);
 }
@@ -141,11 +152,14 @@ uint8_t halTemperatureStartRead(void)
   // Write the configuration message to the I2C device to set it to single temp
   // measurement with no hold master, then perform an i2c  read of the
   // temperature register
+#ifndef SHT10X
+
   status = halI2cWriteBytes(SHT30_I2C_ADDR, (uint8_t*)&cfgMsg, cfgMsgLen);
   if (status) {
     // If the write fails, the device is in a bad state
     return status;
   }
+#endif
 
   // It will take a maximum of SHT30_I2C_MAX_CONVERSION_TIME_MS milliseconds
   // for the sensor to finish generating a new value.  Delay that amount of time

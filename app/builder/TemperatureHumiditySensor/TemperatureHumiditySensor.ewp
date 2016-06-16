@@ -168,6 +168,7 @@
         <debug>1</debug>
         <option>
           <name>CCDefines</name>
+          <state>SHT10X</state>
           <state>DEBUG_OFF</state>
           <state>NULL_BTL</state>
           <state>CORTEXM3</state>
@@ -1215,6 +1216,9 @@
     <name>$PROJ_DIR$\..\..\util\common\form-and-join.c</name>
   </file>
   <file>
+    <name>$PROJ_DIR$\..\..\..\hal\micro\cortexm3\GPIO_Control.c</name>
+  </file>
+  <file>
     <name>$PROJ_DIR$\..\..\..\hal\micro\cortexm3\i2c-driver.c</name>
   </file>
   <file>
@@ -1327,6 +1331,9 @@
   </file>
   <file>
     <name>$PROJ_DIR$\..\..\framework\util\service-discovery-soc.c</name>
+  </file>
+  <file>
+    <name>$PROJ_DIR$\..\..\..\hal\micro\cortexm3\sht10.c</name>
   </file>
   <file>
     <name>$PROJ_DIR$\..\..\..\hal\micro\generic\sim-eeprom.c</name>
