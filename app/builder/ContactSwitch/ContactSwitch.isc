@@ -6,7 +6,7 @@ ConfiguratorID:auto-EM35X
 
 #  Output directory which is used as a root for all generated files. The actual
 #  files relative to that directory are defined by individual file name.
-GenerationDirectory:PATH(ABSOLUTE):E:\ZigBee Stack\Ember\ContactSwitch\.
+GenerationDirectory:PATH(ABSOLUTE):D:\SiliconLabs\EmberZNet5.7.0-GA
 
 #  Unique identifier for this device. This string should be in a form of a C
 #  identifier, as it will be used in both generated variable, macros, as well as
@@ -209,7 +209,7 @@ OverrideServer:1a,exclude,Primary
 
 OverrideServer:1b,exclude,Primary
 
-OverrideServer:20,exclude,Primary
+OverrideServer:20,include,Primary
 
 OverrideServer:21,exclude,Primary
 
@@ -334,7 +334,7 @@ OptionalAttributes:0,1,server,0:0,2,server,0:0,3,server,0:0,4,server,0:0,5,serve
 FlashAttributes:1280,16,server,0:1280,0,server,0:1280,1,server,0:1280,17,server,0
 
 #  User defined default values for attributes.
-AttributeDefaults:0,7,server,0,0x03:0,6,server,0,20160409:0,5,server,0,T-YG01:0,4,server,0,Wulian:0,1,server,0,0x01:0,2,server,0,0x01:0,3,server,0,0x01:1280,1,server,0,0x0015:1,53,server,0,0x01:1,54,server,0,0x1A
+AttributeDefaults:0,7,server,0,0x03:0,6,server,0,20160409:0,5,server,0,T-YG01:0,4,server,0,Wulian:0,1,server,0,0x01:0,2,server,0,0x01:0,3,server,0,0x01:1280,1,server,0,0x0015:1,53,server,0,0x01:1,54,server,0,0x1A:32,2,server,0,0x0004:32,1,server,0,0x00000050:32,0,server,0,0x00003840
 
 #  Lists the channels that this application will be configured to use.
 Channels:11
@@ -957,8 +957,6 @@ appPlugin:sim-eeprom2-1to2-upgrade-stub,false
 
 appPlugin:tamper-switch,true
 
-appPlugin:temperature-sht30,false
-
 appPlugin:temperature-si7053,false
 
 appPlugin:wstk-display,false
@@ -1001,4 +999,6 @@ AppPluginOption:EMBER_AF_PLUGIN_END_DEVICE_SUPPORT_WAKE_TIMEOUT_SECONDS,1
 AppPluginOption:EMBER_AF_PLUGIN_END_DEVICE_SUPPORT_MAX_MISSED_POLLS,4
 
 AppPluginOption:EMBER_AF_PLUGIN_END_DEVICE_SUPPORT_ENABLE_POLL_COMPLETED_CALLBACK,false
+
+AppPluginOption:EMBER_AF_PLUGIN_POLL_CONTROL_SERVER_CHECK_IN_RESPONSE_TIMEOUT,240
 

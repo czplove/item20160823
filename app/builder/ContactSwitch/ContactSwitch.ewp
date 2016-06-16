@@ -1299,6 +1299,9 @@
     <name>$PROJ_DIR$\..\..\framework\cli\plugin-cli.c</name>
   </file>
   <file>
+    <name>$PROJ_DIR$\..\..\framework\plugin\poll-control-server\poll-control-server.c</name>
+  </file>
+  <file>
     <name>$PROJ_DIR$\..\..\framework\plugin\end-device-support\polling-common.c</name>
   </file>
   <file>

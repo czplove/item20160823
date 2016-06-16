@@ -17,12 +17,16 @@
 6,'W','u','l','i','a','n',0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 /* 0,Default value: Basic,manufacturer name */, \
 6,'T','-','Y','G','0','1',0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 /* 33,Default value: Basic,model identifier */, \
 8,'2','0','1','6','0','4','0','9',0,0,0,0,0,0,0,0 /* 66,Default value: Basic,date code */, \
+0x00, 0x00, 0x38, 0x40 /* 83,Default value: Poll Control,check-in interval */, \
+0x00, 0x00, 0x00, 0x50 /* 87,Default value: Poll Control,long poll interval */, \
   }
 #else // ! BIGENDIAN_CPU
 #define GENERATED_DEFAULTS { \
 6,'W','u','l','i','a','n',0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 /* 0,Default value: Basic,manufacturer name */, \
 6,'T','-','Y','G','0','1',0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 /* 33,Default value: Basic,model identifier */, \
 8,'2','0','1','6','0','4','0','9',0,0,0,0,0,0,0,0 /* 66,Default value: Basic,date code */, \
+0x40, 0x38, 0x00, 0x00 /* 83,Default value: Poll Control,check-in interval */, \
+0x50, 0x00, 0x00, 0x00 /* 87,Default value: Poll Control,long poll interval */, \
   }
 #endif // BIGENDIAN_CPU
 
@@ -46,11 +50,15 @@
     { 0x0035, ZCL_BITMAP8_ATTRIBUTE_TYPE, 1, (ATTRIBUTE_MASK_WRITABLE|ATTRIBUTE_MASK_SINGLETON), { (uint8_t*)0x01 } }, /* 12 / Power Configuration / battery alarm mask*/\
     { 0x0036, ZCL_INT8U_ATTRIBUTE_TYPE, 1, (ATTRIBUTE_MASK_WRITABLE|ATTRIBUTE_MASK_SINGLETON), { (uint8_t*)0x1A } }, /* 13 / Power Configuration / battery voltage min threshold*/\
     { 0x0000, ZCL_INT16U_ATTRIBUTE_TYPE, 2, (ATTRIBUTE_MASK_WRITABLE), { (uint8_t*)0x0000 } }, /* 14 / Identify / identify time*/\
-    { 0x0000, ZCL_ENUM8_ATTRIBUTE_TYPE, 1, (ATTRIBUTE_MASK_TOKENIZE), { (uint8_t*)0x00 } }, /* 15 / IAS Zone / zone state*/\
-    { 0x0001, ZCL_ENUM16_ATTRIBUTE_TYPE, 2, (ATTRIBUTE_MASK_TOKENIZE), { (uint8_t*)0x0015 } }, /* 16 / IAS Zone / zone type*/\
-    { 0x0002, ZCL_BITMAP16_ATTRIBUTE_TYPE, 2, (0x00), { (uint8_t*)0x0000 } }, /* 17 / IAS Zone / zone status*/\
-    { 0x0010, ZCL_IEEE_ADDRESS_ATTRIBUTE_TYPE, 8, (ATTRIBUTE_MASK_WRITABLE|ATTRIBUTE_MASK_TOKENIZE), { NULL } }, /* 18 / IAS Zone / IAS CIE address*/\
-    { 0x0011, ZCL_INT8U_ATTRIBUTE_TYPE, 1, (ATTRIBUTE_MASK_TOKENIZE), { (uint8_t*)0xff } }, /* 19 / IAS Zone / Zone ID*/\
+    { 0x0000, ZCL_INT32U_ATTRIBUTE_TYPE, 4, (ATTRIBUTE_MASK_WRITABLE), { (uint8_t*)&(generatedDefaults[83]) } }, /* 15 / Poll Control / check-in interval*/\
+    { 0x0001, ZCL_INT32U_ATTRIBUTE_TYPE, 4, (0x00), { (uint8_t*)&(generatedDefaults[87]) } }, /* 16 / Poll Control / long poll interval*/\
+    { 0x0002, ZCL_INT16U_ATTRIBUTE_TYPE, 2, (0x00), { (uint8_t*)0x0004 } }, /* 17 / Poll Control / short poll interval*/\
+    { 0x0003, ZCL_INT16U_ATTRIBUTE_TYPE, 2, (ATTRIBUTE_MASK_WRITABLE), { (uint8_t*)0x0028 } }, /* 18 / Poll Control / fast poll timeout*/\
+    { 0x0000, ZCL_ENUM8_ATTRIBUTE_TYPE, 1, (ATTRIBUTE_MASK_TOKENIZE), { (uint8_t*)0x00 } }, /* 19 / IAS Zone / zone state*/\
+    { 0x0001, ZCL_ENUM16_ATTRIBUTE_TYPE, 2, (ATTRIBUTE_MASK_TOKENIZE), { (uint8_t*)0x0015 } }, /* 20 / IAS Zone / zone type*/\
+    { 0x0002, ZCL_BITMAP16_ATTRIBUTE_TYPE, 2, (0x00), { (uint8_t*)0x0000 } }, /* 21 / IAS Zone / zone status*/\
+    { 0x0010, ZCL_IEEE_ADDRESS_ATTRIBUTE_TYPE, 8, (ATTRIBUTE_MASK_WRITABLE|ATTRIBUTE_MASK_TOKENIZE), { NULL } }, /* 22 / IAS Zone / IAS CIE address*/\
+    { 0x0011, ZCL_INT8U_ATTRIBUTE_TYPE, 1, (ATTRIBUTE_MASK_TOKENIZE), { (uint8_t*)0xff } }, /* 23 / IAS Zone / Zone ID*/\
   }
 
 
@@ -58,6 +66,7 @@
 #define GENERATED_FUNCTION_ARRAYS \
 PGM EmberAfGenericClusterFunction emberAfFuncArrayPowerConfigClusterServer[] = { (EmberAfGenericClusterFunction)emberAfPowerConfigClusterServerAttributeChangedCallback}; \
 PGM EmberAfGenericClusterFunction emberAfFuncArrayIdentifyClusterServer[] = { (EmberAfGenericClusterFunction)emberAfIdentifyClusterServerInitCallback,(EmberAfGenericClusterFunction)emberAfIdentifyClusterServerAttributeChangedCallback}; \
+PGM EmberAfGenericClusterFunction emberAfFuncArrayPollControlClusterServer[] = { (EmberAfGenericClusterFunction)emberAfPollControlClusterServerInitCallback,(EmberAfGenericClusterFunction)emberAfPollControlClusterServerAttributeChangedCallback,(EmberAfGenericClusterFunction)emberAfPollControlClusterServerPreAttributeChangedCallback}; \
 PGM EmberAfGenericClusterFunction emberAfFuncArrayIasZoneClusterServer[] = { (EmberAfGenericClusterFunction)emberAfIasZoneClusterServerInitCallback,(EmberAfGenericClusterFunction)emberAfIasZoneClusterServerPreAttributeChangedCallback}; \
 
 
@@ -66,13 +75,14 @@ PGM EmberAfGenericClusterFunction emberAfFuncArrayIasZoneClusterServer[] = { (Em
     { 0x0000, (EmberAfAttributeMetadata*)&(generatedAttributes[0]), 11, 0, (CLUSTER_MASK_SERVER), NULL,  },    \
     { 0x0001, (EmberAfAttributeMetadata*)&(generatedAttributes[11]), 3, 0, (CLUSTER_MASK_SERVER| CLUSTER_MASK_ATTRIBUTE_CHANGED_FUNCTION), emberAfFuncArrayPowerConfigClusterServer, },    \
     { 0x0003, (EmberAfAttributeMetadata*)&(generatedAttributes[14]), 1, 2, (CLUSTER_MASK_SERVER| CLUSTER_MASK_INIT_FUNCTION| CLUSTER_MASK_ATTRIBUTE_CHANGED_FUNCTION), emberAfFuncArrayIdentifyClusterServer, },    \
-    { 0x0500, (EmberAfAttributeMetadata*)&(generatedAttributes[15]), 5, 14, (CLUSTER_MASK_SERVER| CLUSTER_MASK_INIT_FUNCTION| CLUSTER_MASK_PRE_ATTRIBUTE_CHANGED_FUNCTION), emberAfFuncArrayIasZoneClusterServer, },    \
+    { 0x0020, (EmberAfAttributeMetadata*)&(generatedAttributes[15]), 4, 12, (CLUSTER_MASK_SERVER| CLUSTER_MASK_INIT_FUNCTION| CLUSTER_MASK_ATTRIBUTE_CHANGED_FUNCTION| CLUSTER_MASK_PRE_ATTRIBUTE_CHANGED_FUNCTION), emberAfFuncArrayPollControlClusterServer, },    \
+    { 0x0500, (EmberAfAttributeMetadata*)&(generatedAttributes[19]), 5, 14, (CLUSTER_MASK_SERVER| CLUSTER_MASK_INIT_FUNCTION| CLUSTER_MASK_PRE_ATTRIBUTE_CHANGED_FUNCTION), emberAfFuncArrayIasZoneClusterServer, },    \
   }
 
 
 // Endpoint types
 #define GENERATED_ENDPOINT_TYPES {        \
-    { (EmberAfCluster*)&(generatedClusters[0]), 4, 16 }, \
+    { (EmberAfCluster*)&(generatedClusters[0]), 5, 28 }, \
   }
 
 
@@ -110,7 +120,7 @@ PGM EmberAfGenericClusterFunction emberAfFuncArrayIasZoneClusterServer[] = { (Em
 #define ATTRIBUTE_SINGLETONS_SIZE (110)
 
 // Total size of attribute storage
-#define ATTRIBUTE_MAX_SIZE 16
+#define ATTRIBUTE_MAX_SIZE 28
 
 // Array of endpoints that are supported
 #define FIXED_ENDPOINT_ARRAY { 1 }
@@ -134,6 +144,7 @@ PGM EmberAfGenericClusterFunction emberAfFuncArrayIasZoneClusterServer[] = { (Em
 // Code used to configure the cluster event mechanism
 #define EMBER_AF_GENERATED_EVENT_CODE \
   EmberEventControl emberAfIdentifyClusterServerTickCallbackControl1; \
+  EmberEventControl emberAfPollControlClusterServerTickCallbackControl1; \
   EmberEventControl emberAfIasZoneClusterServerTickCallbackControl1; \
   extern EmberEventControl emberAfPluginButtonInterfaceButton0PressedEventControl; \
   extern void emberAfPluginButtonInterfaceButton0PressedEventHandler(void); \
@@ -202,12 +213,17 @@ PGM EmberAfGenericClusterFunction emberAfFuncArrayIasZoneClusterServer[] = { (Em
     emberAfPopNetworkIndex(); \
   } \
   void emberAfIdentifyClusterServerTickCallbackWrapperFunction1(void) { clusterTickWrapper(&emberAfIdentifyClusterServerTickCallbackControl1, emberAfIdentifyClusterServerTickCallback, 1); } \
+  void emberAfPollControlClusterServerTickCallbackWrapperFunction1(void) { clusterTickWrapper(&emberAfPollControlClusterServerTickCallbackControl1, emberAfPollControlClusterServerTickCallback, 1); } \
   void emberAfIasZoneClusterServerTickCallbackWrapperFunction1(void) { clusterTickWrapper(&emberAfIasZoneClusterServerTickCallbackControl1, emberAfIasZoneClusterServerTickCallback, 1); } \
+  EmberEventControl emberAfPluginPollControlServerCheckInEndpointEventControls[1]; \
+  extern void emberAfPluginPollControlServerCheckInEndpointEventHandler(uint8_t endpoint); \
+  void emberAfPluginPollControlServerCheckInEndpointEventWrapper1(void) { clusterTickWrapper(&emberAfPluginPollControlServerCheckInEndpointEventControls[0], emberAfPluginPollControlServerCheckInEndpointEventHandler, 1); } \
 
 
 // EmberEventData structs used to populate the EmberEventData table
 #define EMBER_AF_GENERATED_EVENTS   \
   { &emberAfIdentifyClusterServerTickCallbackControl1, emberAfIdentifyClusterServerTickCallbackWrapperFunction1 }, \
+  { &emberAfPollControlClusterServerTickCallbackControl1, emberAfPollControlClusterServerTickCallbackWrapperFunction1 }, \
   { &emberAfIasZoneClusterServerTickCallbackControl1, emberAfIasZoneClusterServerTickCallbackWrapperFunction1 }, \
   { &emberAfPluginButtonInterfaceButton0PressedEventControl, emberAfPluginButtonInterfaceButton0PressedEventHandler }, \
   { &emberAfPluginButtonInterfaceButton0ReleasedEventControl, emberAfPluginButtonInterfaceButton0ReleasedEventHandler }, \
@@ -233,11 +249,13 @@ PGM EmberAfGenericClusterFunction emberAfFuncArrayIasZoneClusterServer[] = { (Em
   { &emberAfPluginSecuritySensorButtonPressCountEventControl, emberAfPluginSecuritySensorButtonPressCountEventHandler }, \
   { &emberAfPluginEndDeviceSupportPollingNetworkEventControls[0], emberAfPluginEndDeviceSupportPollingNetworkEventWrapper0 }, \
   { &emberAfPluginEndDeviceSupportMoveNetworkEventControls[0], emberAfPluginEndDeviceSupportMoveNetworkEventWrapper0 }, \
+  { &emberAfPluginPollControlServerCheckInEndpointEventControls[0], emberAfPluginPollControlServerCheckInEndpointEventWrapper1 }, \
   { &emberAfPluginSecuritySensorStateSupervisionReportsControl, emberAfPluginSecuritySensorStateSupervisionReportsHandler }, \
 
 
 #define EMBER_AF_GENERATED_EVENT_STRINGS   \
   "Identify Cluster Server EP 1",  \
+  "Poll Control Cluster Server EP 1",  \
   "IAS Zone Cluster Server EP 1",  \
   "Button Interface Plugin Button0Pressed",  \
   "Button Interface Plugin Button0Released",  \
@@ -263,14 +281,16 @@ PGM EmberAfGenericClusterFunction emberAfFuncArrayIasZoneClusterServer[] = { (Em
   "Security Sensor Interface Plugin ButtonPressCount",  \
   "End Device Support Plugin Polling NWK 0", \
   "End Device Support Plugin Move NWK 0", \
+  "Poll Control Server Cluster Plugin CheckIn EP 1", \
   "emberAfPluginSecuritySensorStateSupervisionReportsControl Custom",  \
 
 
 // The length of the event context table used to track and retrieve cluster events
-#define EMBER_AF_EVENT_CONTEXT_LENGTH 2
+#define EMBER_AF_EVENT_CONTEXT_LENGTH 3
 
 // EmberAfEventContext structs used to populate the EmberAfEventContext table
 #define EMBER_AF_GENERATED_EVENT_CONTEXT { 0x1, 0x3, false, EMBER_AF_LONG_POLL, EMBER_AF_OK_TO_SLEEP, &emberAfIdentifyClusterServerTickCallbackControl1}, \
+{ 0x1, 0x20, false, EMBER_AF_LONG_POLL, EMBER_AF_OK_TO_SLEEP, &emberAfPollControlClusterServerTickCallbackControl1}, \
 { 0x1, 0x500, false, EMBER_AF_LONG_POLL, EMBER_AF_OK_TO_SLEEP, &emberAfIasZoneClusterServerTickCallbackControl1}
 
 
@@ -335,9 +355,14 @@ PGM EmberAfGenericClusterFunction emberAfFuncArrayIasZoneClusterServer[] = { (Em
     { 0x0003, 0x00, COMMAND_MASK_OUTGOING_SERVER | COMMAND_MASK_INCOMING_CLIENT }, /* Identify / IdentifyQueryResponse */ \
     { 0x0003, 0x00, COMMAND_MASK_INCOMING_SERVER }, /* Identify / Identify */ \
     { 0x0003, 0x01, COMMAND_MASK_INCOMING_SERVER }, /* Identify / IdentifyQuery */ \
+    { 0x0020, 0x00, COMMAND_MASK_OUTGOING_SERVER }, /* Poll Control / CheckIn */ \
+    { 0x0020, 0x00, COMMAND_MASK_INCOMING_SERVER }, /* Poll Control / CheckInResponse */ \
+    { 0x0020, 0x01, COMMAND_MASK_INCOMING_SERVER }, /* Poll Control / FastPollStop */ \
+    { 0x0020, 0x02, COMMAND_MASK_INCOMING_SERVER }, /* Poll Control / SetLongPollInterval */ \
+    { 0x0020, 0x03, COMMAND_MASK_INCOMING_SERVER }, /* Poll Control / SetShortPollInterval */ \
     { 0x0500, 0x00, COMMAND_MASK_OUTGOING_SERVER }, /* IAS Zone / ZoneStatusChangeNotification */ \
     { 0x0500, 0x00, COMMAND_MASK_INCOMING_SERVER }, /* IAS Zone / ZoneEnrollResponse */ \
     { 0x0500, 0x01, COMMAND_MASK_OUTGOING_SERVER }, /* IAS Zone / ZoneEnrollRequest */ \
   }
-#define EMBER_AF_GENERATED_COMMAND_COUNT (7)
+#define EMBER_AF_GENERATED_COMMAND_COUNT (12)
 #endif // __AF_ENDPOINT_CONFIG__
