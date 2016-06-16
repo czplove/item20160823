@@ -635,7 +635,7 @@
         </option>
         <option>
           <name>OOCOutputFile</name>
-          <state>ContactSwitch.hex</state>
+          <state>ContactSwitch-master.hex</state>
         </option>
         <option>
           <name>OOCCommandLineProducer</name>
