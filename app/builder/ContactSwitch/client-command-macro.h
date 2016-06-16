@@ -6370,19 +6370,22 @@
  * @param numberOfZones uint8_t
  * @param zoneIds uint8_t*
  * @param zoneIdsLen uint16_t
+ * @param armDisarmCode uint8_t*
  */
 #define emberAfFillCommandIasAceClusterBypass(numberOfZones, \
                                               zoneIds, \
-                                              zoneIdsLen) \
+                                              zoneIdsLen, \
+                                              armDisarmCode) \
   emberAfFillExternalBuffer((ZCL_CLUSTER_SPECIFIC_COMMAND \
                              | ZCL_FRAME_CONTROL_CLIENT_TO_SERVER\
                              | ZCL_DISABLE_DEFAULT_RESPONSE_MASK), \
                             ZCL_IAS_ACE_CLUSTER_ID, \
                             ZCL_BYPASS_COMMAND_ID, \
-                            "ub", \
+                            "ubs", \
                             numberOfZones, \
                             zoneIds, \
-                            zoneIdsLen);
+                            zoneIdsLen, \
+                            armDisarmCode);
 
 
 /** @brief Command description for Emergency
@@ -6594,19 +6597,22 @@
  * @param zoneId uint8_t
  * @param zoneType uint16_t
  * @param ieeeAddress uint8_t*
+ * @param zoneLabel uint8_t*
  */
 #define emberAfFillCommandIasAceClusterGetZoneInformationResponse(zoneId, \
                                                                   zoneType, \
-                                                                  ieeeAddress) \
+                                                                  ieeeAddress, \
+                                                                  zoneLabel) \
   emberAfFillExternalBuffer((ZCL_CLUSTER_SPECIFIC_COMMAND \
                              | ZCL_FRAME_CONTROL_SERVER_TO_CLIENT\
                              | ZCL_DISABLE_DEFAULT_RESPONSE_MASK), \
                             ZCL_IAS_ACE_CLUSTER_ID, \
                             ZCL_GET_ZONE_INFORMATION_RESPONSE_COMMAND_ID, \
-                            "uv8", \
+                            "uv8s", \
                             zoneId, \
                             zoneType, \
-                            ieeeAddress);
+                            ieeeAddress, \
+                            zoneLabel);
 
 
 /** @brief This command updates ACE clients in the system of changes to zone status recorded by the ACE server (e.g., IAS CIE device).
@@ -6615,17 +6621,23 @@
  * Command: ZoneStatusChanged
  * @param zoneId uint8_t
  * @param zoneStatus uint16_t
+ * @param audibleNotification uint8_t
+ * @param zoneLabel uint8_t*
  */
 #define emberAfFillCommandIasAceClusterZoneStatusChanged(zoneId, \
-                                                         zoneStatus) \
+                                                         zoneStatus, \
+                                                         audibleNotification, \
+                                                         zoneLabel) \
   emberAfFillExternalBuffer((ZCL_CLUSTER_SPECIFIC_COMMAND \
                              | ZCL_FRAME_CONTROL_SERVER_TO_CLIENT\
                              | ZCL_DISABLE_DEFAULT_RESPONSE_MASK), \
                             ZCL_IAS_ACE_CLUSTER_ID, \
                             ZCL_ZONE_STATUS_CHANGED_COMMAND_ID, \
-                            "uv", \
+                            "uvus", \
                             zoneId, \
-                            zoneStatus);
+                            zoneStatus, \
+                            audibleNotification, \
+                            zoneLabel);
 
 
 /** @brief This command updates ACE clients in the system of changes to panel status recorded by the ACE server (e.g., IAS CIE device).
@@ -6634,17 +6646,23 @@
  * Command: PanelStatusChanged
  * @param panelStatus uint8_t
  * @param secondsRemaining uint8_t
+ * @param audibleNotification uint8_t
+ * @param alarmStatus uint8_t
  */
 #define emberAfFillCommandIasAceClusterPanelStatusChanged(panelStatus, \
-                                                          secondsRemaining) \
+                                                          secondsRemaining, \
+                                                          audibleNotification, \
+                                                          alarmStatus) \
   emberAfFillExternalBuffer((ZCL_CLUSTER_SPECIFIC_COMMAND \
                              | ZCL_FRAME_CONTROL_SERVER_TO_CLIENT\
                              | ZCL_DISABLE_DEFAULT_RESPONSE_MASK), \
                             ZCL_IAS_ACE_CLUSTER_ID, \
                             ZCL_PANEL_STATUS_CHANGED_COMMAND_ID, \
-                            "uu", \
+                            "uuuu", \
                             panelStatus, \
-                            secondsRemaining);
+                            secondsRemaining, \
+                            audibleNotification, \
+                            alarmStatus);
 
 
 /** @brief Command updates requesting IAS ACE clients in the system of changes to the security panel status recorded by the ACE server.
