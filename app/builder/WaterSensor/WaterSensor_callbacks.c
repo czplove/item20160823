@@ -12,6 +12,7 @@
 #include "app/framework/plugin-soc/low-voltage-shutdown/lv-shutdown.h"
 #include "hal/micro/led-blink.h"
 #include "hal/micro/gpio-sensor.h"
+#include "hal/micro/led.h"
 
 #define BATTERY_VOLTAGE_MIN_THRESHOLD_MASK      0x01
 #define REPORTING_CLUSTER_LISTS		            0x01
@@ -20,6 +21,7 @@ const uint16_t clusterlist[REPORTING_CLUSTER_LISTS] = {
 };
 static HalLowBatteryState lastBatteryStatus = HAL_LOW_BATTERY_NOT_ACTIVE;
 static HalLowBatteryState newBatteryStatus = HAL_LOW_BATTERY_NOT_ACTIVE;
+
 // Custom event stubs. Custom events will be run along with all other events in
 // the application framework. They should be managed using the Ember Event API
 // documented in stack/include/events.h
@@ -171,7 +173,7 @@ bool emberAfPluginNetworkFindJoinCallback(EmberZigbeeNetwork *networkFound,
  */
 void emberAfPluginBasicResetToFactoryDefaultsCallback(uint8_t endpoint)
 {
-  emberAfPluginConnectionManagerFactoryReset();
+  emberAfIdentifyClusterServerInitCallback(endpoint);
 }
 
 

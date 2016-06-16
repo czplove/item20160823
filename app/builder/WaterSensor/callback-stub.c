@@ -447,7 +447,7 @@ uint32_t emberAfGetCurrentTimeCallback(void)
  * Get the endpoint number based on the passed index.  By default the framework
  * handles this by managing endpoints based on the precompiled configuration
  * defined in AppBuilder.  This callback can override this behavior at runtime
- * and provide additional endpoints or different data than the compiled values.
+ * and provide additional endpoints or different data than the compiled values. 
  * If the index is overridden than the callback shall return true and set the
  * endpointReturn parameter accordingly. A value of 0xFF means the endpoint
  * doesn't exist at that index.
@@ -578,7 +578,7 @@ EmberStatus emberAfInitiatePartnerLinkKeyExchangeCallback(EmberNodeId target,
 
 /** @brief Inter Pan Key Establishment
  *
- * A callback by the key-establishment code to indicate an event has occurred.
+ * A callback by the key-establishment code to indicate an event has occurred. 
  * For error codes this is purely a notification.  For non-error status codes
  * (besides LINK_KEY_ESTABLISHED), it is the application's chance to allow or
  * disallow the operation.  If the application returns true then the key
@@ -619,7 +619,7 @@ EmberStatus emberAfInterpanSendMessageCallback(EmberAfInterpanHeader* header,
 
 /** @brief Key Establishment
  *
- * A callback by the key-establishment code to indicate an event has occurred.
+ * A callback by the key-establishment code to indicate an event has occurred. 
  * For error codes this is purely a notification.  For non-error status codes
  * (besides LINK_KEY_ESTABLISHED), it is the application's chance to allow or
  * disallow the operation.  If the application returns true then the key
@@ -673,7 +673,7 @@ bool emberAfMainStartCallback(int* returnCode,
                               char** argv)
 {
   // NOTE:  argc and argv may not be supported on all platforms, so argv MUST be
-  // checked for NULL before referencing it.  On those platforms without argc
+  // checked for NULL before referencing it.  On those platforms without argc 
   // and argv "0" and "NULL" are passed respectively.
 
   return false;  // exit?
@@ -763,10 +763,10 @@ void emberAfNcpIsAwakeIsrCallback(void)
  *
  * This callback is generated when an active scan finds a 802.15.4 network.
  *
- * @param networkFound A struct containing information about the network found.
+ * @param networkFound A struct containing information about the network found. 
  * Ver.: always
  * @param lqi The link quality indication of the network found.  Ver.: always
- * @param rssi The received signal strength indication of the network found.
+ * @param rssi The received signal strength indication of the network found. 
  * Ver.: always
  */
 void emberAfNetworkFoundCallback(EmberZigbeeNetwork* networkFound,
@@ -834,16 +834,16 @@ EmberAfImageVerifyStatus emberAfOtaClientCustomVerifyCallback(bool newVerificati
                                                               const EmberAfOtaImageId* id)
 {
   // Manufacturing specific checks can be made to the image in this function to
-  // determine if it is valid.  This function is called AFTER cryptographic
+  // determine if it is valid.  This function is called AFTER cryptographic 
   // checks have passed.  If the cryptographic checks failed, this function will
   // never be called.
-
-  // The function shall return one of the following based on its own
+  
+  // The function shall return one of the following based on its own 
   // verification process.
   // 1) EMBER_AF_IMAGE_GOOD - the image has passed all checks
-  // 2) EMBER_AF_IMAGE_BAD  - the image is not valid
+  // 2) EMBER_AF_IMAGE_BAD  - the image is not valid 
   // 3) EMBER_AF_IMAGE_VERIFY_IN_PROGRESS - the image is valid so far, but more
-  //      checks are needed.  This callback shall be re-executed later to
+  //      checks are needed.  This callback shall be re-executed later to 
   //      continue verification.  This allows other code in the framework to run.
   return EMBER_AF_IMAGE_GOOD;
 }
@@ -866,17 +866,17 @@ EmberAfImageVerifyStatus emberAfOtaClientCustomVerifyCallback(bool newVerificati
 bool emberAfOtaClientDownloadCompleteCallback(EmberAfOtaDownloadResult success,
                                               const EmberAfOtaImageId* id)
 {
-  // At this point the image has been completely downloaded and cryptographic
+  // At this point the image has been completely downloaded and cryptographic 
   // checks (if applicable) have been performed.
 
   if (!success) {
     emberAfOtaBootloadClusterPrintln("Download failed.");
     return true;   // return value is ignored
   }
-
+  
   // This is for any additional validation that needs to be performed
   // on the image by the application.
-
+  
   // The results of checks here will be returned back to the OTA server
   // in the Upgrade End request.
   return true;
@@ -972,7 +972,7 @@ uint8_t emberAfOtaPageRequestServerPolicyCallback(void)
  * This function provides a way for the server to adjust the block size of its
  * response to an Image block request by a client.
  *
- * @param clientNodeId The node Id of OTA client making an image block request.
+ * @param clientNodeId The node Id of OTA client making an image block request. 
  * Ver.: always
  */
 uint8_t emberAfOtaServerBlockSizeCallback(EmberNodeId clientNodeId)
@@ -1079,7 +1079,7 @@ uint8_t emberAfOtaServerQueryCallback(const EmberAfOtaImageId* currentImageId,
  * @param endpoint The destination endpoint of the image notify message.  May be
  * a broadcast endpoint.  Ver.: always
  * @param payloadType The type of data the image notify message will contain.  0
- * = no data.  1 = Manufacturer ID.  2 = Manufacturer ID and the image type ID.
+ * = no data.  1 = Manufacturer ID.  2 = Manufacturer ID and the image type ID. 
  * 3 = Manufacturer ID, image type ID, and firmware version.  Ver.: always
  * @param queryJitter The percentage of nodes that should respond to this
  * message, from 1-100.  On receipt of this message, each recipient will
@@ -1104,7 +1104,7 @@ bool emberAfOtaServerSendImageNotifyCallback(EmberNodeId dest,
  * request.  If the request indicated a successful download by the client, the
  * server must tell the client when and if to upgrade to the downloaded image.
  *
- * @param source The node ID of the device that sent the upgrade end request.
+ * @param source The node ID of the device that sent the upgrade end request. 
  * Ver.: always
  * @param status This is the ZCL status sent by the client indicating the result
  * of its attempt to download the new upgrade image.  If the status is not
@@ -1250,7 +1250,7 @@ EmberAfOtaStorageStatus emberAfOtaStorageDriverPrepareToResumeDownloadCallback(v
  *
  * @param offset The address offset from the start of the storage device where
  * data is to be read.  Ver.: always
- * @param length The length of the data to be read from the storage device.
+ * @param length The length of the data to be read from the storage device. 
  * Ver.: always
  * @param returnData A pointer where the data read from the device should be
  * written to.  Ver.: always
@@ -1289,7 +1289,7 @@ uint32_t emberAfOtaStorageDriverRetrieveLastStoredOffsetCallback(void)
  * device.  Ver.: always
  * @param offset The address offset from the start of the storage device where
  * data will be written.  Ver.: always
- * @param length The length of the data to be written to the storage device.
+ * @param length The length of the data to be written to the storage device. 
  * Ver.: always
  */
 bool emberAfOtaStorageDriverWriteCallback(const uint8_t* dataToWrite,
@@ -1306,7 +1306,7 @@ bool emberAfOtaStorageDriverWriteCallback(const uint8_t* dataToWrite,
  *
  * This function indicates to the storage module that the download has finished.
  *
- * @param offset The final offset of the downloaded file (i.e. the total size)
+ * @param offset The final offset of the downloaded file (i.e. the total size) 
  * Ver.: always
  */
 EmberAfOtaStorageStatus emberAfOtaStorageFinishDownloadCallback(uint32_t offset)
@@ -1642,6 +1642,17 @@ void emberAfPluginConnectionManagerFinishedCallback(EmberStatus status)
 }
 
 
+/** @brief Rollover
+ *
+ * This function is called every time a counter exceeds its threshold.
+ *
+ * @param type The counter that rolled over Ver.: always
+ */
+void emberAfPluginCountersRolloverCallback(EmberCounterType type)
+{
+}
+
+
 /** @brief Client Complete
  *
  * This function is called by the EZ-Mode Commissioning plugin when client
@@ -1802,7 +1813,7 @@ EmberAfStatus emberAfPreAttributeChangeCallback(uint8_t endpoint,
  * constructed over CLI to the stack primitives for sending. If the function
  * returns true it is assumed that the callback has consumed and processed the
  * message. The framework will not do any further processing on the message.
-
+   
  *     If the function returns false then it is assumed that the callback has
  * not processed the message and the framework will continue to process
  * accordingly.
@@ -1836,34 +1847,6 @@ bool emberAfPreCliSendCallback(EmberApsFrame* apsFrame,
  * @param cmd   Ver.: always
  */
 bool emberAfPreCommandReceivedCallback(EmberAfClusterCommand* cmd)
-{
-  return false;
-}
-
-/** @brief Pre Message Received
- *
- * This callback is the first in the Application Framework's message processing
- * chain. The Application Framework calls it when a message has been received
- * over the air but has not yet been parsed by the ZCL command-handling code. If
- * you wish to parse some messages that are completely outside the ZCL
- * specification or are not handled by the Application Framework's command
- * handling code, you should intercept them for parsing in this callback.
-
- *   This callback returns a Boolean value indicating whether or not the message
- * has been handled. If the callback returns a value of true, then the
- * Application Framework assumes that the message has been handled and it does
- * nothing else with it. If the callback returns a value of false, then the
- * application framework continues to process the message as it would with any
- * incoming message.
-        Note: 	This callback receives a pointer to an
- * incoming message struct. This struct allows the application framework to
- * provide a unified interface between both Host devices, which receive their
- * message through the ezspIncomingMessageHandler, and SoC devices, which
- * receive their message through emberIncomingMessageHandler.
- *
- * @param incomingMessage   Ver.: always
- */
-bool emberAfPreMessageReceivedCallback(EmberAfIncomingMessage* incomingMessage)
 {
   return false;
 }
@@ -1920,7 +1903,7 @@ bool emberAfPreZDOMessageReceivedCallback(EmberNodeId emberNodeId,
  * return true if the message was processed or false if it was not.
  *
  * @param clusterId The cluster identifier of this response.  Ver.: always
- * @param buffer Buffer containing the list of read attribute status records.
+ * @param buffer Buffer containing the list of read attribute status records. 
  * Ver.: always
  * @param bufLen The length in bytes of the list.  Ver.: always
  */
@@ -2076,7 +2059,7 @@ void emberAfScanCompleteCallback(uint8_t channel,
 /** @brief Security Init
  *
  * This callback is called by the framework to give the application a chance to
- * modify the security settings of the node during network initialization.
+ * modify the security settings of the node during network initialization. 
  * Depending on the context when this callback is called, the pointer to the
  * initial security state may be NULL, which means the initial security state
  * can no longer be modified as the node is already operating on the network.
@@ -2223,7 +2206,7 @@ void emberAfTrustCenterKeepaliveUpdateCallback(bool registrationComplete)
  * return true if the message was processed or false if it was not.
  *
  * @param clusterId The cluster identifier of this response.  Ver.: always
- * @param buffer Buffer containing the list of write attribute status records.
+ * @param buffer Buffer containing the list of write attribute status records. 
  * Ver.: always
  * @param bufLen The length in bytes of the list.  Ver.: always
  */

@@ -47,6 +47,14 @@ void emberAfPluginAddressTableLookupCommand(void);
 void emberAfPluginAddressTablePrintCommand(void);
 void emberAfPluginAddressTableRemoveCommand(void);
 void emberAfPluginAddressTableSetCommand(void);
+void emberAfPluginCounterPrintCounterTypeCommand(void);
+void emberAfPluginCountersClear(void);
+void emberAfPluginCountersPrintCommand(void);
+void emberAfPluginCountersPrintThresholdsCommand(void);
+void emberAfPluginCountersResetThresholds(void);
+void emberAfPluginCountersSendRequestCommand(void);
+void emberAfPluginCountersSetThresholdCommand(void);
+void emberAfPluginCountersSimplePrintCommand(void);
 void emberAfPluginEndDeviceSupportForceShortPollCommand(void);
 void emberAfPluginEndDeviceSupportPollCompletedCallbackCommand(void);
 void emberAfPluginEndDeviceSupportStatusCommand(void);
@@ -733,6 +741,33 @@ EmberCommandEntry emberCommandTablePluginEndDeviceSupportCommands[] = {
   emberCommandEntryTerminator()
 };
 
+PGM_P PGM emberCommandTablePluginCountersSetThresholdCommandArguments[] = {
+  "type of counter",
+  "Threshold Value",
+  NULL
+};
+
+EmberCommandEntry emberCommandTablePluginCountersCommands[] = {
+  emberCommandEntryActionWithDetails("clear", emberAfPluginCountersClear, "", "Clear all counter values.", NULL),
+  emberCommandEntryActionWithDetails("print", emberAfPluginCountersPrintCommand, "", "Print all counter values and clear them.", NULL),
+  emberCommandEntryActionWithDetails("print-thresholds", emberAfPluginCountersPrintThresholdsCommand, "", "Prints the thresholds of all the counters.", NULL),
+  emberCommandEntryActionWithDetails("reset-threshold", emberAfPluginCountersResetThresholds, "", "Resets all thresholds values to 0xFFFF.", NULL),
+  emberCommandEntryActionWithDetails("send-request", emberAfPluginCountersSendRequestCommand, "", "Sends a request for ota counters", NULL),
+  emberCommandEntryActionWithDetails("set-threshold", emberAfPluginCountersSetThresholdCommand, "uv", "Set a threshold value for a particular type of counter.", emberCommandTablePluginCountersSetThresholdCommandArguments),
+  emberCommandEntryActionWithDetails("simple-print", emberAfPluginCountersSimplePrintCommand, "", "Print all counter values.", NULL),
+  emberCommandEntryTerminator()
+};
+
+PGM_P PGM emberCommandTablePluginCounterPrintCounterTypeCommandArguments[] = {
+  "The counter type       to print.",
+  NULL
+};
+
+EmberCommandEntry emberCommandTablePluginCounterCommands[] = {
+  emberCommandEntryActionWithDetails("print-counter-type", emberAfPluginCounterPrintCounterTypeCommand, "u", "Print value of this particular counter.", emberCommandTablePluginCounterPrintCounterTypeCommandArguments),
+  emberCommandEntryTerminator()
+};
+
 PGM_P PGM emberCommandTablePluginConnectionManagerSetForceShortPollCommandArguments[] = {
   "1 to permanently force short polling, 0 to behave as normal (default).",
   NULL
@@ -777,6 +812,8 @@ EmberCommandEntry emberCommandTablePluginAddressTableCommands[] = {
 EmberCommandEntry emberCommandTablePluginCommands[] = {
   emberCommandEntrySubMenu("address-table", emberCommandTablePluginAddressTableCommands, ""),
   emberCommandEntrySubMenu("connection-manager", emberCommandTablePluginConnectionManagerCommands, ""),
+  emberCommandEntrySubMenu("counter", emberCommandTablePluginCounterCommands, ""),
+  emberCommandEntrySubMenu("counters", emberCommandTablePluginCountersCommands, ""),
   emberCommandEntrySubMenu("end-device-support", emberCommandTablePluginEndDeviceSupportCommands, ""),
   emberCommandEntrySubMenu("ezmode-commissioning", emberCommandTablePluginEzmodeCommissioningCommands, ""),
   emberCommandEntrySubMenu("ias-zone-server", emberCommandTablePluginIasZoneServerCommands, ""),
