@@ -7,7 +7,7 @@
 
 typedef struct {
   uint32_t lastReportTimeMs;
-  uint32_t lastReportValue;
+  uint64_t lastReportValue;
   bool reportableChange;
 } EmAfPluginReportVolatileData;
 extern EmAfPluginReportVolatileData emAfPluginReportVolatileData[];
