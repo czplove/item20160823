@@ -105,11 +105,8 @@
  * abstraction on top of the 3 LEDs for verbose coding.
  */
 enum HalBoardLedPins {
-//  BOARDLED0 = 			PORTA_PIN(6),
-//  BOARDLED1 = 			PORTB_PIN(7),
-
-  BOARDLED0 = 			PORTB_PIN(7),
-  BOARDLED1 = 			PORTA_PIN(6),
+  BOARDLED0 = 			PORTA_PIN(6),
+  BOARDLED1 = 			PORTB_PIN(7),
   BOARDLED2 = 			PORTC_PIN(0),
   BOARDLED3 = BOARDLED2,
   BOARD_ACTIVITY_LED  = BOARDLED2,
