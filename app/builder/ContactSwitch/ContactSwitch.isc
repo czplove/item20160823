@@ -1,5 +1,5 @@
 #ISD App Configuration:3.1
-# ISD version: 3.3.1959
+# ISD version: 3.3.1985
 #  Identified of a stack descriptor used for this configuration. This should not
 #  be changed manually, unless you really know what you are doing.
 ConfiguratorID:auto-EM35X
@@ -334,7 +334,7 @@ OptionalAttributes:0,1,server,0:0,2,server,0:0,3,server,0:0,4,server,0:0,5,serve
 FlashAttributes:1280,16,server,0:1280,0,server,0:1280,1,server,0:1280,17,server,0
 
 #  User defined default values for attributes.
-AttributeDefaults:0,7,server,0,0x03:0,6,server,0,20160409:0,5,server,0,T-YG01:0,4,server,0,Wulian:0,1,server,0,0x01:0,2,server,0,0x01:0,3,server,0,0x01:1280,1,server,0,0x0015:1,53,server,0,0x01:1,54,server,0,0x1A:32,2,server,0,0x0004:32,1,server,0,0x00000050:32,0,server,0,0x00003840
+AttributeDefaults:0,7,server,0,0x03:0,6,server,0,20160616:0,5,server,0,T-YG01:0,4,server,0,Wulian:0,1,server,0,0x02:0,2,server,0,0x01:0,3,server,0,0x01:1280,1,server,0,0x0015:1,53,server,0,0x01:1,54,server,0,0x1A:32,2,server,0,0x0004:32,1,server,0,0x00000050:32,0,server,0,0x00003840
 
 #  Lists the channels that this application will be configured to use.
 Channels:11
@@ -870,8 +870,6 @@ appPlugin:manufacturing-library-cli,true
 appPlugin:power-configuration-server,false
 
 appPlugin:security-sensor,true
-
-appPlugin:temperature-measurement-server,false
 
 appPlugin:alarm-library,true
 
