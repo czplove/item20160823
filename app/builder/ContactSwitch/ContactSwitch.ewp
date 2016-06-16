@@ -1146,6 +1146,15 @@
     <name>$PROJ_DIR$\..\..\framework\cli\core-cli.c</name>
   </file>
   <file>
+    <name>$PROJ_DIR$\..\..\framework\plugin\counters\counters-cli.c</name>
+  </file>
+  <file>
+    <name>$PROJ_DIR$\..\..\framework\plugin\counters\counters-ota.c</name>
+  </file>
+  <file>
+    <name>$PROJ_DIR$\..\..\framework\plugin\counters\counters-soc.c</name>
+  </file>
+  <file>
     <name>$PROJ_DIR$\..\..\..\hal\micro\generic\crc.c</name>
   </file>
   <file>
@@ -1156,6 +1165,9 @@
   </file>
   <file>
     <name>$PROJ_DIR$\..\..\..\hal\micro\cortexm3\usb\cdc\descriptors.c</name>
+  </file>
+  <file>
+    <name>$PROJ_DIR$\..\..\framework\plugin\diagnostic-server\diagnostic-server-soc.c</name>
   </file>
   <file>
     <name>$PROJ_DIR$\..\..\..\hal\micro\cortexm3\diagnostic.c</name>

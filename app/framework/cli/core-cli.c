@@ -65,7 +65,7 @@ void printMfgString(void)
 {
   uint8_t mfgString[MFG_STRING_MAX_LENGTH + 1];
   emberAfFormatMfgString(mfgString);
-  
+
   // Note:  We use '%s' here because this is a RAM string.  Normally
   // most strings are literals or constants in flash and use '%p'.
   emberAfAppPrintln("MFG String: %s", mfgString);
@@ -233,17 +233,17 @@ void emAfCliInfoCommand(void)
                        ? "enabled"
                        : "disabled"),
                       emberAfIsDeviceEnabled(emberAfEndpointFromIndex(i))
-                      ? "enabled" 
+                      ? "enabled"
                       : "disabled");
       emberAfAppPrintln("nwk [%d] profile [0x%2x] devId [0x%2x] ver [0x%x]",
                         emberAfNetworkIndexFromEndpointIndex(i),
                         emberAfProfileIdFromIndex(i),
                         emberAfDeviceIdFromIndex(i),
-                        emberAfDeviceVersionFromIndex(i));    
+                        emberAfDeviceVersionFromIndex(i));
       // loop for the clusters within the endpoint
       for (j = 0; j < et->clusterCount; j++) {
         EmberAfCluster *zc = &(et->cluster[j]);
-        emberAfAppPrint("    %p cluster: 0x%2x ", 
+        emberAfAppPrint("    %p cluster: 0x%2x ",
                        (emberAfClusterIsClient(zc)
                         ? "out(client)"
                         : "in (server)" ),
@@ -304,28 +304,28 @@ static PGM_P debugPrintOnOffCommandArguments[] = {
 };
 
 static EmberCommandEntry debugPrintCommands[] = {
-  emberCommandEntryAction("status", 
+  emberCommandEntryAction("status",
                           emberAfPrintStatus,
                           "",
                           "Print the status of all the debug print areas."),
   emberCommandEntryAction("all_on",
-                          emberAfPrintAllOn, 
+                          emberAfPrintAllOn,
                           "",
                           "Turn all debug print areas on."),
 
   emberCommandEntryAction("all_off",
-                          emberAfPrintAllOff, 
+                          emberAfPrintAllOff,
                           "",
                           "Turn all debug print areas off."),
 
   emberCommandEntryActionWithDetails("on",
-                                     printOnCommand, 
+                                     printOnCommand,
                                      "v",
                                      "Turn on the printing for the specified area.",
                                      debugPrintOnOffCommandArguments),
 
   emberCommandEntryActionWithDetails("off",
-                                     printOffCommand, 
+                                     printOffCommand,
                                      "v",
                                      "Turn off the printing for the specified area.",
                                      debugPrintOnOffCommandArguments),
@@ -387,7 +387,7 @@ void endpointPrint(void)
 {
   uint8_t i;
   for (i = 0; i < emberAfEndpointCount(); i++) {
-    emberAfCorePrint("EP %d: %p ", 
+    emberAfCorePrint("EP %d: %p ",
                      emAfEndpoints[i].endpoint,
                      (emberAfEndpointIndexIsEnabled(i)
                       ? "Enabled"
@@ -403,7 +403,7 @@ void enableDisableEndpoint(void)
   bool enable = (emberCurrentCommand->name[0] == 'e'
                     ? true
                     : false);
-  if (!emberAfEndpointEnableDisable(endpoint, 
+  if (!emberAfEndpointEnableDisable(endpoint,
                                     enable)) {
     emberAfCorePrintln("Error:  Unknown endpoint.");
   }
@@ -417,7 +417,7 @@ static EmberCommandEntry endpointCommands[] = {
                           "Enables the endpoint for processing ZCL messages."),
   emberCommandEntryAction("disable", enableDisableEndpoint, "u",
                           "Disable the endpoint from processing ZCL messages."),
-  
+
   emberCommandEntryTerminator(),
 };
 
@@ -487,7 +487,7 @@ EmberCommandEntry emberCommandTable[] = {
     #if (defined(ZCL_USING_KEY_ESTABLISHMENT_CLUSTER_CLIENT) \
          && defined(ZCL_USING_KEY_ESTABLISHMENT_CLUSTER_SERVER))
       emberCommandEntrySubMenu("cbke",
-                               emberAfPluginKeyEstablishmentCommands, 
+                               emberAfPluginKeyEstablishmentCommands,
                                "Commands to initiate CBKE"),
     #endif
 
@@ -498,14 +498,14 @@ EmberCommandEntry emberCommandTable[] = {
 
     #if defined(EMBER_AF_PRINT_ENABLE) && defined(EMBER_AF_PRINT_APP)
       emberCommandEntryAction("version",
-                              emAfCliVersionCommand, 
+                              emAfCliVersionCommand,
                               "",
                               "Print the version number of the ZNet software."),
 
       LIBRARY_COMMANDS       // Defined in app/util/common/library.h
     #endif
 
-    emberCommandEntrySubMenu("cha",      
+    emberCommandEntrySubMenu("cha",
                              changeKeyCommands,
                              "Commands to change the default NWK or Link Key"),
     emberCommandEntrySubMenu("interpan",
@@ -516,19 +516,19 @@ EmberCommandEntry emberCommandTable[] = {
                              "Commands to change the application options"),
 
     emberCommandEntryActionWithDetails("read",
-                                       emAfCliReadCommand, 
+                                       emAfCliReadCommand,
                                        "uvvu",
                                        "Construct a read attributes command to be sent.",
                                        readCommandArguments),
 
     emberCommandEntryActionWithDetails("time",
-                                       emAfCliTimesyncCommand,           
+                                       emAfCliTimesyncCommand,
                                        "vuu",
                                        "Send a read attribute for the current time",
                                        timeSyncCommandArguments),
 
-    emberCommandEntryActionWithDetails("write",            
-                                       emAfCliWriteCommand,              
+    emberCommandEntryActionWithDetails("write",
+                                       emAfCliWriteCommand,
                                        "uvvuub",
                                        "Construct a write attributes command to send.",
                                        writeCommandArguments),
@@ -540,7 +540,7 @@ EmberCommandEntry emberCommandTable[] = {
 #endif // ZA_CLI_FULL
 
   emberCommandEntryActionWithDetails("bsend",
-                                     emAfCliBsendCommand,              
+                                     emAfCliBsendCommand,
                                      "u",
                                      "Send using a binding.",
                                      bindSendCommandArguments),
@@ -554,19 +554,19 @@ EmberCommandEntry emberCommandTable[] = {
                            "Commands to form or join a network."),
 
   emberCommandEntryActionWithDetails("raw",
-                                     emAfCliRawCommand,                
+                                     emAfCliRawCommand,
                                      "vb",
                                      "Create a manually formatted message.",
                                      rawCommandArguments),
 
   emberCommandEntryActionWithDetails("send",
-                                     emAfCliSendCommand,               
+                                     emAfCliSendCommand,
                                      "vuu",
                                      "Send the previously constructed command via unicast.",
                                      sendCommandArguments),
 
   emberCommandEntryActionWithDetails("send_multicast",
-                                     emAfCliSendCommand,               
+                                     emAfCliSendCommand,
                                      "vu",
                                      "Send the previously constructed command via multicast.",
                                      sendMulticastCommandArguments),
@@ -577,7 +577,7 @@ EmberCommandEntry emberCommandTable[] = {
 //                                   "Send the previously constructed command via IP.",
 //                                   sendZclIpCommandArguments),
 
-  emberCommandEntrySubMenu("security", emAfSecurityCommands, 
+  emberCommandEntrySubMenu("security", emAfSecurityCommands,
                            "Commands for setting/getting security parameters."),
 #if defined(EMBER_AF_PLUGIN_COUNTERS)
   emberCommandEntryAction("cnt_print",     emberAfPluginCountersPrintCommand,    "", \
@@ -607,12 +607,12 @@ EmberCommandEntry emberCommandTable[] = {
                           "Print the list of timer events."),
   emberCommandEntrySubMenu("endpoint", endpointCommands,
                            "Commands to manipulate the endpoints."),
-  
+
 #ifndef EMBER_AF_CLI_DISABLE_INFO
   emberCommandEntryAction("info", emAfCliInfoCommand, "", \
                           "Print infomation about the network state, clusters, and endpoints"),
 #endif
-  
+
   EMBER_AF_PLUGIN_COMMANDS
   ZDO_COMMANDS
   CUSTOM_COMMANDS
@@ -623,7 +623,7 @@ EmberCommandEntry emberCommandTable[] = {
 
 #endif // EMBER_AF_GENERATE_CLI
 
-#else 
+#else
 // Stubs
 void enableDisableEndpoint(void)
 {

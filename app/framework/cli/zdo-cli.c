@@ -49,7 +49,7 @@ EmberStatus matchDescriptorsRequest(EmberNodeId target,
                                     EmberApsOption options);
 
 //------------------------------------------------------------------------------
-// Globals 
+// Globals
 
 #ifndef EMBER_AF_GENERATE_CLI
 
@@ -59,13 +59,13 @@ static PGM_P addClusterArguments[] = {
 };
 
 static EmberCommandEntry zdoClusterCommands[] = {
-  emberCommandEntryActionWithDetails("add", 
-                                     zdoAddClusterCommand, 
+  emberCommandEntryActionWithDetails("add",
+                                     zdoAddClusterCommand,
                                      "v",
                                      "Add a ZCL cluster to the CLI's list.",
                                      addClusterArguments),
-  emberCommandEntryAction("clear", 
-                          zdoClearClusterCommand, 
+  emberCommandEntryAction("clear",
+                          zdoClearClusterCommand,
                           "",
                           "Remove all ZCL clusters from the CLI's list"),
   emberCommandEntryTerminator(),
@@ -90,18 +90,18 @@ static PGM_P channelManagerArguments[] = {
 };
 
 static EmberCommandEntry zdoNetworkUpdateCommands[] = {
-  emberCommandEntryActionWithDetails("chan", 
-                                     zdoNetworkUpdateChannelCommand, 
+  emberCommandEntryActionWithDetails("chan",
+                                     zdoNetworkUpdateChannelCommand,
                                      "u",
                                      "Send a channel change command.",
                                      channelChangeArguments),
-  emberCommandEntryActionWithDetails("scan", 
-                                     zdoNetworkUpdateScanCommand,    
+  emberCommandEntryActionWithDetails("scan",
+                                     zdoNetworkUpdateScanCommand,
                                      "vuv",
                                      "Tell a remote node to perform a channel scan",
                                      channelScanArguments),
-  emberCommandEntryActionWithDetails("set",  
-                                     zdoNetworkUpdateSetCommand,     
+  emberCommandEntryActionWithDetails("set",
+                                     zdoNetworkUpdateSetCommand,
                                      "vw",
                                      "Broadcast a new NWK manager Node ID and channel list.",
                                      channelManagerArguments),
@@ -143,7 +143,7 @@ EmberCommandEntry zdoCommands[] = {
                           "v",
                           "Send an Active EP request"),
   emberCommandEntryActionWithDetails("bind",
-                                     zdoBindCommand,                          
+                                     zdoBindCommand,
                                      "vuuvbb",
                                      "Sends bind request",
                                      zdoBindCommandArguments),
@@ -151,8 +151,8 @@ EmberCommandEntry zdoCommands[] = {
                           zdoIeeeAddressRequestCommand,
                           "v",
                           "Unicast an IEEE address request to the specified node."),
-  emberCommandEntrySubMenu("in-cl-list",  
-                           zdoClusterCommands, 
+  emberCommandEntrySubMenu("in-cl-list",
+                           zdoClusterCommands,
                            "Modify input cluster list"),
   emberCommandEntryActionWithDetails("match",
                                      zdoMatchCommand,
@@ -173,18 +173,18 @@ EmberCommandEntry zdoCommands[] = {
                           zdoNodeCommand,
                           "v",
                           "Send a node descriptor request to target"),
-  emberCommandEntryAction("nwk", 
+  emberCommandEntryAction("nwk",
                           zdoNwkAddressRequestCommand,
                           "b",
                           "Broadcast a NWK address request for the specified IEEE."),
-  emberCommandEntrySubMenu("nwk-upd",     
+  emberCommandEntrySubMenu("nwk-upd",
                            zdoNetworkUpdateCommands,
                            "Frequency Agility Commands"),
-  emberCommandEntrySubMenu("out-cl-list", 
+  emberCommandEntrySubMenu("out-cl-list",
                            zdoClusterCommands,
                            "Modify output cluster list"),
-  emberCommandEntryActionWithDetails("simple",      
-                                     zdoSimpleCommand,                        
+  emberCommandEntryActionWithDetails("simple",
+                                     zdoSimpleCommand,
                                      "vu",
                                      "Send a Simple Descriptor request to the target node and endpoint",
                                      simpleDescriptorArguments),
@@ -306,7 +306,7 @@ void zdoBindCommand(void)
   // device (the destination) to create a binding with a source of itself.
   // And the destination for that binding will be this local device.
   // This is also not to be confused with the (short) destination of the ZDO
-  // request itself.  
+  // request itself.
   if (EMBER_SUCCESS != copyOrLookupEui64(4, target, sourceEui)) {
     return;
   }
@@ -323,7 +323,7 @@ void zdoBindCommand(void)
    status = emberBindRequest(target,          // who gets the bind req
                             sourceEui,       // source eui IN the binding
                             sourceEndpoint,
-                            clusterId,       
+                            clusterId,
                             UNICAST_BINDING, // binding type
                             destEui,         // destination eui IN the binding
                             0,               // groupId for new binding
@@ -397,7 +397,7 @@ void zdoNetworkUpdateSetCommand(void)
   uint32_t activeChannels = emberUnsignedCommandArgument(1);
   EmberStatus status = emberSetNetworkManagerRequest(networkManager,
                                                      activeChannels);
-  emberAfAppPrint("network update set status 0x%x", status);  
+  emberAfAppPrint("network update set status 0x%x", status);
 }
 
 void zdoActiveEpCommand(void)
@@ -456,7 +456,7 @@ void zdoLeaveRequestCommand(void)
 void zdoPowerDescriptorRequestCommand(void)
 {
   EmberNodeId target = (EmberNodeId)emberUnsignedCommandArgument(0);
-  EmberStatus status = emberPowerDescriptorRequest(target, 
+  EmberStatus status = emberPowerDescriptorRequest(target,
                                                    EMBER_APS_OPTION_RETRY);
   emberAfAppPrintln("Power Descriptor %p0x%X", "Request: ", status);
 }
@@ -503,11 +503,11 @@ static void unbindRequest(bool isGroupAddress,
                               destinationEndpoint,
                               EMBER_APS_OPTION_RETRY);
   UNUSED_VAR(status);
-  emberAfAppPrintln("Unbind %p %p0x%X", 
+  emberAfAppPrintln("Unbind %p %p0x%X",
                     (isGroupAddress
                      ? "Group"
                      : "Unicast"),
-                    "Request: ", 
+                    "Request: ",
                     status);
 }
 
@@ -524,7 +524,7 @@ void zdoUnbindUnicastCommand(void)
   EmberEUI64 destinationEui64;
   uint8_t destinationEndpoint = (uint8_t)emberUnsignedCommandArgument(5);
 
-  // If the destination EUI64 of the binding (not the destination of the 
+  // If the destination EUI64 of the binding (not the destination of the
   // actual message) is empty, use our local EUI64.
   if (0 == emberCopyBigEndianEui64Argument(4, destinationEui64)) {
     emberAfAppPrintln("Using my local EUI64 for dest EUI64 in unbinding");
@@ -559,7 +559,7 @@ EmberStatus matchDescriptorsRequest(EmberNodeId target,
                                     uint16_t *outClusters,
                                     EmberApsOption options)
 {
-  return ezspMatchDescriptorsRequest(target, 
+  return ezspMatchDescriptorsRequest(target,
                                      profile,
                                      inCount,
                                      outCount,
