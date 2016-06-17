@@ -183,7 +183,7 @@
           <state>ZA_GENERATED_HEADER="app/builder/ContactSwitch/ContactSwitch.h"</state>
           <state>__SOURCEFILE__="$FILE_FNAME$"</state>
           <state>EMBER_AF_API_EMBER_TYPES="stack/include/ember-types.h"</state>
-          <state>CONTACTSWITCH_PCB</state>
+          <state>CONTACT_SWITCH_PCB</state>
         </option>
         <option>
           <name>CCPreprocFile</name>
@@ -1168,7 +1168,7 @@
           <state>ZA_GENERATED_HEADER="app/builder/ContactSwitch/ContactSwitch.h"</state>
           <state>__SOURCEFILE__="$FILE_FNAME$"</state>
           <state>EMBER_AF_API_EMBER_TYPES="stack/include/ember-types.h"</state>
-          <state>CONTACTSWITCH_STEELDISC</state>
+          <state>CONTACT_SWITCH_STEELDISC</state>
         </option>
         <option>
           <name>CCPreprocFile</name>
@@ -2153,7 +2153,7 @@
           <state>ZA_GENERATED_HEADER="app/builder/ContactSwitch/ContactSwitch.h"</state>
           <state>__SOURCEFILE__="$FILE_FNAME$"</state>
           <state>EMBER_AF_API_EMBER_TYPES="stack/include/ember-types.h"</state>
-          <state>CONTACTSWITCH_NETVOX</state>
+          <state>CONTACT_SWITCH_NETVOX</state>
         </option>
         <option>
           <name>CCPreprocFile</name>
