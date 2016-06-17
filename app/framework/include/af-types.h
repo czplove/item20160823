@@ -1041,7 +1041,7 @@ typedef struct {
       /** The minimum change to the attribute that will result in a report
        *  being sent.
        */
-      uint32_t reportableChange;
+      uint64_t reportableChange;
     } reported;
     struct {
       /** The node id of the source of the received reports. */

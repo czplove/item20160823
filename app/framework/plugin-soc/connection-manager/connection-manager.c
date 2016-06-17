@@ -28,19 +28,23 @@
 
 // These are default values to modify the UI LED's blink pattern for network
 // join and network leave.
-#define LED_LOST_ON_TIME_MS          250
-#define LED_LOST_OFF_TIME_MS         750
-#define LED_BLINK_ON_TIME_MS         200
-#define LED_SEARCH_BLINK_OFF_TIME_MS 1800
-#define LED_FOUND_BLINK_OFF_TIME_MS  250
-#define LED_FOUND_BLINK_ON_TIME_MS   250
-#define LED_IDENTIFY_ON_TIME_MS      250
-#define LED_IDENTIFY_OFF1_TIME_MS    250
-#define LED_IDENTIFY_OFF2_TIME_MS    1250
-#define DEFAULT_NUM_JOIN_BLINKS      6
-#define DEFAULT_NUM_LEAVE_BLINKS     3
-#define DEFAULT_NUM_SEARCH_BLINKS    100
-#define DEFAULT_NUM_IDENTIFY_BLINKS  100
+#define LED_LOST_ON_TIME_MS             250
+#define LED_LOST_OFF_TIME_MS            750
+#define LED_POWER_ON_ON_TIME_MS         499
+#define LED_POWER_ON_OFF_TIME_MS        1
+#define LED_BLINK_ON_TIME_MS            200
+#define LED_SEARCH_BLINK_OFF_TIME_MS    800
+#define LED_FOUND_BLINK_OFF_TIME_MS     1
+#define LED_FOUND_BLINK_ON_TIME_MS      1999
+#define LED_IDENTIFY_ON_TIME_MS         500
+#define LED_IDENTIFY_OFF1_TIME_MS       500
+#define LED_IDENTIFY_OFF2_TIME_MS       500
+#define DEFAULT_NUM_JOIN_BLINKS         1
+#define DEFAULT_NUM_LEAVE_BLINKS        4
+#define DEFAULT_NUM_POWER_ON_BLINKS     1
+#define DEFAULT_NUM_SEARCH_BLINKS       1
+#define DEFAULT_NUM_IDENTIFY_BLINKS     100
+#define DEFAULT_NUM_LOSTPARENT_BLINKS   8
 
 #define SECONDS_BETWEEN_JOIN_ATTEMPTS 20
 #define QS_BETWEEN_JOIN_ATTEMPTS      (SECONDS_BETWEEN_JOIN_ATTEMPTS * 4)
@@ -100,26 +104,29 @@ static EmberStatusMessage emberStatusMessages[] =
 // State variables for controlling LED blink behavior on network join/leave
 static uint16_t networkLostBlinkPattern[] = {
   LED_LOST_ON_TIME_MS, LED_LOST_OFF_TIME_MS};
-static uint16_t networkSearchBlinkPattern[] = 
+static uint16_t networPowerOnBlinkPattern[] ={
+  LED_POWER_ON_ON_TIME_MS, LED_POWER_ON_OFF_TIME_MS};
+static uint16_t networkSearchBlinkPattern[] =
   {LED_BLINK_ON_TIME_MS, LED_SEARCH_BLINK_OFF_TIME_MS};
 static uint16_t networkFoundBlinkPattern[] =
   {LED_FOUND_BLINK_ON_TIME_MS, LED_FOUND_BLINK_OFF_TIME_MS};
 static uint16_t networkIdentifyBlinkPattern[] =
 {
-  LED_IDENTIFY_ON_TIME_MS, 
-  LED_IDENTIFY_OFF1_TIME_MS, 
+  LED_IDENTIFY_ON_TIME_MS,
+  LED_IDENTIFY_OFF1_TIME_MS,
   LED_IDENTIFY_ON_TIME_MS,
   LED_IDENTIFY_OFF2_TIME_MS
 };
-  
+
 static uint8_t numJoinBlinks = DEFAULT_NUM_JOIN_BLINKS;
 static uint8_t numLeaveBlinks = DEFAULT_NUM_LEAVE_BLINKS;
+static uint8_t numPowerOnBlinks = DEFAULT_NUM_POWER_ON_BLINKS;
 static uint8_t numSearchBlinks = DEFAULT_NUM_SEARCH_BLINKS;
 static uint8_t numIdentifyBlinks = DEFAULT_NUM_IDENTIFY_BLINKS;
-
+static uint8_t numlostParentBlinks = DEFAULT_NUM_LOSTPARENT_BLINKS;
 // Track number of times plugin has attempted to join a network
 static uint8_t networkJoinAttempts = 0;
-
+static uint8_t networkRejoinAttempts = 0;
 //------------------------------------------------------------------------------
 // plugin private function prototypes
 
@@ -127,8 +134,10 @@ void emberAfPluginConnectionManagerLedNetworkFoundBlink(void);
 
 static void ledNetworkFoundBlink(void);
 static void ledNetworkLostBlink(void);
+static void ledNetworkPowerOnBlink(void);
 static void ledNetworkSearchBlink(void);
 static void ledNetworkIdentifyBlink(void);
+static void ledNetworkLostParentBlink(void);
 static void printNetworkState(EmberNetworkStatus emStatus);
 static void printStackStatus(EmberStatus status);
 static void clearNetworkTables(void);
@@ -170,8 +179,16 @@ void emberAfPluginNetworkFindFinishedCallback(EmberStatus status)
     emberEventControlSetInactive(emberAfPluginConnectionManagerRejoinEventControl);
   } else {
     // delay the rejoin for 5 seconds.
-    emberEventControlSetDelayQS(emberAfPluginConnectionManagerRejoinEventControl,
-                                (REJOIN_FAILED_RETRY_TIME_QS));
+	if(networkJoinAttempts < REJOIN_ATTEMPTS)
+    {
+      emberEventControlSetDelayQS(emberAfPluginConnectionManagerRejoinEventControl,
+                                  (REJOIN_FAILED_RETRY_TIME_QS));
+    }
+    else if(networkJoinAttempts ==  REJOIN_ATTEMPTS)
+    {
+      emberEventControlSetDelayMinutes(emberAfPluginConnectionManagerRejoinEventControl,
+                                       REJOIN_TIME_MINUTES);
+    }
   }
 }
 
@@ -181,7 +198,7 @@ void emberAfPluginNetworkFindFinishedCallback(EmberStatus status)
 // used for debug and UI LED control.
 //******************************************************************************
 void emberAfPluginConnectionManagerStackStatusCallback(EmberStatus status)
-{  
+{
   emberAfAppPrint("Stack Status Handler:  ");
 
   printNetworkState(emberAfNetworkState());
@@ -189,8 +206,9 @@ void emberAfPluginConnectionManagerStackStatusCallback(EmberStatus status)
 
   if (status == EMBER_NETWORK_UP) {
     emberAfPluginConnectionManagerResetJoinAttempts();
+    emberAfPluginConnectionManagerResetRejoinAttempts();
     ledNetworkFoundBlink();
-    
+
     // After a successful join, a sleepy end device must actively respond to
     // communication from the network in order to not be marked as an
     // unresponsive device.  This is facilitated by manually performing a poll
@@ -211,10 +229,15 @@ void emberAfPluginConnectionManagerStackStatusCallback(EmberStatus status)
   } else if (status == EMBER_NETWORK_DOWN
              && emberAfNetworkState() == EMBER_JOINED_NETWORK_NO_PARENT) {
     emberAfAppPrintln("Connection Manager: kick off rejoin event.");
-    emberEventControlSetDelayMinutes(
-      emberAfPluginConnectionManagerRejoinEventControl,
-      REJOIN_TIME_MINUTES);
-    halLedBlinkLedOff(0);
+    if(networkRejoinAttempts == 0)
+      ledNetworkLostParentBlink();
+    if(networkRejoinAttempts < REJOIN_ATTEMPTS / 2)
+    {
+      networkRejoinAttempts++;
+      emberEventControlSetDelayMinutes(
+                                       emberAfPluginConnectionManagerRejoinEventControl,
+                                       REJOIN_TIME_MINUTES);
+    }
   }
 }
 
@@ -242,7 +265,7 @@ void emberAfPluginConnectionManagerRebootEventHandler(void)
   emberEventControlSetInactive(emberAfPluginConnectionManagerRebootEventControl);
 
   if (emberAfNetworkState() == EMBER_NO_NETWORK) {
-    ledNetworkLostBlink();
+    ledNetworkPowerOnBlink();
     emberAfPluginConnectionManagerStartSearchForJoinableNetwork();
   }
   else if (emberAfNetworkState() == EMBER_JOINED_NETWORK) {
@@ -324,14 +347,22 @@ void emberAfPluginConnectionManagerStartSearchForJoinableNetwork(void)
     if (networkJoinAttempts == 1) {
       emberAfStartSearchForJoinableNetwork();
     } else {
-      ledNetworkSearchBlink();
+      if(networkJoinAttempts < REJOIN_ATTEMPTS / 2)
+        ledNetworkSearchBlink();
       emberAfStartSearchForJoinableNetworkAllChannels();
     }
     // call the event in 20 seconds in case we don't get the stack status 
     // callback (which will happen if there's no network to join)
-    emberEventControlSetDelayQS(emberAfPluginConnectionManagerRejoinEventControl,
-                                QS_BETWEEN_JOIN_ATTEMPTS);
-  } else {
+    if(networkJoinAttempts < REJOIN_ATTEMPTS)
+      emberEventControlSetDelayQS(emberAfPluginConnectionManagerRejoinEventControl,
+                                  SECONDS_BETWEEN_JOIN_ATTEMPTS);
+  }
+  else if(networkJoinAttempts == REJOIN_ATTEMPTS){
+    emberAfStartSearchForJoinableNetworkAllChannels();
+    emberEventControlSetDelayMinutes(emberAfPluginConnectionManagerRejoinEventControl,
+                                     REJOIN_TIME_MINUTES*2 );
+  }
+  else {
     emberAfAppPrintln("Failed to find network to join within %d attempts",
                       networkJoinAttempts);
     emberAfPluginConnectionManagerFinishedCallback(EMBER_NOT_JOINED);
@@ -346,7 +377,10 @@ void emberAfPluginConnectionManagerResetJoinAttempts(void)
 {
   networkJoinAttempts = 0;
 }
-
+void emberAfPluginConnectionManagerResetRejoinAttempts(void)
+{
+  networkRejoinAttempts = 0;
+}
 // *****************************************************************************
 // Print current state of the network, leave the network, and start searching
 // for a new network.
@@ -445,7 +479,8 @@ void emberAfPluginIdentifyStopFeedbackCallback(uint8_t endpoint)
 
 void emberAfPluginConnectionManagerLedNetworkFoundBlink(void)
 {
-  ledNetworkFoundBlink();
+  if(emberAfNetworkState() == EMBER_JOINED_NETWORK)
+    ledNetworkPowerOnBlink();
 }
 
 static void ledNetworkIdentifyBlink(void)
@@ -463,7 +498,16 @@ static void ledNetworkLostBlink(void)
   halLedBlinkPattern(numLeaveBlinks, 2, networkLostBlinkPattern);
 }
 
+static void ledNetworkPowerOnBlink(void)
+{
+  halLedBlinkPattern(numPowerOnBlinks, 2, networPowerOnBlinkPattern);
+}
+
 static void ledNetworkSearchBlink(void)
 {
   halLedBlinkPattern(numSearchBlinks, 2, networkSearchBlinkPattern);
+}
+static void ledNetworkLostParentBlink(void)
+{
+  halLedBlinkPattern(numlostParentBlinks, 2, networkLostBlinkPattern);
 }
