@@ -62,7 +62,9 @@ void emberAfPluginLowVoltageShutdownInitCallback(void)
 // Ask the HAL for the current VDD voltage (e.g. battery voltage)
 uint16_t emberAfPluginLowVoltageShutdownGetVoltage(void)
 {
-  return halMeasureVdd(VDD_MEASURE_RATE);
+  uint16_t currentVotage = halMeasureVdd(VDD_MEASURE_RATE);
+  emberAfPluginLowVoltageShutdownGetVoltageCallback(currentVotage);
+  return currentVotage;
 }
 
 // ****** Local (static) routines ******
@@ -72,7 +74,6 @@ static void lvShutdown(void)
 {
   uint16_t shutdownVoltage = emberAfPluginLowVoltageShutdownGetVoltage();
   if (emberAfPluginLowVoltageShutdownOkToShutdownCallback(shutdownVoltage)) {
-    emberAfPluginLowVoltageShutdownPreShutdownCallback(shutdownVoltage);
     halPowerDown();
     halInternalSleep(SLEEPMODE_NOTIMER);
   } else {

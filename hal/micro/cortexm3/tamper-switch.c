@@ -9,6 +9,9 @@
 // *****************************************************************************
 
 #include PLATFORM_HEADER
+#include "app/framework/include/af.h"
+#include "app/framework/plugin-soc/connection-manager/connection-manager.h"
+
 #include "stack/include/ember-types.h"
 #include "stack/include/event.h"
 #include "hal/hal.h"
@@ -59,16 +62,19 @@ void emberAfPluginTamperSwitchInitCallback(void)
 // four seconds.  At this point, it is safe to assume the contact switch is now
 // inside its enclosure, so the button being released should be interpreted as
 // the case being opened, which should trip the tamper alarm.
-void emberAfPluginButtonInterfaceButton0PressingCallback(void)
+void emberAfPluginButtonInterfaceButton2PressingCallback(void)
 {
-  tamperState = TAMPER_ACTIVE;
-  emberAfPluginTamperSwitchTamperActiveCallback();
+  if(tamperState == TAMPER_NOT_ACTIVE)
+  {
+    tamperState = TAMPER_ACTIVE;
+    emberAfPluginTamperSwitchTamperActiveCallback();
+  }
 }
 
 // A long press on button 0 means the device was removed after being in its
 // enclosure for more than 4 seconds.  This should be considered a tamper
 // attempt, and the IAS Zone Server should be informed.
-void emberAfPluginButtonInterfaceButton0PressedLongCallback(
+void emberAfPluginButtonInterfaceButton2PressedLongCallback(
        uint16_t button0TimePressed,
        bool pressedAtReset)
 {
@@ -85,11 +91,11 @@ void halTamperSwitchInitialize(void)
 {
 #if TAMPER_SW_IS_ACTIVE_HI
   halPluginButtonInterfaceSetButtonPolarity(
-    BUTTON0, 
+    BUTTON0,
     EMBER_AF_BUTTON_INTERFACE_POLARITY_ACTIVE_HI);
 #else
   halPluginButtonInterfaceSetButtonPolarity(
-    BUTTON0, 
+    BUTTON0,
     EMBER_AF_BUTTON_INTERFACE_POLARITY_ACTIVE_LO);
 #endif
 }
@@ -102,6 +108,6 @@ void halTamperSwitchDisarm(void)
 
 // Return the (polarity compensated) state of the button.
 uint8_t halTamperSwitchGetValue(void)
-{  
+{
   return(halPluginButtonInterfaceButtonPoll(BUTTON0));
 }

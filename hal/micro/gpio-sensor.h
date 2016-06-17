@@ -19,6 +19,11 @@ typedef enum {
   HAL_GPIO_SENSOR_NOT_ACTIVE   = 0x00,
 } HalGpioSensorState;
 
+typedef enum {
+  HAL_LOW_BATTERY_ACTIVE       = 0x01,
+  HAL_LOW_BATTERY_NOT_ACTIVE   = 0x00,
+} HalLowBatteryState;
+
 /** @brief Initialize the GPIO Sensor.  The application framework will
  * generally initialize this plugin automatically.  Customers who do not use the
  * framework must ensure the plugin is initialized by calling this function.
@@ -38,4 +43,6 @@ void halGpioSensorInitialize(void);
  */
 HalGpioSensorState halGpioSensorGetSensorValue(void);
 
+
+void emberAfPluginBatteryMonitorLowVoltageCallback(HalLowBatteryState newBatteryState);
 #endif //__GPIO_SENSOR_H__
