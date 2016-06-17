@@ -21,15 +21,15 @@
         </option>
         <option>
           <name>ExePath</name>
-          <state>$PROJ_DIR$\build\exe</state>
+          <state>D:\Firmware\SmartPlug-Ha12</state>
         </option>
         <option>
           <name>ObjPath</name>
-          <state>$PROJ_DIR$\build\obj</state>
+          <state>D:\tmp\SmartPlug-Ha12\build\obj</state>
         </option>
         <option>
           <name>ListPath</name>
-          <state>$PROJ_DIR$\build\lst</state>
+          <state>D:\tmp\SmartPlug-Ha12\build\lst</state>
         </option>
         <option>
           <name>Variant</name>
