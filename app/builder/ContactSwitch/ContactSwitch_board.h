@@ -105,8 +105,13 @@
  * abstraction on top of the 3 LEDs for verbose coding.
  */
 enum HalBoardLedPins {
+#if defined(CONTACTSWITCH_STEELDISC)
+  BOARDLED0 = 			PORTB_PIN(7),
+  BOARDLED1 = 			PORTA_PIN(6),
+#elif defined(CONTACTSWITCH_PCB)
   BOARDLED0 = 			PORTA_PIN(6),
   BOARDLED1 = 			PORTB_PIN(7),
+#endif
   BOARDLED2 = 			PORTC_PIN(0),
   BOARDLED3 = BOARDLED2,
   BOARD_ACTIVITY_LED  = BOARDLED2,
