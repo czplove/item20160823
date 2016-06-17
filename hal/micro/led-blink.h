@@ -91,5 +91,8 @@ void halLedBlinkSleepyClearGpio( uint8_t port, uint8_t pin );
  */
 void halLedBlinkSleepySetGpio( uint8_t port, uint8_t pin );
 
+void turnLedOn( uint8_t led );
+
+void turnLedOff( uint8_t led );
 #endif //__LED_BLINK_H__
 

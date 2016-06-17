@@ -46,8 +46,8 @@ typedef uint8_t gpioBlinkState;
 
 //------------------------------------------------------------------------------
 // Forward declaration of private plugin functions
-static void turnLedOn( uint8_t led );
-static void turnLedOff( uint8_t led );
+//static void turnLedOn( uint8_t led );
+//static void turnLedOff( uint8_t led );
 static void setBit(uint8_t *data, uint8_t bit);
 static void clearBit(uint8_t *data, uint8_t bit);
 
@@ -267,7 +267,7 @@ static void clearBit(uint8_t *data, uint8_t bit)
 
 // *****************************************************************************
 // Drive the LED for a GPIO high and update sleepy state
-static void turnLedOn( uint8_t led )
+void turnLedOn( uint8_t led )
 {
   uint8_t port = (led) >> 3;
   uint8_t pin = (led) & 0x07;
@@ -277,7 +277,7 @@ static void turnLedOn( uint8_t led )
 
 // *****************************************************************************
 // Drive the LED for a GPIO low and update sleepy state
-static void turnLedOff( uint8_t led )
+void turnLedOff( uint8_t led )
 {
 
   uint8_t port = (led) >> 3;

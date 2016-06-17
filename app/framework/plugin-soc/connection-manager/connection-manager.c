@@ -112,12 +112,12 @@ static uint16_t networkFoundBlinkPattern[] =
   {LED_FOUND_BLINK_ON_TIME_MS, LED_FOUND_BLINK_OFF_TIME_MS};
 static uint16_t networkIdentifyBlinkPattern[] =
 {
-  LED_IDENTIFY_ON_TIME_MS, 
-  LED_IDENTIFY_OFF1_TIME_MS, 
+  LED_IDENTIFY_ON_TIME_MS,
+  LED_IDENTIFY_OFF1_TIME_MS,
   LED_IDENTIFY_ON_TIME_MS,
   LED_IDENTIFY_OFF2_TIME_MS
 };
-  
+
 static uint8_t numJoinBlinks = DEFAULT_NUM_JOIN_BLINKS;
 static uint8_t numLeaveBlinks = DEFAULT_NUM_LEAVE_BLINKS;
 static uint8_t numPowerOnBlinks = DEFAULT_NUM_POWER_ON_BLINKS;
@@ -340,7 +340,7 @@ void emberAfPluginConnectionManagerRejoinEventHandler(void)
 // *****************************************************************************
 void emberAfPluginConnectionManagerStartSearchForJoinableNetwork(void)
 {
-  if (emberAfMfglibRunning() || emberAfMfglibEnabled()) 
+  if (emberAfMfglibRunning() || emberAfMfglibEnabled())
     return;
   if (networkJoinAttempts < REJOIN_ATTEMPTS) {
     networkJoinAttempts++;
@@ -351,7 +351,7 @@ void emberAfPluginConnectionManagerStartSearchForJoinableNetwork(void)
         ledNetworkSearchBlink();
       emberAfStartSearchForJoinableNetworkAllChannels();
     }
-    // call the event in 20 seconds in case we don't get the stack status 
+    // call the event in 20 seconds in case we don't get the stack status
     // callback (which will happen if there's no network to join)
     if(networkJoinAttempts < REJOIN_ATTEMPTS)
       emberEventControlSetDelayQS(emberAfPluginConnectionManagerRejoinEventControl,

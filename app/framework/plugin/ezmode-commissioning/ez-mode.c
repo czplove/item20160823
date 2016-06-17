@@ -79,7 +79,7 @@ static void identifyRequestMessageSentCallback(EmberOutgoingMessageType type,
 void emberAfPluginEzmodeCommissioningStateEventHandler(void) {
 
   EmberStatus status;
-  EmberEUI64 add;
+//  EmberEUI64 add;
 
   if (emberAfPushNetworkIndex(networkIndex) != EMBER_SUCCESS) {
     complete();
