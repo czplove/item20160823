@@ -20,36 +20,73 @@
 /**
  * @brief A note which can be used in tune structure definitions.  
  */
-#define	NOTE_C3	119
-#define	NOTE_Db3	112
-#define	NOTE_D3	106
-#define	NOTE_Eb3	100
-#define	NOTE_E3	94
-#define	NOTE_F3	89
-#define	NOTE_Gb3	84
-#define	NOTE_G3	79
-#define	NOTE_Ab3	74
-#define	NOTE_A3	70
-#define	NOTE_Bb3	66
-#define	NOTE_B3	63
-#define	NOTE_C4	59
-#define	NOTE_Db4	55
-#define	NOTE_D4	52
-#define	NOTE_Eb4	49
-#define	NOTE_E4	46
-#define	NOTE_F4	44
-#define	NOTE_Gb4	41
-#define	NOTE_G4	39
-#define	NOTE_Ab4	37
-#define	NOTE_A4	35
-#define	NOTE_Bb4	33
-#define	NOTE_B4	31
-#define	NOTE_C5	29
-#define	NOTE_Db5	27
-#define	NOTE_D5	26
-#define	NOTE_Eb5	24
-#define	NOTE_E5	23
-#define	NOTE_F5	21
+//#define	NOTE_C3	119
+//#define	NOTE_Db3	112
+//#define	NOTE_D3	106
+//#define	NOTE_Eb3	100
+//#define	NOTE_E3	94
+//#define	NOTE_F3	89
+//#define	NOTE_Gb3	84
+//#define	NOTE_G3	79
+//#define	NOTE_Ab3	74
+//#define	NOTE_A3	70
+//#define	NOTE_Bb3	66
+//#define	NOTE_B3	63
+//#define	NOTE_C4	59
+//#define	NOTE_Db4	55
+//#define	NOTE_D4	52
+//#define	NOTE_Eb4	49
+//#define	NOTE_E4	46
+//#define	NOTE_F4	44
+//#define	NOTE_Gb4	41
+//#define	NOTE_G4	39
+//#define	NOTE_Ab4	37
+//#define	NOTE_A4	35
+//#define	NOTE_Bb4	33
+//#define	NOTE_B4	31
+//#define	NOTE_C5	29
+//#define	NOTE_Db5	27
+//#define	NOTE_D5	26
+//#define	NOTE_Eb5	24
+//#define	NOTE_E5	23
+//#define	NOTE_F5	21
+//#define	NOTE_Gb5	20
+//#define	NOTE_G5	19
+//#define	NOTE_Ab5	18
+//#define	NOTE_A5	17
+//#define	NOTE_Bb5	16
+//#define	NOTE_B5	15
+
+#define	NOTE_C3	150
+#define	NOTE_Db3	145
+#define	NOTE_D3	140
+#define	NOTE_Eb3	135
+#define	NOTE_E3	130
+#define	NOTE_F3     125
+#define	NOTE_Gb3    120
+#define	NOTE_G3	115
+#define	NOTE_Ab3	110
+#define	NOTE_A3	105
+#define	NOTE_Bb3	100
+#define	NOTE_B3	95
+#define	NOTE_C4	90
+#define	NOTE_Db4	85
+#define	NOTE_D4	80
+#define	NOTE_Eb4	75
+#define	NOTE_E4	70
+#define	NOTE_F4	65
+#define	NOTE_Gb4	60
+#define	NOTE_G4	55
+#define	NOTE_Ab4	50
+#define	NOTE_A4	45
+#define	NOTE_Bb4	40
+#define	NOTE_B4	35
+#define	NOTE_C5	30
+#define	NOTE_Db5	25
+#define	NOTE_D5	20
+#define	NOTE_Eb5	15
+#define	NOTE_E5	10
+#define	NOTE_F5	5
 #define	NOTE_Gb5	20
 #define	NOTE_G5	19
 #define	NOTE_Ab5	18
@@ -89,7 +126,11 @@ void halPlayTune_P(uint8_t PGM *tune, bool bkg);
  */
 void halStackIndicatePresence(void);
 
-/** @} // END addtogroup 
+
+
+void halStopTune(void);
+
+/** @} // END addtogroup
  */
 
 
