@@ -33,7 +33,7 @@
 
 #define IAS_ZONE_ENDPOINT \
   EMBER_AF_PLUGIN_SECURITY_SENSOR_IAS_ZONE_ENDPOINT
-  
+
 #define MAX_TIME_BETWEEN_PRESSES_MS \
   EMBER_AF_PLUGIN_SECURITY_SENSOR_TIME_BETWEEN_PRESSES_MS
 
@@ -87,12 +87,12 @@ static void enableIdentify(void);
 EmberEventControl emberAfPluginSecuritySensorInitEventControl;
 EmberEventControl emberAfPluginSecuritySensorInitialReportEventControl;
 EmberEventControl emberAfPluginSecuritySensorButtonPressCountEventControl;
-EmberEventControl emberAfPluginSecuritySensorStateSupervisionReportsControl;
+EmberEventControl emberAfPluginSecuritySensorSupervisionReportEventControl;
 // State variable to track if the device has been tampered with
 static uint8_t tamperStatus = STATUS_NO_TAMPER;
 
 // State variable to track the contact sensor state
-static uint8_t contactStatus = STATUS_NO_ALARM; 
+static uint8_t contactStatus = STATUS_NO_ALARM;
 
 static uint8_t batteryStatus = STATUS_BATTERY_OK;
 // Number of consecutive button presses received thus far
@@ -110,7 +110,7 @@ void emberAfPluginSecuritySensorInitCallback(void)
 {
   // Need to give the gateway time to populate its UI and start listening for
   // messages from the contact sensor
-  emberEventControlSetDelayMS(emberAfPluginSecuritySensorInitEventControl, 
+  emberEventControlSetDelayMS(emberAfPluginSecuritySensorInitEventControl,
                               GATEWAY_BOOT_DELAY_MS);
 }
 
@@ -126,7 +126,7 @@ void emberAfPluginGpioSensorStateChangedCallback(uint8_t newAlarmState)
   }
   sendZoneAlarmUpdate();
 #ifndef RF_TEST
-  emberEventControlSetDelayMinutes(emberAfPluginSecuritySensorStateSupervisionReportsControl,60);
+  emberEventControlSetDelayMinutes(emberAfPluginSecuritySensorSupervisionReportEventControl,60);
 #endif
 }
 
@@ -148,7 +148,7 @@ void emberAfPluginTamperSwitchTamperAlarmCallback(void)
 void emberAfPluginButtonInterfaceButton0PressedShortCallback(
   uint16_t timePressedMs)
 {
-  
+
   // If the button was not held for longer than the debounce time, ignore the
   // press.
   if(timePressedMs > BUTTON_DEBOUNCE_TIME_MS *20 ){
@@ -175,7 +175,7 @@ void emberAfPluginSecuritySensorStackStatusCallback(EmberStatus status)
     }
     sendZoneAlarmUpdate();
 #ifndef RF_TEST
-    emberEventControlSetDelayMinutes(emberAfPluginSecuritySensorStateSupervisionReportsControl,60);
+    emberEventControlSetDelayMinutes(emberAfPluginSecuritySensorSupervisionReportEventControl,60);
 #endif
     /*
     emberEventControlSetDelayQS(
@@ -210,19 +210,19 @@ void emberAfPluginSecuritySensorInitialReportEventHandler(void)
 {
   emberEventControlSetInactive(
     emberAfPluginSecuritySensorInitialReportEventControl);
-
-  // Generate an initial state for the contact switch (as it normally only
-  // updates when the reed switch pin changes)
-  /*
-  if (halGpioSensorGetSensorValue() == HAL_GPIO_SENSOR_ACTIVE) {
-    contactStatus = STATUS_ALARM;
-  } else {
-    contactStatus = STATUS_NO_ALARM;
-  }
-  sendZoneAlarmUpdate();
-  */
 }
 
+
+void emberAfPluginSecuritySensorSupervisionReportEventHandler(void)
+{
+  sendZoneAlarmUpdate();
+#ifdef RF_TEST
+  emberEventControlSetDelayMS(emberAfPluginSecuritySensorSupervisionReportEventControl,
+                              1000);
+#else
+  emberEventControlSetDelayMinutes(emberAfPluginSecuritySensorSupervisionReportEventControl,60);
+#endif
+}
 void emberAfPluginSecuritySensorButtonPressCountEventHandler(void)
 {
   if (emberAfNetworkState() != EMBER_NO_NETWORK) {
@@ -254,9 +254,9 @@ void emberAfPluginSecuritySensorButtonPressCountEventHandler(void)
       emberAfPluginConnectionManagerLeaveNetworkAndStartSearchForNewOne();
     }
   }
-  
+
   consecutiveButtonPressCount = 0;
-  
+
   emberEventControlSetInactive(
     emberAfPluginSecuritySensorButtonPressCountEventControl);
 }
@@ -269,7 +269,7 @@ static void enableIdentify(void)
   uint8_t endpoint;
   uint8_t i;
   uint16_t identifyTimeS = MANUAL_IDENTIFY_TIME_S;
-  
+
   for (i = 0; i < emberAfEndpointCount(); i++) {
     endpoint = emberAfEndpointFromIndex(i);
     if (emberAfContainsServer(endpoint, ZCL_IDENTIFY_CLUSTER_ID)) {
@@ -301,7 +301,7 @@ static void changeTamperStatus(uint8_t status)
   tamperStatus = status;
   sendZoneAlarmUpdate();
 #ifndef RF_TEST
-  emberEventControlSetDelayMinutes(emberAfPluginSecuritySensorStateSupervisionReportsControl,60);
+  emberEventControlSetDelayMinutes(emberAfPluginSecuritySensorSupervisionReportEventControl,60);
 #endif
 }
 
@@ -317,12 +317,6 @@ void emberAfPluginBatteryMonitorLowVoltageCallback(HalLowBatteryState newBattery
   }
   sendZoneAlarmUpdate();
 #ifndef RF_TEST
-  emberEventControlSetDelayMinutes(emberAfPluginSecuritySensorStateSupervisionReportsControl,60);
+  emberEventControlSetDelayMinutes(emberAfPluginSecuritySensorSupervisionReportEventControl,60);
 #endif
-}
-
-//Supervision reports update the global status variable and the cluster's attribute
-void emberAfPluginSecuritySensorStateSupervisionReports(void)
-{
-  sendZoneAlarmUpdate();
 }
