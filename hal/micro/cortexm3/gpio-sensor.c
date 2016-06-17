@@ -23,8 +23,11 @@
 #define SENSOR_ASSERT_DEBOUNCE   EMBER_AF_PLUGIN_GPIO_SENSOR_ASSERT_DEBOUNCE
 #define SENSOR_DEASSERT_DEBOUNCE \
                               EMBER_AF_PLUGIN_GPIO_SENSOR_DEASSERT_DEBOUNCE
+#if defined(CONTACT_SWITCH_NETVOX)
+#define SENSOR_IS_ACTIVE_HI   0
+#else
 #define SENSOR_IS_ACTIVE_HI   EMBER_AF_PLUGIN_GPIO_SENSOR_SENSOR_POLARITY
-
+#endif
 //------------------------------------------------------------------------------
 // Plugin private variables
 

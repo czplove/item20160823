@@ -271,8 +271,11 @@ void turnLedOn( uint8_t led )
 {
   uint8_t port = (led) >> 3;
   uint8_t pin = (led) & 0x07;
-
+#if defined(CONTACT_SWITCH_NETVOX)
+  halLedBlinkSleepySetGpio( port, pin );
+#else
   halLedBlinkSleepyClearGpio( port, pin );
+#endif
 }
 
 // *****************************************************************************
@@ -283,5 +286,9 @@ void turnLedOff( uint8_t led )
   uint8_t port = (led) >> 3;
   uint8_t pin = (led) & 0x07;
 
+#if defined(CONTACT_SWITCH_NETVOX)
+  halLedBlinkSleepyClearGpio( port, pin );
+#else
   halLedBlinkSleepySetGpio( port, pin );
+#endif
 }

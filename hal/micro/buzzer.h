@@ -18,7 +18,7 @@
  */
 
 /**
- * @brief A note which can be used in tune structure definitions.  
+ * @brief A note which can be used in tune structure definitions.
  */
 //#define	NOTE_C3	119
 //#define	NOTE_Db3	112

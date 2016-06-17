@@ -241,3 +241,67 @@ static void writeHumidityAttributes(uint16_t humidityCentiP)
     }
   }
 }
+//------------------------------------------------------------------------------
+// Plugin private functions
+
+//******************************************************************************
+// Update the humidity attribute of the humidity measurement cluster to
+// be the humidity value given by the function's parameter.  This function
+// will also query the current max and min read values, and update them if the
+// given values is higher (or lower) than the previous records.
+//******************************************************************************
+static void writeHumidityAttributes(uint16_t humidityCentiP)
+{
+  int16_t humLimitCentiP;
+  uint8_t i;
+  uint8_t endpoint;
+
+  // Cycle through all endpoints, check to see if the endpoint has a humidity
+  // server, and if so update the humidity attributes of that endpoint
+  for (i = 0; i < emberAfEndpointCount(); i++) {
+    endpoint = emberAfEndpointFromIndex(i);
+    if (emberAfContainsServer(endpoint, ZCL_RELATIVE_HUMIDITY_MEASUREMENT_CLUSTER_ID)) {
+
+      // Write the current humidity attribute
+      emberAfWriteServerAttribute(endpoint,
+                                  ZCL_RELATIVE_HUMIDITY_MEASUREMENT_CLUSTER_ID,
+                                  ZCL_RELATIVE_HUMIDITY_MEASURED_VALUE_ATTRIBUTE_ID,
+                                  (uint8_t *) &humidityCentiP,
+                                  ZCL_INT16U_ATTRIBUTE_TYPE);
+
+      // Determine if this is a new minimum measured humidity, and update the
+      // TEMP_MIN_MEASURED attribute if that is the case.
+      emberAfReadServerAttribute(endpoint,
+                                 ZCL_RELATIVE_HUMIDITY_MEASUREMENT_CLUSTER_ID,
+                                 ZCL_RELATIVE_HUMIDITY_MIN_MEASURED_VALUE_ATTRIBUTE_ID,
+                                 (uint8_t *) (&humLimitCentiP),
+                                 sizeof(uint16_t) );
+      if ((humLimitCentiP < HUMIDITY_SANITY_CHECK)
+          || (humLimitCentiP > humidityCentiP)) {
+        emberAfWriteServerAttribute(endpoint,
+                                    ZCL_RELATIVE_HUMIDITY_MEASUREMENT_CLUSTER_ID,
+                                    ZCL_RELATIVE_HUMIDITY_MIN_MEASURED_VALUE_ATTRIBUTE_ID,
+                                    (uint8_t *) &humidityCentiP,
+                                    ZCL_INT16U_ATTRIBUTE_TYPE);
+
+      }
+
+      // Determine if this is a new maximum measured temperature, and update the
+      // TEMP_MAX_MEASURED attribute if that is the case.
+      emberAfReadServerAttribute(endpoint,
+                                 ZCL_RELATIVE_HUMIDITY_MEASUREMENT_CLUSTER_ID,
+                                 ZCL_RELATIVE_HUMIDITY_MAX_MEASURED_VALUE_ATTRIBUTE_ID,
+                                 (uint8_t *) (&humLimitCentiP),
+                                 sizeof(uint16_t) );
+      if ((humLimitCentiP < HUMIDITY_SANITY_CHECK)
+          || (humLimitCentiP < humidityCentiP)) {
+        emberAfWriteServerAttribute(endpoint,
+                                    ZCL_RELATIVE_HUMIDITY_MEASUREMENT_CLUSTER_ID,
+                                    ZCL_RELATIVE_HUMIDITY_MAX_MEASURED_VALUE_ATTRIBUTE_ID,
+                                    (uint8_t *) &humidityCentiP,
+                                    ZCL_INT16U_ATTRIBUTE_TYPE);
+
+      }
+    }
+  }
+}
