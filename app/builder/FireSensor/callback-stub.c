@@ -1617,6 +1617,19 @@ void emberAfPluginButtonInterfaceButton2LowCallback(void)
 
 }
 
+/** @brief Button2 Pressed Long
+ *
+ * This function returns the number of times a button was short pressed.
+ *
+ * @param timePressedMs Amount of time button 2 was pressed.  Ver.: always
+ * @param pressedAtReset Was the button pressed at startup.  Ver.: always
+ */
+void emberAfPluginButtonInterfaceButton2PressedLongCallback(uint16_t timePressedMs,
+                                                            bool pressedAtReset)
+{
+
+}
+
 /** @brief Button2 Pressed Short
  *
  * This function returns the number of times a button was short pressed.
@@ -1624,6 +1637,47 @@ void emberAfPluginButtonInterfaceButton2LowCallback(void)
  * @param timePressedMs Time (in ms) button 2 was pressed  Ver.: always
  */
 void emberAfPluginButtonInterfaceButton2PressedShortCallback(uint16_t timePressedMs)
+{
+
+}
+
+/** @brief Button2 Pressing
+ *
+ * This function is periodically called when button 2 is being pressed.
+ *
+ */
+void emberAfPluginButtonInterfaceButton2PressingCallback(void)
+{
+
+}
+
+/** @brief Button3 High
+ *
+ * This function is called when the GPIO tied to button one goes high
+ *
+ */
+void emberAfPluginButtonInterfaceButton3HighCallback(void)
+{
+
+}
+
+/** @brief Button3 Low
+ *
+ * This function is called when the GPIO tied to button one goes low
+ *
+ */
+void emberAfPluginButtonInterfaceButton3LowCallback(void)
+{
+
+}
+
+/** @brief Button3 Pressed Short
+ *
+ * This function returns the number of times a button was short pressed.
+ *
+ * @param timePressedMs Time (in ms) button 3 was pressed  Ver.: always
+ */
+void emberAfPluginButtonInterfaceButton3PressedShortCallback(uint16_t timePressedMs)
 {
 
 }
@@ -1638,6 +1692,17 @@ void emberAfPluginButtonInterfaceButton2PressedShortCallback(uint16_t timePresse
  * @param status   Ver.: always
  */
 void emberAfPluginConnectionManagerFinishedCallback(EmberStatus status)
+{
+}
+
+
+/** @brief Rollover
+ *
+ * This function is called every time a counter exceeds its threshold.
+ *
+ * @param type The counter that rolled over Ver.: always
+ */
+void emberAfPluginCountersRolloverCallback(EmberCounterType type)
 {
 }
 
@@ -1880,34 +1945,6 @@ bool emberAfPreCliSendCallback(EmberApsFrame* apsFrame,
  * @param cmd   Ver.: always
  */
 bool emberAfPreCommandReceivedCallback(EmberAfClusterCommand* cmd)
-{
-  return false;
-}
-
-/** @brief Pre Message Received
- *
- * This callback is the first in the Application Framework's message processing
- * chain. The Application Framework calls it when a message has been received
- * over the air but has not yet been parsed by the ZCL command-handling code. If
- * you wish to parse some messages that are completely outside the ZCL
- * specification or are not handled by the Application Framework's command
- * handling code, you should intercept them for parsing in this callback. 
-     
- *   This callback returns a Boolean value indicating whether or not the message
- * has been handled. If the callback returns a value of true, then the
- * Application Framework assumes that the message has been handled and it does
- * nothing else with it. If the callback returns a value of false, then the
- * application framework continues to process the message as it would with any
- * incoming message.
-        Note: 	This callback receives a pointer to an
- * incoming message struct. This struct allows the application framework to
- * provide a unified interface between both Host devices, which receive their
- * message through the ezspIncomingMessageHandler, and SoC devices, which
- * receive their message through emberIncomingMessageHandler.
- *
- * @param incomingMessage   Ver.: always
- */
-bool emberAfPreMessageReceivedCallback(EmberAfIncomingMessage* incomingMessage)
 {
   return false;
 }

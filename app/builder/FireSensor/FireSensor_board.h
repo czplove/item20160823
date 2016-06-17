@@ -214,7 +214,7 @@ enum HalBoardLedPins {
  * are compiled in.
  * Remember there may be other things that might want to use IRQD.
  */
-#define BUTTON2             PORTB_PIN(5)
+//#define BUTTON2             PORTB_PIN(5)
 /**
  * @brief The GPIO input register for BUTTON2.
  */
@@ -244,6 +244,43 @@ enum HalBoardLedPins {
  * @brief The missed interrupt bit for BUTTON2.
  */
 #define BUTTON2_MISS_BIT    INT_MISSIRQD
+
+/**
+ * @brief The actual GPIO BUTTON2 is connected to.  This define should
+ * be used whenever referencing BUTTON2, such as controlling if pieces
+ * are compiled in.
+ * Remember there may be other things that might want to use IRQD.
+ */
+#define BUTTON3             PORTB_PIN(5)
+/**
+ * @brief The GPIO input register for BUTTON3.
+ */
+#define BUTTON3_IN          GPIO_PBIN
+/**
+ * @brief Point the proper IRQ at the desired pin for BUTTON3.
+ * @note IRQD is fixed and as such does not need any selection operation.
+ */
+#define BUTTON3_SEL()       do {GPIO_IRQDSEL = PORTB_PIN(5);  } while(0)
+/**
+ * @brief The interrupt service routine for BUTTON3.
+ */
+#define BUTTON3_ISR         halIrqDIsr
+/**
+ * @brief The interrupt configuration register for BUTTON3.
+ */
+#define BUTTON3_INTCFG      GPIO_INTCFGD
+/**
+ * @brief The interrupt enable bit for BUTTON3.
+ */
+#define BUTTON3_INT_EN_BIT  INT_IRQD
+/**
+ * @brief The interrupt flag bit for BUTTON3.
+ */
+#define BUTTON3_FLAG_BIT    INT_IRQDFLAG
+/**
+ * @brief The missed interrupt bit for BUTTON3.
+ */
+#define BUTTON3_MISS_BIT    INT_MISSIRQD
 //@} //END OF BUTTON DEFINITIONS
 
 

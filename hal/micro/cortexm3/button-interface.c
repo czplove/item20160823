@@ -76,7 +76,7 @@ static uint8_t button1Polarity = EMBER_AF_BUTTON_INTERFACE_POLARITY_ACTIVE_LO;
 static uint8_t button2Polarity = EMBER_AF_BUTTON_INTERFACE_POLARITY_ACTIVE_LO;
 #endif
 #ifdef BUTTON3
-static uint8_t button2Polarity = EMBER_AF_BUTTON_INTERFACE_POLARITY_ACTIVE_LO;
+static uint8_t button3Polarity = EMBER_AF_BUTTON_INTERFACE_POLARITY_ACTIVE_LO;
 #endif
 static uint8_t button0LastState = BUTTON_STATE_UNINIT;
 static uint8_t button1LastState = BUTTON_STATE_UNINIT;

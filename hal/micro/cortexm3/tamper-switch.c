@@ -113,5 +113,7 @@ uint8_t halTamperSwitchGetValue(void)
 {
 #ifdef BUTTON3
   return(halPluginButtonInterfaceButtonPoll(BUTTON3));
+#else
+  return 0;
 #endif
 }
