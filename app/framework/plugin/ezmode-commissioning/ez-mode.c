@@ -79,7 +79,6 @@ static void identifyRequestMessageSentCallback(EmberOutgoingMessageType type,
 void emberAfPluginEzmodeCommissioningStateEventHandler(void) {
 
   EmberStatus status;
-//  EmberEUI64 add;
 
   if (emberAfPushNetworkIndex(networkIndex) != EMBER_SUCCESS) {
     complete();
@@ -96,7 +95,6 @@ void emberAfPluginEzmodeCommissioningStateEventHandler(void) {
       break;
     case EZMODE_IDENTIFY:
       emberAfCorePrintln("<ezmode identify>");
-      //emAfPermitJoin(180, true); //Send out a broadcast pjoin
       emberAfFillCommandIdentifyClusterIdentifyQuery();
       emberAfSetCommandEndpoints(ezmodeClientEndpoint,
                                  EMBER_BROADCAST_ENDPOINT);
@@ -121,17 +119,6 @@ void emberAfPluginEzmodeCommissioningStateEventHandler(void) {
       }
       break;
     case EZMODE_BIND:
-//      emberAfCorePrintln("<ezmode bind>");
-//      status = emberLookupEui64ByNodeId(currentIdentifyingAddress, add);
-//      if (status == EMBER_SUCCESS) {
-//        createBinding(add);
-//      } else {
-//        status = emberAfFindIeeeAddress(currentIdentifyingAddress,
-//                                        serviceDiscoveryCallback);
-//        if (status != EMBER_SUCCESS) {
-//          complete();
-//        }
-//      }
       break;
     case EZMODE_BOUND:
       emberAfCorePrintln("<ezmode bound>");

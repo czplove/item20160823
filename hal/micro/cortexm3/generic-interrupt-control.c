@@ -19,7 +19,9 @@
 
 //------------------------------------------------------------------------------
 // Plugin private macro definitions
+#ifndef SMART_PLUG
 #define HAL_GIC_USE_IRQC_ISR
+#endif
 //------------------------------------------------------------------------------
 // Forward Declaration of private functions
 static void genericIsr(HalGenericInterruptControlIrqCfg* irqCfg);
@@ -35,10 +37,10 @@ static HalGenericInterruptControlIrqCfg irqDCfg;
 // private plugin functions
 
 // This function will be called whenever the hardware conditions are met to
-// trigger an interrupt on a GIC controlled irq.  If the user has defined an 
-// interrupt subroutine using the @gicIrqISRAssignFxn, that function will be 
+// trigger an interrupt on a GIC controlled irq.  If the user has defined an
+// interrupt subroutine using the @gicIrqISRAssignFxn, that function will be
 // called.  If the user has defined an event to be associated with the irq using
-// the @gicIRQEventRegister function, that event will be activated and run (in a 
+// the @gicIRQEventRegister function, that event will be activated and run (in a
 // non-interrupt context), regardless of whether an ISR function was also
 // assigned to the IRQ.
 //
@@ -57,7 +59,7 @@ static void genericIsr(HalGenericInterruptControlIrqCfg* irqCfg)
   } else {
     irqCfg->irqISR();
   }
-  
+
   // Activate the user specified event
   if (irqCfg->irqEventHandler != NULL) {
     emberEventControlSetActive(*(irqCfg->irqEventHandler));
@@ -118,7 +120,7 @@ HalGenericInterruptControlIrqCfg* halGenericInterruptControlIrqCfgInitialize(
   uint8_t irqNum)
 {
   HalGenericInterruptControlIrqCfg *config;
-  
+
   if (irqNum == HAL_GIC_IRQ_NUMA) {
     config = &irqACfg;
   } else if (irqNum == HAL_GIC_IRQ_NUMB) {
@@ -128,7 +130,7 @@ HalGenericInterruptControlIrqCfg* halGenericInterruptControlIrqCfgInitialize(
   } else {
     config = &irqDCfg;
   }
-  
+
   // First, initialize variables based on GPIO port:
   //    irqInReg
   //    irqPin
@@ -145,7 +147,7 @@ HalGenericInterruptControlIrqCfg* halGenericInterruptControlIrqCfgInitialize(
     config->irqPin = irqPin;
     config->irqSelBit = PORTC_PIN(irqPin);
   }
-  
+
   // Next, initialize variables based on IRQ number (a-d)
   //    irqIntCfgReg
   //    irqIntEnBit
@@ -179,7 +181,7 @@ HalGenericInterruptControlIrqCfg* halGenericInterruptControlIrqCfgInitialize(
     config->irqMissBit = INT_MISSIRQD;
     GPIO_IRQDSEL = config->irqSelBit;
   }
-  
+
   // Finally, initialize all default variables:
   //    irqISR (user can define their own ISR if they so desire)
   //    irqEventHandler (user can define event to active on interrupt)
@@ -187,20 +189,20 @@ HalGenericInterruptControlIrqCfg* halGenericInterruptControlIrqCfgInitialize(
   config->irqISR = NULL;
   config->irqEventHandler = NULL;
   config->irqEdgeCfg = HAL_GIC_INT_CFG_EDGE_BOTH;
-  
+
   // Now that the config struct is populated, use the information therein to
   // configure the IRQ.  Do not enable yet.
   *(config->irqIntCfgReg) = 0;
   INT_CFGCLR = config->irqIntEnBit;
   INT_GPIOFLAG = config->irqFlagBit;
   INT_MISS = config->irqMissBit;
-  
+
   // Disable digital filtering on the GPIO by default
   *(config->irqIntCfgReg) = (0 << GPIO_INTFILT_BIT);
-  
+
   // Set the interrupt edge to the default value of all edges
   *(config->irqIntCfgReg) |= (config->irqEdgeCfg << GPIO_INTMOD_BIT);
-  
+
   return(config);
 }
 
@@ -233,7 +235,7 @@ void halGenericInterruptControlIrqEventRegister(
 
 void halGenericInterruptControlIrqEnable(
   HalGenericInterruptControlIrqCfg *config)
-{  
+{
   INT_CFGSET |= config->irqIntEnBit;
 }
 
