@@ -496,12 +496,6 @@ bool emberAfReadReportingConfigurationCommandCallback(const EmberAfClusterComman
       }
     }
     // Attribute supported, reportable, no report configuration was found.
-    if (found == false) {
-      emberAfPutInt8uInResp(EMBER_ZCL_STATUS_NOT_FOUND);
-      emberAfPutInt8uInResp(direction);
-      emberAfPutInt16uInResp(attributeId);
-      continue;
-    }
     // Attribute supported, reportable, report configuration was found.
     emberAfPutInt8uInResp(EMBER_ZCL_STATUS_SUCCESS);
     emberAfPutInt8uInResp(direction);
@@ -509,15 +503,15 @@ bool emberAfReadReportingConfigurationCommandCallback(const EmberAfClusterComman
     switch (direction) {
       case EMBER_ZCL_REPORTING_DIRECTION_REPORTED:
         emberAfPutInt8uInResp(metadata->attributeType);
-        emberAfPutInt16uInResp(entry.data.reported.minInterval);
-        emberAfPutInt16uInResp(entry.data.reported.maxInterval);
+        emberAfPutInt16uInResp(found ? entry.data.reported.minInterval : 0xFFFF);
+        emberAfPutInt16uInResp(found ? entry.data.reported.maxInterval : 0xFFFF);
         if (emberAfGetAttributeAnalogOrDiscreteType(metadata->attributeType)
             == EMBER_AF_DATA_TYPE_ANALOG) {
-          putReportableChangeInResp(&entry, metadata->attributeType);
+          putReportableChangeInResp(found ? &entry : NULL, metadata->attributeType);
         }
         break;
       case EMBER_ZCL_REPORTING_DIRECTION_RECEIVED:
-        emberAfPutInt16uInResp(entry.data.received.timeout);
+        emberAfPutInt16uInResp(found ? entry.data.received.timeout : 0xFFFF);
         break;
     }
   }
@@ -569,7 +563,7 @@ void emberAfReportingAttributeChangeCallback(uint8_t endpoint,
       // mark the entry as ready to report and reschedule the tick.  Whether
       // the tick will be scheduled for immediate or delayed execution depends
       // on the minimum reporting interval.  This is handled in the scheduler.
-      uint32_t difference = emberAfGetDifference(data,
+      uint64_t difference = emberAfGetDifference(data,
                                                emAfPluginReportVolatileData[i].lastReportValue,
                                                emberAfGetDataSize(type));
       uint8_t analogOrDiscrete = emberAfGetAttributeAnalogOrDiscreteType(type);

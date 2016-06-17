@@ -6,10 +6,10 @@
 // *******************************************************************
 
 // this file contains all the common includes for clusters in the util
-#include "../include/af.h"
-#include "../../util/common.h"
-#include "../../util/af-main.h"
-#include "../../util/client-api.h"
+#include "app/framework/include/af.h"
+#include "app/framework/util/common.h"
+#include "app/framework/util/af-main.h"
+#include "app/framework/util/client-api.h"
 #include "enums.h"
 #include "simple-metering-test.h"
 

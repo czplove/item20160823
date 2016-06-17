@@ -41,7 +41,6 @@ bool emAfProcessClusterSpecificCommand(EmberAfClusterCommand *cmd)
                        cmd->apsFrame->destinationEndpoint,
                        cmd->apsFrame->clusterId,
                        cmd->commandId);
-    emberAfSendDefaultResponse(cmd, EMBER_ZCL_STATUS_FAILURE);
     return true;
   }
 
