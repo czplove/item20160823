@@ -19756,6 +19756,13 @@ void emberAfPluginButtonInterfaceButton1PressedShortCallback(uint16_t timePresse
  * @param timePressedMs Time (in ms) button 2 was pressed  Ver.: always
  */
 void emberAfPluginButtonInterfaceButton2PressedShortCallback(uint16_t timePressedMs);
+/** @brief Button3 Pressed Short
+ *
+ * This function returns the number of times a button was short pressed.
+ *
+ * @param timePressedMs Time (in ms) button 3 was pressed  Ver.: always
+ */
+void emberAfPluginButtonInterfaceButton3PressedShortCallback(uint16_t timePressedMs);
 /** @brief Button0 Pressed Long
  *
  * This function returns the number of times a button was short pressed.
@@ -19783,6 +19790,15 @@ void emberAfPluginButtonInterfaceButton1PressedLongCallback(uint16_t timePressed
  */
 void emberAfPluginButtonInterfaceButton2PressedLongCallback(uint16_t timePressedMs,
                                                             bool pressedAtReset);
+/** @brief Button3 Pressed Long
+ *
+ * This function returns the number of times a button was short pressed.
+ *
+ * @param timePressedMs Amount of time button 3 was pressed.  Ver.: always
+ * @param pressedAtReset Was the button pressed at startup.  Ver.: always
+ */
+void emberAfPluginButtonInterfaceButton3PressedLongCallback(uint16_t timePressedMs,
+                                                            bool pressedAtReset);
 /** @brief Button0 Pressing
  *
  * This function is periodically called when button 0 is being pressed.
@@ -19801,6 +19817,12 @@ void emberAfPluginButtonInterfaceButton1PressingCallback(void);
  *
  */
 void emberAfPluginButtonInterfaceButton2PressingCallback(void);
+/** @brief Button3 Pressing
+ *
+ * This function is periodically called when button 3 is being pressed.
+ *
+ */
+void emberAfPluginButtonInterfaceButton3PressingCallback(void);
 /** @brief Button0 Low
  *
  * This function is called when the GPIO tied to button zero goes low
@@ -19837,6 +19859,18 @@ void emberAfPluginButtonInterfaceButton2LowCallback(void);
  *
  */
 void emberAfPluginButtonInterfaceButton2HighCallback(void);
+/** @brief Button3 Low
+ *
+ * This function is called when the GPIO tied to button one goes low
+ *
+ */
+void emberAfPluginButtonInterfaceButton3LowCallback(void);
+/** @brief Button3 High
+ *
+ * This function is called when the GPIO tied to button one goes high
+ *
+ */
+void emberAfPluginButtonInterfaceButton3HighCallback(void);
 /** @} END Button Interface Plugin Callbacks */
 
 
@@ -19853,6 +19887,19 @@ void emberAfPluginButtonInterfaceButton2HighCallback(void);
  */
 void emberAfPluginConnectionManagerFinishedCallback(EmberStatus status);
 /** @} END Connection Manager Plugin Callbacks */
+
+
+/** @name Counters Plugin Callbacks */
+// @{
+
+/** @brief Rollover
+ *
+ * This function is called every time a counter exceeds its threshold.
+ *
+ * @param type The counter that rolled over Ver.: always
+ */
+void emberAfPluginCountersRolloverCallback(EmberCounterType type);
+/** @} END Counters Plugin Callbacks */
 
 
 /** @name End Device Support Plugin Callbacks */
@@ -20108,19 +20155,6 @@ void emberAfPluginTamperSwitchTamperActiveCallback(void);
  */
 void emberAfPluginTamperSwitchTamperAlarmCallback(void);
 /** @} END Tamper Switch Interface Plugin Callbacks */
-
-
-/** @name Counters Plugin Callbacks */
-// @{
-
-/** @brief Rollover
- *
- * This function is called every time a counter exceeds its threshold.
- *
- * @param type The counter that rolled over Ver.: always
- */
-void emberAfPluginCountersRolloverCallback(EmberCounterType type);
-/** @} END Counters Plugin Callbacks */
 
 
 /** @} END addtogroup */

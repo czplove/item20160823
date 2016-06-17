@@ -172,6 +172,10 @@ PGM EmberAfGenericClusterFunction emberAfFuncArrayIasZoneClusterServer[] = { (Em
   extern void emberAfPluginButtonInterfaceButton2PressedEventHandler(void); \
   extern EmberEventControl emberAfPluginButtonInterfaceButton2ReleasedEventControl; \
   extern void emberAfPluginButtonInterfaceButton2ReleasedEventHandler(void); \
+  extern EmberEventControl emberAfPluginButtonInterfaceButton3PressedEventControl; \
+  extern void emberAfPluginButtonInterfaceButton3PressedEventHandler(void); \
+  extern EmberEventControl emberAfPluginButtonInterfaceButton3ReleasedEventControl; \
+  extern void emberAfPluginButtonInterfaceButton3ReleasedEventHandler(void); \
   extern EmberEventControl emberAfPluginButtonInterfaceButtonTimeoutEventControl; \
   extern void emberAfPluginButtonInterfaceButtonTimeoutEventHandler(void); \
   extern EmberEventControl emberAfPluginConnectionManagerRebootEventControl; \
@@ -204,6 +208,8 @@ PGM EmberAfGenericClusterFunction emberAfFuncArrayIasZoneClusterServer[] = { (Em
   extern void emberAfPluginSecuritySensorInitialReportEventHandler(void); \
   extern EmberEventControl emberAfPluginSecuritySensorButtonPressCountEventControl; \
   extern void emberAfPluginSecuritySensorButtonPressCountEventHandler(void); \
+  extern EmberEventControl emberAfPluginSecuritySensorSupervisionReportEventControl; \
+  extern void emberAfPluginSecuritySensorSupervisionReportEventHandler(void); \
   static void networkEventWrapper(EmberEventControl *control, EmberAfNetworkEventHandler handler, uint8_t networkIndex) \
   { \
     emberAfPushNetworkIndex(networkIndex); \
@@ -217,8 +223,6 @@ PGM EmberAfGenericClusterFunction emberAfFuncArrayIasZoneClusterServer[] = { (Em
   EmberEventControl emberAfPluginEndDeviceSupportMoveNetworkEventControls[1]; \
   extern void emberAfPluginEndDeviceSupportMoveNetworkEventHandler(void); \
   void emberAfPluginEndDeviceSupportMoveNetworkEventWrapper0(void) { networkEventWrapper(&emberAfPluginEndDeviceSupportMoveNetworkEventControls[0], emberAfPluginEndDeviceSupportMoveNetworkEventHandler, 0); } \
-  extern EmberEventControl emberAfPluginSecuritySensorStateSupervisionReportsControl; \
-  extern void emberAfPluginSecuritySensorStateSupervisionReportsHandler(void); \
   static void clusterTickWrapper(EmberEventControl *control, EmberAfTickFunction callback, uint8_t endpoint) \
   { \
     emberAfPushEndpointNetworkIndex(endpoint); \
@@ -245,6 +249,8 @@ PGM EmberAfGenericClusterFunction emberAfFuncArrayIasZoneClusterServer[] = { (Em
   { &emberAfPluginButtonInterfaceButton1ReleasedEventControl, emberAfPluginButtonInterfaceButton1ReleasedEventHandler }, \
   { &emberAfPluginButtonInterfaceButton2PressedEventControl, emberAfPluginButtonInterfaceButton2PressedEventHandler }, \
   { &emberAfPluginButtonInterfaceButton2ReleasedEventControl, emberAfPluginButtonInterfaceButton2ReleasedEventHandler }, \
+  { &emberAfPluginButtonInterfaceButton3PressedEventControl, emberAfPluginButtonInterfaceButton3PressedEventHandler }, \
+  { &emberAfPluginButtonInterfaceButton3ReleasedEventControl, emberAfPluginButtonInterfaceButton3ReleasedEventHandler }, \
   { &emberAfPluginButtonInterfaceButtonTimeoutEventControl, emberAfPluginButtonInterfaceButtonTimeoutEventHandler }, \
   { &emberAfPluginConnectionManagerRebootEventControl, emberAfPluginConnectionManagerRebootEventHandler }, \
   { &emberAfPluginConnectionManagerRejoinEventControl, emberAfPluginConnectionManagerRejoinEventHandler }, \
@@ -261,10 +267,10 @@ PGM EmberAfGenericClusterFunction emberAfFuncArrayIasZoneClusterServer[] = { (Em
   { &emberAfPluginSecuritySensorInitEventControl, emberAfPluginSecuritySensorInitEventHandler }, \
   { &emberAfPluginSecuritySensorInitialReportEventControl, emberAfPluginSecuritySensorInitialReportEventHandler }, \
   { &emberAfPluginSecuritySensorButtonPressCountEventControl, emberAfPluginSecuritySensorButtonPressCountEventHandler }, \
+  { &emberAfPluginSecuritySensorSupervisionReportEventControl, emberAfPluginSecuritySensorSupervisionReportEventHandler }, \
   { &emberAfPluginEndDeviceSupportPollingNetworkEventControls[0], emberAfPluginEndDeviceSupportPollingNetworkEventWrapper0 }, \
   { &emberAfPluginEndDeviceSupportMoveNetworkEventControls[0], emberAfPluginEndDeviceSupportMoveNetworkEventWrapper0 }, \
   { &emberAfPluginPollControlServerCheckInEndpointEventControls[0], emberAfPluginPollControlServerCheckInEndpointEventWrapper1 }, \
-  { &emberAfPluginSecuritySensorStateSupervisionReportsControl, emberAfPluginSecuritySensorStateSupervisionReportsHandler }, \
 
 
 #define EMBER_AF_GENERATED_EVENT_STRINGS   \
@@ -277,6 +283,8 @@ PGM EmberAfGenericClusterFunction emberAfFuncArrayIasZoneClusterServer[] = { (Em
   "Button Interface Plugin Button1Released",  \
   "Button Interface Plugin Button2Pressed",  \
   "Button Interface Plugin Button2Released",  \
+  "Button Interface Plugin Button3Pressed",  \
+  "Button Interface Plugin Button3Released",  \
   "Button Interface Plugin ButtonTimeout",  \
   "Connection Manager Plugin Reboot",  \
   "Connection Manager Plugin Rejoin",  \
@@ -293,10 +301,10 @@ PGM EmberAfGenericClusterFunction emberAfFuncArrayIasZoneClusterServer[] = { (Em
   "Security Sensor Interface Plugin Init",  \
   "Security Sensor Interface Plugin InitialReport",  \
   "Security Sensor Interface Plugin ButtonPressCount",  \
+  "Security Sensor Interface Plugin SupervisionReport",  \
   "End Device Support Plugin Polling NWK 0", \
   "End Device Support Plugin Move NWK 0", \
   "Poll Control Server Cluster Plugin CheckIn EP 1", \
-  "emberAfPluginSecuritySensorStateSupervisionReportsControl Custom",  \
 
 
 // The length of the event context table used to track and retrieve cluster events
@@ -310,6 +318,7 @@ PGM EmberAfGenericClusterFunction emberAfFuncArrayIasZoneClusterServer[] = { (Em
 
 #define EMBER_AF_GENERATED_PLUGIN_INIT_FUNCTION_DECLARATIONS \
   void emberAfPluginConnectionManagerInitCallback(void); \
+  void emberAfPluginCountersInitCallback(void); \
   void emberAfPluginEndDeviceSupportInitCallback(void); \
   void emberAfPluginGpioSensorInitCallback(void); \
   void emberAfPluginLowVoltageShutdownInitCallback(void); \
@@ -317,11 +326,11 @@ PGM EmberAfGenericClusterFunction emberAfFuncArrayIasZoneClusterServer[] = { (Em
   void emberAfPluginReportingInitCallback(void); \
   void emberAfPluginSecuritySensorInitCallback(void); \
   void emberAfPluginTamperSwitchInitCallback(void); \
-  void emberAfPluginCountersInitCallback(void); \
 
 
 #define EMBER_AF_GENERATED_PLUGIN_INIT_FUNCTION_CALLS \
   emberAfPluginConnectionManagerInitCallback(); \
+  emberAfPluginCountersInitCallback(); \
   emberAfPluginEndDeviceSupportInitCallback(); \
   emberAfPluginGpioSensorInitCallback(); \
   emberAfPluginLowVoltageShutdownInitCallback(); \
@@ -329,7 +338,6 @@ PGM EmberAfGenericClusterFunction emberAfFuncArrayIasZoneClusterServer[] = { (Em
   emberAfPluginReportingInitCallback(); \
   emberAfPluginSecuritySensorInitCallback(); \
   emberAfPluginTamperSwitchInitCallback(); \
-  emberAfPluginCountersInitCallback(); \
 
 
 #define EMBER_AF_GENERATED_PLUGIN_NCP_INIT_FUNCTION_DECLARATIONS \

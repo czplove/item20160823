@@ -360,9 +360,6 @@ Platform:em357
 #  Enable callbacks.
 Callbacks:emberAfMainInitCallback,emberAfAlarmClusterServerInitCallback,emberAfAlarmClusterServerTickCallback,emberAfAlarmClusterServerAttributeChangedCallback,emberAfPluginLowVoltageShutdownGetVoltageCallback,emberAfPluginBasicResetToFactoryDefaultsCallback,emberAfStackStatusCallback,emberAfPluginButtonInterfaceButton0PressingCallback,emberAfPowerConfigClusterServerAttributeChangedCallback,
 
-#  Any customer-specific general purpose custom events.
-CustomEvents:emberAfPluginSecuritySensorStateSupervisionReportsControl,emberAfPluginSecuritySensorStateSupervisionReportsHandler
-
 #  If bindings are enabled then this is the maximum number of supported
 #  bindings.
 NumberOfBindings:2
@@ -874,6 +871,8 @@ appPlugin:power-configuration-server,false
 
 appPlugin:security-sensor,true
 
+appPlugin:temperature-measurement-server,false
+
 appPlugin:alarm-library,true
 
 appPlugin:binding-table-library,true
@@ -957,6 +956,8 @@ appPlugin:sim-eeprom2-1to2-upgrade,false
 appPlugin:sim-eeprom2-1to2-upgrade-stub,false
 
 appPlugin:tamper-switch,true
+
+appPlugin:temperature-sht30,false
 
 appPlugin:temperature-si7053,false
 

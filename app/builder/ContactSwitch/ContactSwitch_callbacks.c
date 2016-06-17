@@ -22,26 +22,6 @@ const uint16_t clusterlist[REPORTING_CLUSTER_LISTS] = {
 static HalLowBatteryState lastBatteryStatus = HAL_LOW_BATTERY_NOT_ACTIVE;
 static HalLowBatteryState newBatteryStatus = HAL_LOW_BATTERY_NOT_ACTIVE;
 
-// Custom event stubs. Custom events will be run along with all other events in
-// the application framework. They should be managed using the Ember Event API
-// documented in stack/include/events.h
-
-// Event control struct declaration
-extern EmberEventControl emberAfPluginSecuritySensorStateSupervisionReportsControl;
-
-// Event function forward declaration
-void emberAfPluginSecuritySensorStateSupervisionReportsHandler(void);
-
-// Event function stub
-void emberAfPluginSecuritySensorStateSupervisionReportsHandler(void) {
-  emberAfPluginSecuritySensorStateSupervisionReports();
-#ifdef RF_TEST
-  emberEventControlSetDelayMS(emberAfPluginSecuritySensorStateSupervisionReportsControl,
-                              1000);
-#else
-  emberEventControlSetDelayMinutes(emberAfPluginSecuritySensorStateSupervisionReportsControl,60);
-#endif
-}
 
 /** @brief Main Init
  *
