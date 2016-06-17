@@ -15,7 +15,8 @@
 #include "hal/micro/generic-interrupt-control.h"
 #include "hal/micro/micro.h"
 #include "hal/micro/gpio-sensor.h"
-
+#include "hal/micro/led-blink.h"
+#include "app/framework/include/af.h"
 //------------------------------------------------------------------------------
 // Plugin private macros
 
@@ -97,8 +98,11 @@ void emberAfPluginGpioSensorDebounceEventHandler(void)
 {
   emberEventControlSetInactive(emberAfPluginGpioSensorDebounceEventControl);
   lastSensorStatus = newSensorStatus;
-
-  emberAfPluginGpioSensorStateChangedCallback(newSensorStatus);
+  if (emberAfNetworkState() == EMBER_JOINED_NETWORK)
+  {
+    turnLedOff(BOARDLED1);
+    emberAfPluginGpioSensorStateChangedCallback(newSensorStatus);
+  }
 }
 
 //------------------------------------------------------------------------------
@@ -134,6 +138,8 @@ static void sensorStateChangeDebounce(HalGpioSensorState status)
   }
   if (status == HAL_GPIO_SENSOR_ACTIVE) {
     newSensorStatus = status;
+    if (emberAfNetworkState() == EMBER_JOINED_NETWORK)
+      turnLedOn(BOARDLED1);
     emberEventControlSetDelayMS(emberAfPluginGpioSensorDebounceEventControl,
                                 SENSOR_ASSERT_DEBOUNCE);
     return;

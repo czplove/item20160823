@@ -21,6 +21,17 @@ void emberAfPluginButtonInterfaceButton1PressedShortCallback(uint16_t timePresse
 
 }
 
+/** @brief Button2 Pressed Short
+ *
+ * This function returns the number of times a button was short pressed.
+ *
+ * @param timePressedMs Time (in ms) button 2 was pressed  Ver.: always
+ */
+void emberAfPluginButtonInterfaceButton2PressedShortCallback(uint16_t timePressedMs)
+{
+
+}
+
 /** @brief Button0 Pressed Long
  *
  * This function returns the number of times a button was short pressed.
@@ -47,6 +58,19 @@ void emberAfPluginButtonInterfaceButton1PressedLongCallback(uint16_t timePressed
 
 }
 
+/** @brief Button2 Pressed Long
+ *
+ * This function returns the number of times a button was short pressed.
+ *
+ * @param timePressedMs Amount of time button 2 was pressed.  Ver.: always
+ * @param pressedAtReset Was the button pressed at startup.  Ver.: always
+ */
+void emberAfPluginButtonInterfaceButton2PressedLongCallback(uint16_t timePressedMs,
+                                                            bool pressedAtReset)
+{
+
+}
+
 /** @brief Button0 Pressing
  *
  * This function is periodically called when button 0 is being pressed.
@@ -63,6 +87,16 @@ void emberAfPluginButtonInterfaceButton0PressingCallback(void)
  *
  */
 void emberAfPluginButtonInterfaceButton1PressingCallback(void)
+{
+
+}
+
+/** @brief Button2 Pressing
+ *
+ * This function is periodically called when button 2 is being pressed.
+ *
+ */
+void emberAfPluginButtonInterfaceButton2PressingCallback(void)
 {
 
 }
@@ -103,6 +137,26 @@ void emberAfPluginButtonInterfaceButton1LowCallback(void)
  *
  */
 void emberAfPluginButtonInterfaceButton1HighCallback(void)
+{
+
+}
+
+/** @brief Button2 Low
+ *
+ * This function is called when the GPIO tied to button one goes low
+ *
+ */
+void emberAfPluginButtonInterfaceButton2LowCallback(void)
+{
+
+}
+
+/** @brief Button2 High
+ *
+ * This function is called when the GPIO tied to button one goes high
+ *
+ */
+void emberAfPluginButtonInterfaceButton2HighCallback(void)
 {
 
 }

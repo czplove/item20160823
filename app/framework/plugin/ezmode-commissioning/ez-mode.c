@@ -78,7 +78,7 @@ static void identifyRequestMessageSentCallback(EmberOutgoingMessageType type,
 
 void emberAfPluginEzmodeCommissioningStateEventHandler(void) {
   EmberStatus status;
-  EmberEUI64 add;
+//  EmberEUI64 add;
 
   if (emberAfPushNetworkIndex(networkIndex) != EMBER_SUCCESS) {
     complete();
@@ -95,7 +95,7 @@ void emberAfPluginEzmodeCommissioningStateEventHandler(void) {
       break;
     case EZMODE_IDENTIFY:
       emberAfCorePrintln("<ezmode identify>");
-      emAfPermitJoin(180, true); //Send out a broadcast pjoin
+      //emAfPermitJoin(180, true); //Send out a broadcast pjoin
       emberAfFillCommandIdentifyClusterIdentifyQuery();
       emberAfSetCommandEndpoints(ezmodeClientEndpoint,
                                  EMBER_BROADCAST_ENDPOINT);
@@ -119,17 +119,17 @@ void emberAfPluginEzmodeCommissioningStateEventHandler(void) {
       }
       break;
     case EZMODE_BIND:
-      emberAfCorePrintln("<ezmode bind>");
-      status = emberLookupEui64ByNodeId(currentIdentifyingAddress, add);
-      if (status == EMBER_SUCCESS) {
-        createBinding(add);
-      } else {
-        status = emberAfFindIeeeAddress(currentIdentifyingAddress,
-                                        serviceDiscoveryCallback);
-        if (status != EMBER_SUCCESS) {
-          complete();
-        }
-      }
+//      emberAfCorePrintln("<ezmode bind>");
+//      status = emberLookupEui64ByNodeId(currentIdentifyingAddress, add);
+//      if (status == EMBER_SUCCESS) {
+//        createBinding(add);
+//      } else {
+//        status = emberAfFindIeeeAddress(currentIdentifyingAddress,
+//                                        serviceDiscoveryCallback);
+//        if (status != EMBER_SUCCESS) {
+//          complete();
+//        }
+//      }
       break;
     case EZMODE_BOUND:
       emberAfCorePrintln("<ezmode bound>");
@@ -236,12 +236,12 @@ static void createBinding(uint8_t *address) {
       }
     }
   }
-
-  complete();
 }
 
 static void serviceDiscoveryCallback(const EmberAfServiceDiscoveryResult *result)
-{ 
+{
+  EmberStatus status;
+  EmberEUI64 add;
   uint8_t i = 0;
   uint8_t j = 0;
   if (emberAfHaveDiscoveryResponseStatus(result->status)) {
@@ -265,13 +265,25 @@ static void serviceDiscoveryCallback(const EmberAfServiceDiscoveryResult *result
           if (cluster == clusterIdsForEzModeMatch[j]) {
             ezmodeClientCluster = cluster;
             ezModeState = EZMODE_BIND;
-            emberEventControlSetActive(stateEvent);
-            return;
+            status = emberLookupEui64ByNodeId(currentIdentifyingAddress, add);
+            if (status == EMBER_SUCCESS) {
+              emberAfCorePrintln("<ezmode bind>  cluster:0x%2x",ezmodeClientCluster);
+              createBinding(add);
+            } else {
+              status = emberAfFindIeeeAddress(currentIdentifyingAddress,
+                                              serviceDiscoveryCallback);
+              if (status != EMBER_SUCCESS) {
+                complete();
+              }
+            }
+            break;
           }
         }
       }
+      return;
     } else if (result->zdoRequestClusterId == IEEE_ADDRESS_REQUEST) {
       createBinding((uint8_t *)result->responseData);
+      complete();
       return;
     }
   }
