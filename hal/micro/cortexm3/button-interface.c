@@ -46,6 +46,8 @@ EmberEventControl emberAfPluginButtonInterfaceButton1PressedEventControl;
 EmberEventControl emberAfPluginButtonInterfaceButton1ReleasedEventControl;
 EmberEventControl emberAfPluginButtonInterfaceButton2PressedEventControl;
 EmberEventControl emberAfPluginButtonInterfaceButton2ReleasedEventControl;
+EmberEventControl emberAfPluginButtonInterfaceButton3PressedEventControl;
+EmberEventControl emberAfPluginButtonInterfaceButton3ReleasedEventControl;
 EmberEventControl emberAfPluginButtonInterfaceButtonTimeoutEventControl;
 
 //------------------------------------------------------------------------------
@@ -59,9 +61,11 @@ static void clearButtonCounters(void);
 static uint16_t button0Timer = 0;
 static uint16_t button1Timer = 0;
 static uint16_t button2Timer = 0;
+static uint16_t button3Timer = 0;
 static uint16_t button0Counter = 0;
 static uint16_t button1Counter = 0;
 static uint16_t button2Counter = 0;
+static uint16_t button3Counter = 0;
 #ifdef BUTTON0
 static uint8_t button0Polarity = EMBER_AF_BUTTON_INTERFACE_POLARITY_ACTIVE_LO;
 #endif
@@ -71,12 +75,17 @@ static uint8_t button1Polarity = EMBER_AF_BUTTON_INTERFACE_POLARITY_ACTIVE_LO;
 #ifdef BUTTON2
 static uint8_t button2Polarity = EMBER_AF_BUTTON_INTERFACE_POLARITY_ACTIVE_LO;
 #endif
+#ifdef BUTTON3
+static uint8_t button2Polarity = EMBER_AF_BUTTON_INTERFACE_POLARITY_ACTIVE_LO;
+#endif
 static uint8_t button0LastState = BUTTON_STATE_UNINIT;
 static uint8_t button1LastState = BUTTON_STATE_UNINIT;
 static uint8_t button2LastState = BUTTON_STATE_UNINIT;
+static uint8_t button3LastState = BUTTON_STATE_UNINIT;
 static uint8_t button0PressedState = BUTTON_PRESSED_AT_STARTUP;
 static uint8_t button1PressedState = BUTTON_PRESSED_AT_STARTUP;
 static uint8_t button2PressedState = BUTTON_PRESSED_AT_STARTUP;
+static uint8_t button3PressedState = BUTTON_PRESSED_AT_STARTUP;
 //------------------------------------------------------------------------------
 // Plugin consumed callback implementations
 
@@ -265,11 +274,71 @@ void emberAfPluginButtonInterfaceButton2ReleasedEventHandler(void)
   }
   button2PressedState = BUTTON_IDLE;
 }
+void emberAfPluginButtonInterfaceButton3PressedEventHandler(void)
+{
+  // if the button is being pressed, we must deactivate this event control.
+  emberEventControlSetInactive(
+    emberAfPluginButtonInterfaceButtonTimeoutEventControl);
+
+  if (button3LastState != BUTTON_STATE_LOW) {
+    button3LastState = BUTTON_STATE_LOW;
+    emberAfPluginButtonInterfaceButton3LowCallback();
+  }
+  switch(button3PressedState) {
+  case BUTTON_PRESSED_AT_STARTUP:
+  case BUTTON_IDLE:
+    button3PressedState = BUTTON_PRESSED_SHORT;
+    emberEventControlSetDelayMS(
+      emberAfPluginButtonInterfaceButton3PressedEventControl,
+      BUTTON_TIMEOUT_MS);
+    button3Timer = halCommonGetInt16uMillisecondTick();
+    break;
+  case BUTTON_PRESSED_SHORT:
+    button3PressedState = BUTTON_PRESSED_LONG;
+  case BUTTON_PRESSED_LONG:
+    emberEventControlSetDelayMS(
+      emberAfPluginButtonInterfaceButton3PressedEventControl,
+      BUTTON_SHORT_TIMEOUT);
+    emberAfPluginButtonInterfaceButton3PressingCallback();
+    break;
+  }
+
+  return;
+}
+
+void emberAfPluginButtonInterfaceButton3ReleasedEventHandler(void)
+{
+  uint16_t timePressed = halCommonGetInt16uMillisecondTick() - button3Timer;
+  emberEventControlSetInactive(
+    emberAfPluginButtonInterfaceButton3ReleasedEventControl);
+  emberEventControlSetInactive(
+    emberAfPluginButtonInterfaceButton3PressedEventControl);
+
+  if (button3LastState != BUTTON_STATE_HIGH) {
+    button3LastState = BUTTON_STATE_HIGH;
+    emberAfPluginButtonInterfaceButton3HighCallback();
+  }
+
+  button3Counter = timePressed;
+
+  if (timePressed >= BUTTON_TIMEOUT_MS) {
+    emberAfPluginButtonInterfaceButton3PressedLongCallback(
+       timePressed,
+       button3PressedState ==  BUTTON_PRESSED_AT_STARTUP);
+    clearButtonCounters();
+  } else {
+    emberAfPluginButtonInterfaceButton3PressedShortCallback(button3Counter);
+    emberEventControlSetActive(
+      emberAfPluginButtonInterfaceButtonTimeoutEventControl);
+  }
+  button3PressedState = BUTTON_IDLE;
+}
+
 
 //------------------------------------------------------------------------------
 // Plugin public API function implementations
 void halPluginButtonInterfaceSetButtonPolarity(
-  uint8_t button, 
+  uint8_t button,
   HalButtonInterfacePolarity polarity)
 {
 #ifdef BUTTON0
@@ -287,12 +356,16 @@ void halPluginButtonInterfaceSetButtonPolarity(
     button2Polarity = polarity;
   }
 #endif
+#ifdef BUTTON3
+  if (button == BUTTON3) {
+    button3Polarity = polarity;
+  }
+#endif
 }
 
 uint8_t halPluginButtonInterfaceButtonPoll(uint8_t button)
 {
-  if (button == BUTTON0)
-  {
+  if (button == BUTTON0) {
 #ifndef BUTTON0
     return 0xFF;
 #else
@@ -323,7 +396,8 @@ uint8_t halPluginButtonInterfaceButtonPoll(uint8_t button)
 #endif
   }
 #endif
-  else
+#ifdef BUTTON2
+  else if(button == BUTTON2)
   {
 #ifndef BUTTON2
     return 0xFF;
@@ -338,6 +412,25 @@ uint8_t halPluginButtonInterfaceButtonPoll(uint8_t button)
     }
 #endif
   }
+#endif
+#ifdef BUTTON3
+  else if(button == BUTTON3)
+  {
+#ifndef BUTTON3
+    return 0xFF;
+#else
+    if (button3Polarity == EMBER_AF_BUTTON_INTERFACE_POLARITY_ACTIVE_LO) {
+      return halButtonState(BUTTON3);
+    }
+    if (halButtonState(BUTTON3) == BUTTON_PRESSED) {
+      return BUTTON_RELEASED;
+    } else {
+      return BUTTON_PRESSED;
+    }
+#endif
+  }
+#endif
+  return 0xFF;
 }
 
 uint8_t halPluginButtonInterfaceButton0Poll(void)
@@ -386,12 +479,27 @@ uint8_t halPluginButtonInterfaceButton2Poll(void)
   return 0xFF;
 #endif
 }
+uint8_t halPluginButtonInterfaceButton3Poll(void)
+{
+#ifdef BUTTON3
+  if (button3Polarity == EMBER_AF_BUTTON_INTERFACE_POLARITY_ACTIVE_LO) {
+    return halButtonState(BUTTON3);
+  }
+  if (halButtonState(BUTTON3) == BUTTON_PRESSED) {
+    return BUTTON_RELEASED;
+  } else {
+    return BUTTON_PRESSED;
+  }
+#else
+  return 0xFF;
+#endif
+}
 
 //------------------------------------------------------------------------------
 // Plugin private function implementations
 static void clearButtonCounters(void)
 {
-  button0Counter = 0; button1Counter = 0; button2Counter  = 0;
+  button0Counter = 0; button1Counter = 0; button2Counter  = 0; button3Counter  = 0;
 }
 
 //------------------------------------------------------------------------------
@@ -468,4 +576,26 @@ void emberAfHalButtonIsrCallback(uint8_t button, uint8_t state)
     }
   }
 #endif //ifdef BUTTON2
+#ifdef BUTTON3
+  if (button == BUTTON3) {
+    if (state == BUTTON_PRESSED) {
+      if (button3Polarity == EMBER_AF_BUTTON_INTERFACE_POLARITY_ACTIVE_LO) {
+        emberEventControlSetActive(
+          emberAfPluginButtonInterfaceButton3PressedEventControl);
+      } else { //button3Polarity == ACTIVE_HI
+        emberEventControlSetActive(
+          emberAfPluginButtonInterfaceButton3ReleasedEventControl);
+      }
+    } else { //state == BUTTON_RELEASED
+      if (button3Polarity == EMBER_AF_BUTTON_INTERFACE_POLARITY_ACTIVE_LO) {
+        emberEventControlSetActive(
+          emberAfPluginButtonInterfaceButton3ReleasedEventControl);
+      } else { //button3Polairty == ACTIVE_HI
+        emberEventControlSetActive(
+          emberAfPluginButtonInterfaceButton3PressedEventControl);
+      }
+    }
+  }
+#endif //ifdef BUTTON3
+
 }

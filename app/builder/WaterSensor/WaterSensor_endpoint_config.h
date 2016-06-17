@@ -160,6 +160,10 @@ PGM EmberAfGenericClusterFunction emberAfFuncArrayIasZoneClusterServer[] = { (Em
   extern void emberAfPluginButtonInterfaceButton2PressedEventHandler(void); \
   extern EmberEventControl emberAfPluginButtonInterfaceButton2ReleasedEventControl; \
   extern void emberAfPluginButtonInterfaceButton2ReleasedEventHandler(void); \
+  extern EmberEventControl emberAfPluginButtonInterfaceButton3PressedEventControl; \
+  extern void emberAfPluginButtonInterfaceButton3PressedEventHandler(void); \
+  extern EmberEventControl emberAfPluginButtonInterfaceButton3ReleasedEventControl; \
+  extern void emberAfPluginButtonInterfaceButton3ReleasedEventHandler(void); \
   extern EmberEventControl emberAfPluginButtonInterfaceButtonTimeoutEventControl; \
   extern void emberAfPluginButtonInterfaceButtonTimeoutEventHandler(void); \
   extern EmberEventControl emberAfPluginConnectionManagerRebootEventControl; \
@@ -228,6 +232,8 @@ PGM EmberAfGenericClusterFunction emberAfFuncArrayIasZoneClusterServer[] = { (Em
   { &emberAfPluginButtonInterfaceButton1ReleasedEventControl, emberAfPluginButtonInterfaceButton1ReleasedEventHandler }, \
   { &emberAfPluginButtonInterfaceButton2PressedEventControl, emberAfPluginButtonInterfaceButton2PressedEventHandler }, \
   { &emberAfPluginButtonInterfaceButton2ReleasedEventControl, emberAfPluginButtonInterfaceButton2ReleasedEventHandler }, \
+  { &emberAfPluginButtonInterfaceButton3PressedEventControl, emberAfPluginButtonInterfaceButton3PressedEventHandler }, \
+  { &emberAfPluginButtonInterfaceButton3ReleasedEventControl, emberAfPluginButtonInterfaceButton3ReleasedEventHandler }, \
   { &emberAfPluginButtonInterfaceButtonTimeoutEventControl, emberAfPluginButtonInterfaceButtonTimeoutEventHandler }, \
   { &emberAfPluginConnectionManagerRebootEventControl, emberAfPluginConnectionManagerRebootEventHandler }, \
   { &emberAfPluginConnectionManagerRejoinEventControl, emberAfPluginConnectionManagerRejoinEventHandler }, \
@@ -258,6 +264,8 @@ PGM EmberAfGenericClusterFunction emberAfFuncArrayIasZoneClusterServer[] = { (Em
   "Button Interface Plugin Button1Released",  \
   "Button Interface Plugin Button2Pressed",  \
   "Button Interface Plugin Button2Released",  \
+  "Button Interface Plugin Button3Pressed",  \
+  "Button Interface Plugin Button3Released",  \
   "Button Interface Plugin ButtonTimeout",  \
   "Connection Manager Plugin Reboot",  \
   "Connection Manager Plugin Rejoin",  \
@@ -289,6 +297,7 @@ PGM EmberAfGenericClusterFunction emberAfFuncArrayIasZoneClusterServer[] = { (Em
 
 #define EMBER_AF_GENERATED_PLUGIN_INIT_FUNCTION_DECLARATIONS \
   void emberAfPluginConnectionManagerInitCallback(void); \
+  void emberAfPluginCountersInitCallback(void); \
   void emberAfPluginEndDeviceSupportInitCallback(void); \
   void emberAfPluginGpioSensorInitCallback(void); \
   void emberAfPluginLowVoltageShutdownInitCallback(void); \
@@ -296,11 +305,11 @@ PGM EmberAfGenericClusterFunction emberAfFuncArrayIasZoneClusterServer[] = { (Em
   void emberAfPluginReportingInitCallback(void); \
   void emberAfPluginSecuritySensorInitCallback(void); \
   void emberAfPluginTamperSwitchInitCallback(void); \
-  void emberAfPluginCountersInitCallback(void); \
 
 
 #define EMBER_AF_GENERATED_PLUGIN_INIT_FUNCTION_CALLS \
   emberAfPluginConnectionManagerInitCallback(); \
+  emberAfPluginCountersInitCallback(); \
   emberAfPluginEndDeviceSupportInitCallback(); \
   emberAfPluginGpioSensorInitCallback(); \
   emberAfPluginLowVoltageShutdownInitCallback(); \
@@ -308,7 +317,6 @@ PGM EmberAfGenericClusterFunction emberAfFuncArrayIasZoneClusterServer[] = { (Em
   emberAfPluginReportingInitCallback(); \
   emberAfPluginSecuritySensorInitCallback(); \
   emberAfPluginTamperSwitchInitCallback(); \
-  emberAfPluginCountersInitCallback(); \
 
 
 #define EMBER_AF_GENERATED_PLUGIN_NCP_INIT_FUNCTION_DECLARATIONS \

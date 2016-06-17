@@ -20,11 +20,11 @@
 #include "hal/micro/button-interface.h"
 #include "hal/micro/tamper-switch.h"
 
-//This plugin has a hard requirement that button0 be used in button interface.
-//As a result, we should absolutely generate an error if the BUTTON0 macro,
+//This plugin has a hard requirement that button3 be used in button interface.
+//As a result, we should absolutely generate an error if the BUTTON3 macro,
 //which is critical for this plugin to work, is not defined.
 #ifndef BUTTON0
-#error "BUTTON0 must be defined for the tamper switch plugin to function!"
+#error "BUTTON3 must be defined for the tamper switch plugin to function!"
 #endif
 
 //------------------------------------------------------------------------------
@@ -62,7 +62,7 @@ void emberAfPluginTamperSwitchInitCallback(void)
 // four seconds.  At this point, it is safe to assume the contact switch is now
 // inside its enclosure, so the button being released should be interpreted as
 // the case being opened, which should trip the tamper alarm.
-void emberAfPluginButtonInterfaceButton2PressingCallback(void)
+void emberAfPluginButtonInterfaceButton3PressingCallback(void)
 {
   if(tamperState == TAMPER_NOT_ACTIVE)
   {
@@ -71,11 +71,11 @@ void emberAfPluginButtonInterfaceButton2PressingCallback(void)
   }
 }
 
-// A long press on button 0 means the device was removed after being in its
+// A long press on button 3 means the device was removed after being in its
 // enclosure for more than 4 seconds.  This should be considered a tamper
 // attempt, and the IAS Zone Server should be informed.
-void emberAfPluginButtonInterfaceButton2PressedLongCallback(
-       uint16_t button0TimePressed,
+void emberAfPluginButtonInterfaceButton3PressedLongCallback(
+       uint16_t button3TimePressed,
        bool pressedAtReset)
 {
   if (tamperState == TAMPER_ACTIVE) {
@@ -89,14 +89,16 @@ void emberAfPluginButtonInterfaceButton2PressedLongCallback(
 
 void halTamperSwitchInitialize(void)
 {
+#ifdef BUTTON3
 #if TAMPER_SW_IS_ACTIVE_HI
   halPluginButtonInterfaceSetButtonPolarity(
-    BUTTON0,
+    BUTTON3,
     EMBER_AF_BUTTON_INTERFACE_POLARITY_ACTIVE_HI);
 #else
   halPluginButtonInterfaceSetButtonPolarity(
-    BUTTON0,
+    BUTTON3,
     EMBER_AF_BUTTON_INTERFACE_POLARITY_ACTIVE_LO);
+#endif
 #endif
 }
 
@@ -109,5 +111,7 @@ void halTamperSwitchDisarm(void)
 // Return the (polarity compensated) state of the button.
 uint8_t halTamperSwitchGetValue(void)
 {
-  return(halPluginButtonInterfaceButtonPoll(BUTTON0));
+#ifdef BUTTON3
+  return(halPluginButtonInterfaceButtonPoll(BUTTON3));
+#endif
 }
