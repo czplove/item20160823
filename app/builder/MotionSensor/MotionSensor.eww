@@ -9,11 +9,11 @@
       <name>MotionSensor</name>
       <member>
         <project>MotionSensor</project>
-        <configuration>Normal-Test</configuration>
+        <configuration>Normal</configuration>
       </member>
       <member>
         <project>MotionSensor</project>
-        <configuration>Normal</configuration>
+        <configuration>E93196</configuration>
       </member>
     </batchDefinition>
   </batchBuild>
