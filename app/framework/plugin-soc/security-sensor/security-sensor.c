@@ -177,11 +177,6 @@ void emberAfPluginSecuritySensorStackStatusCallback(EmberStatus status)
 #ifndef RF_TEST
     emberEventControlSetDelayMinutes(emberAfPluginSecuritySensorSupervisionReportEventControl,60);
 #endif
-    /*
-    emberEventControlSetDelayQS(
-      emberAfPluginSecuritySensorInitialReportEventControl,
-      INITIAL_REPORT_DELAY_QS);
-    */
   }
 }
 

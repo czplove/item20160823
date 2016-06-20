@@ -14,6 +14,10 @@
 #include "hal/hal.h"
 #include "hal/micro/button-interface.h"
 #include "hal/micro/system-timer.h"
+#if defined(MOTION_SENSOR_E93196)
+#include "app/framework/include/af.h"
+#include "E93196.h"
+#endif
 
 //------------------------------------------------------------------------------
 // Plugin private macro definitions

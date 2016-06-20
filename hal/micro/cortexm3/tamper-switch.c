@@ -66,8 +66,8 @@ void emberAfPluginButtonInterfaceButton3PressingCallback(void)
 {
   if(tamperState == TAMPER_NOT_ACTIVE)
   {
-    tamperState = TAMPER_ACTIVE;
     emberAfPluginTamperSwitchTamperActiveCallback();
+    tamperState = TAMPER_ACTIVE;
   }
 }
 
