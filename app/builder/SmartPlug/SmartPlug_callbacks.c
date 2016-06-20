@@ -168,12 +168,6 @@ void emberAfPluginButtonInterfaceButton0PressedLongCallback(uint16_t timePressed
  */
 void emberAfPluginButtonInterfaceButton0PressedShortCallback(uint16_t timePressedMs)
 {
- // If the button was not held for longer than the debounce time, ignore the
-  // press.
-//  if (timePressedMs < BUTTON_DEBOUNCE_TIME_MS) {
-//    consecutiveButtonPressCount = 0;
-//    return;
-//  }
   if(timePressedMs > BUTTON_DEBOUNCE_TIME_MS *20 ){
     consecutiveButtonPressCount = 0;
     return;
@@ -182,19 +176,6 @@ void emberAfPluginButtonInterfaceButton0PressedShortCallback(uint16_t timePresse
 
   emberEventControlSetDelayMS(emberAfButton0PressCountEventControl,
                               MAX_TIME_BETWEEN_PRESSES_MS);
-
-
-
-//  if(timePressedMs>2000&& timePressedMs<4000)
-//  {
-//    emberAfEzmodeServerCommission(emberAfPrimaryEndpoint());
-//  }
-//  else if(timePressedMs < 600)
-//  {
-//    emberAfEzmodeClientCommission(emberAfPrimaryEndpoint(),
-//                                  EMBER_AF_EZMODE_COMMISSIONING_SERVER_TO_CLIENT,
-//                                  clusterlist,REPORTING_CLUSTER_LISTS);
-//  }
 }
 
 /** @brief Button0 Pressing
@@ -385,7 +366,7 @@ void emberAfBasicClusterServerAttributeChangedCallback(int8u endpoint,
 
 /** @brief Simple Metering Cluster Get Profile
  *
- *
+ * 
  *
  * @param intervalChannel   Ver.: always
  * @param endTime   Ver.: always

@@ -1,12 +1,12 @@
 #ISD App Configuration:3.1
-# ISD version: 3.3.1959
+# ISD version: 3.3.1985
 #  Identified of a stack descriptor used for this configuration. This should not
 #  be changed manually, unless you really know what you are doing.
 ConfiguratorID:auto-EM35X
 
 #  Output directory which is used as a root for all generated files. The actual
 #  files relative to that directory are defined by individual file name.
-GenerationDirectory:PATH(ABSOLUTE):E:\ZigBee Stack\Ember\SmartPlug\.
+GenerationDirectory:PATH(ABSOLUTE):D:\SiliconLabs\EmberZNet5.7.0-GA
 
 #  Unique identifier for this device. This string should be in a form of a C
 #  identifier, as it will be used in both generated variable, macros, as well as
@@ -313,7 +313,7 @@ OverrideServer:b03,exclude,Primary
 
 OverrideServer:b04,exclude,Primary
 
-OverrideServer:b05,exclude,Primary
+OverrideServer:b05,include,Primary
 
 OverrideServer:1000,exclude,Primary
 
@@ -326,12 +326,15 @@ ZigbeeProNetwork:*Primary,ZA_ROUTER,HA
 #  A list of optional attributes that are included in this configuration. Format
 #  is a list of "clusterId,attributeId,<server|client>,manufacturerCode"
 #  entries, separated by semicolon.
-OptionalAttributes:0,1,server,0:0,2,server,0:0,3,server,0:0,4,server,0:0,5,server,0:0,6,server,0:0,17,server,0:0,18,server,0:0,16,server,0:1794,769,server,0:1794,770,server,0:2820,0,server,0:2820,1285,server,0:2820,1288,server,0:2820,1291,server,0:2820,1296,server,0
+OptionalAttributes:0,1,server,0:0,2,server,0:0,3,server,0:0,4,server,0:0,5,server,0:0,6,server,0:0,17,server,0:0,18,server,0:0,16,server,0:1794,769,server,0:1794,770,server,0:2820,0,server,0:2820,1285,server,0:2820,1288,server,0:2820,1291,server,0:2820,1296,server,0:2821,0,server,0:2821,260,server,0:2821,266,server,0:2821,268,server,0:2821,269,server,0:2821,270,server,0:2821,271,server,0:2821,272,server,0:2821,273,server,0:2821,285,server,0:2821,284,server,0:2821,283,server,0
 
 #  A list of attributes that are to be saved as tokens in persistent memory.
 #  Format is a list of "clusterId,attributeId,<server|client>,manufacturerCode"
 #  entries, separated by semicolon.
-FlashAttributes:0,0,server,0:0,1,server,0:0,2,server,0:0,3,server,0:0,4,server,0:0,5,server,0:0,6,server,0:0,7,server,0:1794,0,server,0:6,0,server,0
+FlashAttributes:0,0,server,0:0,1,server,0:0,2,server,0:0,3,server,0:0,4,server,0:0,5,server,0:0,6,server,0:0,7,server,0:1794,0,server,0:6,0,server,0:2821,285,server,0:2821,284,server,0:2821,283,server,0:2821,273,server,0:2821,272,server,0:2821,271,server,0:2821,270,server,0:2821,269,server,0:2821,268,server,0:2821,266,server,0:2821,260,server,0:2821,0,server,0
+
+#  Attributes which have their singletoness overridden from default value.
+SingletonAttributes:2821,285,server,0:2821,284,server,0:2821,283,server,0:2821,273,server,0:2821,272,server,0:2821,271,server,0:2821,270,server,0:2821,269,server,0:2821,268,server,0:2821,0,server,0:2821,260,server,0:2821,266,server,0
 
 #  User defined default values for attributes.
 AttributeDefaults:0,7,server,0,0x01:0,1,server,0,0x01:0,2,server,0,0x01:0,3,server,0,0x01:0,4,server,0,Wulian:0,5,server,0,T-CZ0X:0,6,server,0,20160317:1794,0,server,0,0x000000000000:1794,771,server,0,0xF3:1794,774,server,0,0x00:1794,770,server,0,0x002710:1794,769,server,0,0x000001:1794,6,server,0,0xFF
@@ -346,7 +349,7 @@ ConfiguredEndpoints:*1&260&81&0&Primary&Primary
 
 #  A single specification version for each profile defining the max version of
 #  the spec supported by this configuration.
-SpecVersions:ha-1.2-05-3520-29,
+SpecVersions:ha-1.2.1-05-3520-30,
 
 #  In case of a network coprocessor, this lists a host processor used.
 Host:unknown
@@ -538,7 +541,7 @@ em357=null,
 {setupId:callbackConfiguration
 }
 {setupId:debugConfiguration
-on
+off
 area name off
 appSerial=1
 compile,BASIC_CLUSTER

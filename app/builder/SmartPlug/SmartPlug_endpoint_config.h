@@ -55,6 +55,18 @@
     { 0x0302, ZCL_INT24U_ATTRIBUTE_TYPE, 3, (0x00), { (uint8_t*)&(generatedDefaults[86]) } }, /* 17 / Simple Metering / divisor*/\
     { 0x0303, ZCL_BITMAP8_ATTRIBUTE_TYPE, 1, (0x00), { (uint8_t*)0xF3 } }, /* 18 / Simple Metering / summation formatting*/\
     { 0x0306, ZCL_BITMAP8_ATTRIBUTE_TYPE, 1, (0x00), { (uint8_t*)0x00 } }, /* 19 / Simple Metering / metering device type*/\
+    { 0x0000, ZCL_INT16U_ATTRIBUTE_TYPE, 2, (ATTRIBUTE_MASK_TOKENIZE|ATTRIBUTE_MASK_SINGLETON), { (uint8_t*)0x0000 } }, /* 20 / Diagnostics / number of resets*/\
+    { 0x0104, ZCL_INT16U_ATTRIBUTE_TYPE, 2, (ATTRIBUTE_MASK_TOKENIZE|ATTRIBUTE_MASK_SINGLETON), { (uint8_t*)0x0000 } }, /* 21 / Diagnostics / mac tx unicast retry*/\
+    { 0x010A, ZCL_INT16U_ATTRIBUTE_TYPE, 2, (ATTRIBUTE_MASK_TOKENIZE|ATTRIBUTE_MASK_SINGLETON), { (uint8_t*)0x0000 } }, /* 22 / Diagnostics / aps tx unicast retries*/\
+    { 0x010C, ZCL_INT16U_ATTRIBUTE_TYPE, 2, (ATTRIBUTE_MASK_TOKENIZE|ATTRIBUTE_MASK_SINGLETON), { (uint8_t*)0x0000 } }, /* 23 / Diagnostics / route discovery initiated*/\
+    { 0x010D, ZCL_INT16U_ATTRIBUTE_TYPE, 2, (ATTRIBUTE_MASK_TOKENIZE|ATTRIBUTE_MASK_SINGLETON), { (uint8_t*)0x0000 } }, /* 24 / Diagnostics / neighbor added*/\
+    { 0x010E, ZCL_INT16U_ATTRIBUTE_TYPE, 2, (ATTRIBUTE_MASK_TOKENIZE|ATTRIBUTE_MASK_SINGLETON), { (uint8_t*)0x0000 } }, /* 25 / Diagnostics / neighbor moved*/\
+    { 0x010F, ZCL_INT16U_ATTRIBUTE_TYPE, 2, (ATTRIBUTE_MASK_TOKENIZE|ATTRIBUTE_MASK_SINGLETON), { (uint8_t*)0x0000 } }, /* 26 / Diagnostics / neighbor stale*/\
+    { 0x0110, ZCL_INT16U_ATTRIBUTE_TYPE, 2, (ATTRIBUTE_MASK_TOKENIZE|ATTRIBUTE_MASK_SINGLETON), { (uint8_t*)0x0000 } }, /* 27 / Diagnostics / join indication*/\
+    { 0x0111, ZCL_INT16U_ATTRIBUTE_TYPE, 2, (ATTRIBUTE_MASK_TOKENIZE|ATTRIBUTE_MASK_SINGLETON), { (uint8_t*)0x0000 } }, /* 28 / Diagnostics / child moved*/\
+    { 0x011B, ZCL_INT16U_ATTRIBUTE_TYPE, 2, (ATTRIBUTE_MASK_TOKENIZE|ATTRIBUTE_MASK_SINGLETON), { (uint8_t*)0x0000 } }, /* 29 / Diagnostics / average mac retry per aps message sent*/\
+    { 0x011C, ZCL_INT8U_ATTRIBUTE_TYPE, 1, (ATTRIBUTE_MASK_TOKENIZE|ATTRIBUTE_MASK_SINGLETON), { (uint8_t*)0x0000 } }, /* 30 / Diagnostics / last message lqi*/\
+    { 0x011D, ZCL_INT8S_ATTRIBUTE_TYPE, 1, (ATTRIBUTE_MASK_TOKENIZE|ATTRIBUTE_MASK_SINGLETON), { (uint8_t*)0x0000 } }, /* 31 / Diagnostics / last message rssi*/\
   }
 
 
@@ -73,12 +85,13 @@ PGM EmberAfGenericClusterFunction emberAfFuncArraySimpleMeteringClusterServer[] 
     { 0x0003, (EmberAfAttributeMetadata*)&(generatedAttributes[11]), 1, 2, (CLUSTER_MASK_SERVER| CLUSTER_MASK_INIT_FUNCTION| CLUSTER_MASK_ATTRIBUTE_CHANGED_FUNCTION), emberAfFuncArrayIdentifyClusterServer, },    \
     { 0x0006, (EmberAfAttributeMetadata*)&(generatedAttributes[12]), 1, 1, (CLUSTER_MASK_SERVER| CLUSTER_MASK_ATTRIBUTE_CHANGED_FUNCTION), emberAfFuncArrayOnOffClusterServer, },    \
     { 0x0702, (EmberAfAttributeMetadata*)&(generatedAttributes[13]), 7, 16, (CLUSTER_MASK_SERVER| CLUSTER_MASK_INIT_FUNCTION), emberAfFuncArraySimpleMeteringClusterServer, },    \
+    { 0x0B05, (EmberAfAttributeMetadata*)&(generatedAttributes[20]), 12, 0, (CLUSTER_MASK_SERVER), NULL,  },    \
   }
 
 
 // Endpoint types
 #define GENERATED_ENDPOINT_TYPES {        \
-    { (EmberAfCluster*)&(generatedClusters[0]), 5, 19 }, \
+    { (EmberAfCluster*)&(generatedClusters[0]), 6, 19 }, \
   }
 
 
@@ -113,7 +126,7 @@ PGM EmberAfGenericClusterFunction emberAfFuncArraySimpleMeteringClusterServer[] 
 // Largest attribute size is needed for various buffers
 #define ATTRIBUTE_LARGEST (33)
 // Total size of singleton attributes
-#define ATTRIBUTE_SINGLETONS_SIZE (107)
+#define ATTRIBUTE_SINGLETONS_SIZE (129)
 
 // Total size of attribute storage
 #define ATTRIBUTE_MAX_SIZE 19
@@ -153,6 +166,10 @@ PGM EmberAfGenericClusterFunction emberAfFuncArraySimpleMeteringClusterServer[] 
   extern void emberAfPluginButtonInterfaceButton2PressedEventHandler(void); \
   extern EmberEventControl emberAfPluginButtonInterfaceButton2ReleasedEventControl; \
   extern void emberAfPluginButtonInterfaceButton2ReleasedEventHandler(void); \
+  extern EmberEventControl emberAfPluginButtonInterfaceButton3PressedEventControl; \
+  extern void emberAfPluginButtonInterfaceButton3PressedEventHandler(void); \
+  extern EmberEventControl emberAfPluginButtonInterfaceButton3ReleasedEventControl; \
+  extern void emberAfPluginButtonInterfaceButton3ReleasedEventHandler(void); \
   extern EmberEventControl emberAfPluginButtonInterfaceButtonTimeoutEventControl; \
   extern void emberAfPluginButtonInterfaceButtonTimeoutEventHandler(void); \
   extern EmberEventControl emberAfPluginConnectionManagerRebootEventControl; \
@@ -208,6 +225,8 @@ PGM EmberAfGenericClusterFunction emberAfFuncArraySimpleMeteringClusterServer[] 
   { &emberAfPluginButtonInterfaceButton1ReleasedEventControl, emberAfPluginButtonInterfaceButton1ReleasedEventHandler }, \
   { &emberAfPluginButtonInterfaceButton2PressedEventControl, emberAfPluginButtonInterfaceButton2PressedEventHandler }, \
   { &emberAfPluginButtonInterfaceButton2ReleasedEventControl, emberAfPluginButtonInterfaceButton2ReleasedEventHandler }, \
+  { &emberAfPluginButtonInterfaceButton3PressedEventControl, emberAfPluginButtonInterfaceButton3PressedEventHandler }, \
+  { &emberAfPluginButtonInterfaceButton3ReleasedEventControl, emberAfPluginButtonInterfaceButton3ReleasedEventHandler }, \
   { &emberAfPluginButtonInterfaceButtonTimeoutEventControl, emberAfPluginButtonInterfaceButtonTimeoutEventHandler }, \
   { &emberAfPluginConnectionManagerRebootEventControl, emberAfPluginConnectionManagerRebootEventHandler }, \
   { &emberAfPluginConnectionManagerRejoinEventControl, emberAfPluginConnectionManagerRejoinEventHandler }, \
@@ -232,6 +251,8 @@ PGM EmberAfGenericClusterFunction emberAfFuncArraySimpleMeteringClusterServer[] 
   "Button Interface Plugin Button1Released",  \
   "Button Interface Plugin Button2Pressed",  \
   "Button Interface Plugin Button2Released",  \
+  "Button Interface Plugin Button3Pressed",  \
+  "Button Interface Plugin Button3Released",  \
   "Button Interface Plugin ButtonTimeout",  \
   "Connection Manager Plugin Reboot",  \
   "Connection Manager Plugin Rejoin",  \
