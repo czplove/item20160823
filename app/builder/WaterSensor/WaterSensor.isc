@@ -326,7 +326,7 @@ ZigbeeProNetwork:*Primary,ZA_SLEEPY_END_DEVICE,HA
 #  A list of optional attributes that are included in this configuration. Format
 #  is a list of "clusterId,attributeId,<server|client>,manufacturerCode"
 #  entries, separated by semicolon.
-OptionalAttributes:0,1,server,0:0,2,server,0:0,3,server,0:0,4,server,0:0,5,server,0:0,6,server,0:0,16,server,0:0,17,server,0:0,18,server,0:1,32,server,0:1,53,server,0:1,54,server,0:2821,284,server,0:2821,285,server,0:2821,0,server,0:2821,260,server,0:2821,266,server,0:2821,272,server,0:2821,273,server,0:2821,269,server,0:2821,270,server,0:2821,271,server,0:2821,283,server,0:2821,268,server,0
+OptionalAttributes:0,1,server,0:0,2,server,0:0,3,server,0:0,4,server,0:0,5,server,0:0,6,server,0:0,16,server,0:0,17,server,0:0,18,server,0:1,32,server,0:1,53,server,0:1,54,server,0:2821,284,server,0:2821,285,server,0:2821,0,server,0:2821,260,server,0:2821,266,server,0:2821,272,server,0:2821,273,server,0:2821,269,server,0:2821,270,server,0:2821,271,server,0:2821,283,server,0:2821,268,server,0:1,33,server,0
 
 #  A list of attributes that are to be saved as tokens in persistent memory.
 #  Format is a list of "clusterId,attributeId,<server|client>,manufacturerCode"

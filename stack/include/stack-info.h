@@ -14,12 +14,12 @@
  */
 
 
-/** @brief A callback invoked when the status of the stack changes. 
+/** @brief A callback invoked when the status of the stack changes.
  * If the
- * status parameter equals ::EMBER_NETWORK_UP, then the 
- * ::emberGetNetworkParameters() 
- * function can be called to obtain the new network parameters. If any of the 
- * parameters are being stored in nonvolatile memory by the application, the 
+ * status parameter equals ::EMBER_NETWORK_UP, then the
+ * ::emberGetNetworkParameters()
+ * function can be called to obtain the new network parameters. If any of the
+ * parameters are being stored in nonvolatile memory by the application, the
  * stored values should be updated.
  *
  * The application is free to begin messaging once it receives the
@@ -30,7 +30,7 @@
  * two or three link status exchange periods (of 16 seconds each) before the
  * neighbor table has a good estimate of link quality to neighboring nodes.
  * Therefore, the application may improve the quality of initially discovered
- * routes by waiting after startup to give the neighbor table time 
+ * routes by waiting after startup to give the neighbor table time
  * to be populated.
  *
  * @param status  Stack status. One of the following:
@@ -101,7 +101,7 @@ EmberNodeId emberRadioGetNodeId(void);
 
 /** @brief Sets the manufacturer code to the specified value. The
  * manufacturer code is one of the fields of the node descriptor.
- * 
+ *
  * @param code  The manufacturer code for the local node.
  */
 void emberSetManufacturerCode(uint16_t code);
@@ -109,7 +109,7 @@ void emberSetManufacturerCode(uint16_t code);
 /** @brief Sets the power descriptor to the specified value. The power
  * descriptor is a dynamic value, therefore you should call this function
  * whenever the value changes.
- * 
+ *
  * @param descriptor  The new power descriptor for the local node.
  */
 void emberSetPowerDescriptor(uint16_t descriptor);
@@ -117,7 +117,7 @@ void emberSetPowerDescriptor(uint16_t descriptor);
 /** @brief Sets the maximum incoming transfer size to the specified value.
  * The maximum incoming transfer size is one of the fields of the node
  * descriptor.
- * 
+ *
  * @param size  The maximum incoming transfer size for the local node.
  */
 void emberSetMaximumIncomingTransferSize(uint16_t size);
@@ -125,7 +125,7 @@ void emberSetMaximumIncomingTransferSize(uint16_t size);
 /** @brief Sets the maximum outgoing transfer size to the specified value.
  * The maximum outgoing transfer size is one of the fields of the node
  * descriptor.
- * 
+ *
  * @param size  The maximum outgoing transfer size for the local node.
  */
 void emberSetMaximumOutgoingTransferSize(uint16_t size);
@@ -172,7 +172,7 @@ extern uint8_t emDescriptorCapability;
  *  into which the current network parameters will be copied.
  *
  * @return An ::EmberStatus value indicating the success or
- *  failure of the command. 
+ *  failure of the command.
  */
 EmberStatus emberGetNetworkParameters(EmberNetworkParameters *parameters);
 
@@ -183,7 +183,7 @@ EmberStatus emberGetNetworkParameters(EmberNetworkParameters *parameters);
  *  into which the current node type will be copied.
  *
  * @return An ::EmberStatus value that indicates the success or failure
- *  of the command. 
+ *  of the command.
  */
 EmberStatus emberGetNodeType(EmberNodeType *resultLocation);
 
@@ -198,7 +198,7 @@ EmberStatus emberGetNodeType(EmberNodeType *resultLocation);
  * @param channel  Desired radio channel.
  *
  * @return An ::EmberStatus value indicating the success or
- *  failure of the command. 
+ *  failure of the command.
  */
 EmberStatus emberSetRadioChannel(uint8_t channel);
 
@@ -226,7 +226,7 @@ uint8_t emberGetRadioChannel(void);
  *
  * @return An ::EmberStatus value indicating the success or
  *  failure of the command.  Failure indicates that the requested power level
- *  is out of range. 
+ *  is out of range.
  */
 EmberStatus emberSetRadioPower(int8_t power);
 
@@ -298,7 +298,7 @@ typedef struct {
 extern uint8_t emberEndpointCount;
 
 /** @brief If emberEndpointCount is nonzero, the application must
- * provide descriptions for each endpoint.  
+ * provide descriptions for each endpoint.
  *
  * This can be done either
  * by providing a definition of emberEndpoints or by providing definitions
@@ -315,30 +315,30 @@ extern EmberEndpoint emberEndpoints[];
 /** @brief Retrieves the endpoint number for
  * the index'th endpoint.  <code> index </code> must be less than
  * the value of emberEndpointCount.
- * 
+ *
  * This function is provided by the stack, using the data from
  * emberEndpoints, unless the application defines
  * EMBER_APPLICATION_HAS_GET_ENDPOINT in its CONFIGURATION_HEADER.
- * 
+ *
  * @param index  The index of an endpoint (as distinct from its endpoint
  * number).  This must be less than the value of emberEndpointCount.
- * 
+ *
  * @return The endpoint number for the index'th endpoint.
  */
 uint8_t emberGetEndpoint(uint8_t index);
 
 /** @brief Retrieves the endpoint description for the
  * given endpoint.
- * 
+ *
  * This function is provided by the stack, using the data from
  * emberEndpoints, unless the application defines
  * ::EMBER_APPLICATION_HAS_GET_ENDPOINT in its ::CONFIGURATION_HEADER.
- * 
+ *
  * @param endpoint  The endpoint whose description is to be returned.
- * 
+ *
  * @param result    A pointer to the location to which to copy the endpoint
  *    description.
- * 
+ *
  * @return true if the description was copied to result or false if the
  * endpoint is not active.
  */
@@ -347,19 +347,19 @@ bool emberGetEndpointDescription(uint8_t endpoint,
 
 /** @brief Retrieves a cluster ID from one of the cluster lists associated
  * with the given endpoint.
- * 
+ *
  * This function is provided by the stack, using the data from
  * emberEndpoints, unless the application defines
  * ::EMBER_APPLICATION_HAS_GET_ENDPOINT in its CONFIGURATION_HEADER.
- * 
+ *
  * @param endpoint   The endpoint from which the cluster ID is to be read.
- * 
+ *
  * @param listId     The list from which the cluster ID is to be read.
- * 
+ *
  * @param listIndex  The index of the desired cluster ID in the list. This value
  * must be less than the length of the list. The length can be found in the
  * EmberEndpointDescription for this endpoint.
- * 
+ *
  * @return The cluster ID at position listIndex in the specified endpoint
  * cluster list.
  */
@@ -385,7 +385,7 @@ bool emberIsNodeIdValid(EmberNodeId nodeId);
  *
  * @param eui64  The EUI64 of the node to look up.
  *
- * @return The short ID of the node or ::EMBER_NULL_NODE_ID if the short ID 
+ * @return The short ID of the node or ::EMBER_NULL_NODE_ID if the short ID
  * is not known.
  */
 EmberNodeId emberLookupNodeIdByEui64(EmberEUI64 eui64);
@@ -397,7 +397,7 @@ EmberNodeId emberLookupNodeIdByEui64(EmberEUI64 eui64);
  * @param nodeId       The short ID of the node to look up.
  *
  * @param eui64Return  The EUI64 of the node is copied here if it is known.
- * 
+ *
  * @return An ::EmberStatus value:\n\n
  * - ::EMBER_SUCCESS - eui64Return has been set to the EUI64 of the node.
  * - ::EMBER_ERR_FATAL - The EUI64 of the node is not known.
@@ -405,7 +405,7 @@ EmberNodeId emberLookupNodeIdByEui64(EmberEUI64 eui64);
 EmberStatus emberLookupEui64ByNodeId(EmberNodeId nodeId,
                                      EmberEUI64 eui64Return);
 
-/** @brief A callback invoked to inform the application of the 
+/** @brief A callback invoked to inform the application of the
  * occurrence of an event defined by ::EmberCounterType, for example,
  * transmissions and receptions at different layers of the stack.
  *
@@ -413,7 +413,7 @@ EmberStatus emberLookupEui64ByNodeId(EmberNodeId nodeId,
  * in its CONFIGURATION_HEADER to use this.
  * This function may be called in ISR context, so processing should
  * be kept to a minimum.
- * 
+ *
  * @param type  The type of the event.
  * @param data  For transmission events, the number of retries used.
  * For other events, this parameter is unused and is set to zero.
@@ -427,8 +427,8 @@ void emberCounterHandler(EmberCounterType type, uint8_t data);
  */
 void emberStackTokenChangedHandler(uint16_t tokenAddress);
 
-/** @brief Copies a neighbor table entry to the structure that 
- * \c result points to.  Neighbor table entries are stored in 
+/** @brief Copies a neighbor table entry to the structure that
+ * \c result points to.  Neighbor table entries are stored in
  * ascending order by node id, with all unused entries at the end
  * of the table.  The number of active neighbors can be obtained
  * using ::emberNeighborCount().
@@ -439,7 +439,7 @@ void emberStackTokenChangedHandler(uint16_t tokenAddress);
  * table entry.
  *
  * @return ::EMBER_ERR_FATAL if the index is greater or equal to the
- * number of active neighbors, or if the device is an end device.  
+ * number of active neighbors, or if the device is an end device.
  * Returns ::EMBER_SUCCESS otherwise.
  */
 EmberStatus emberGetNeighbor(uint8_t index, EmberNeighborTableEntry *result);
@@ -450,7 +450,7 @@ EmberStatus emberGetNeighbor(uint8_t index, EmberNeighborTableEntry *result);
  * can be obtained via ::emberRouteTableSize().
  *
  * @param index   The index of a route table entry.
- * 
+ *
  * @param result  A pointer to the location to which to copy the route
  * table entry.
  *
@@ -543,9 +543,9 @@ uint8_t emberNextZigbeeSequenceNumber(void);
   *
   * @param txPowerMode  Specifies which of the transmit power mode options are
   * to be activated.  This parameter should be set to one of the literal values
-  * described in stack/include/ember-types.h.  Any power option not specified 
+  * described in stack/include/ember-types.h.  Any power option not specified
   * in the txPowerMode parameter will be deactivated.
-  * 
+  *
   * @return ::EMBER_SUCCESS if successful; an error code otherwise.
   */
 EmberStatus emberSetTxPowerMode(uint16_t txPowerMode);
@@ -598,7 +598,7 @@ void emberCalibrateCurrentChannel(void);
 
 /** @} END addtogroup */
 
-/** 
+/**
  * <!-- HIDDEN
  * @page 2p5_to_3p0
  * <hr>
@@ -624,7 +624,7 @@ void emberCalibrateCurrentChannel(void);
  *  - emberCalibrateCurrentChannel()
  *  -  emberStackStatusHandler()
  *  - emberNetworkState()
- *  -  emberStackIsUp() 
+ *  -  emberStackIsUp()
  *  -  emberGetEui64()
  *  -  emberIsLocalEui64()
  *  -  emberGetNodeId()

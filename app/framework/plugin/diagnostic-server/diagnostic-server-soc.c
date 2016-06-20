@@ -9,7 +9,7 @@
 #include "app/util/common/common.h"
 
 bool emberAfReadDiagnosticAttribute(
-                    EmberAfAttributeMetadata *attributeMetadata, 
+                    EmberAfAttributeMetadata *attributeMetadata,
                     uint8_t *buffer) {
   uint8_t emberCounter = EMBER_COUNTER_TYPE_COUNT;
   EmberStatus status;

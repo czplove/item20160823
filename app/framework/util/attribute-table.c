@@ -40,7 +40,7 @@ EmberAfStatus emberAfWriteAttributeExternal(uint8_t endpoint,
                                             EmberAfAttributeType dataType)
 {
   EmberAfAttributeWritePermission extWritePermission
-    = emberAfAllowNetworkWriteAttributeCallback(endpoint, 
+    = emberAfAllowNetworkWriteAttributeCallback(endpoint,
                                                 cluster,
                                                 attributeID,
                                                 mask,
@@ -170,7 +170,7 @@ EmberAfStatus emberAfVerifyAttributeWrite(uint8_t endpoint,
                             attributeID,
                             mask,
                             manufacturerCode,
-                            dataPtr, 
+                            dataPtr,
                             dataType,
                             false, // override read-only?
                             true); // just test?
@@ -208,7 +208,7 @@ EmberAfStatus emberAfReadServerAttribute(uint8_t endpoint,
                            EMBER_AF_NULL_MANUFACTURER_CODE,
                            dataPtr,
                            readLength,
-                           NULL); 
+                           NULL);
 }
 
 EmberAfStatus emberAfReadClientAttribute(uint8_t endpoint,
@@ -224,7 +224,7 @@ EmberAfStatus emberAfReadClientAttribute(uint8_t endpoint,
                            EMBER_AF_NULL_MANUFACTURER_CODE,
                            dataPtr,
                            readLength,
-                           NULL); 
+                           NULL);
 }
 
 EmberAfStatus emberAfReadManufacturerSpecificServerAttribute(uint8_t endpoint,
@@ -258,7 +258,7 @@ EmberAfStatus emberAfReadManufacturerSpecificClientAttribute(uint8_t endpoint,
                            manufacturerCode,
                            dataPtr,
                            readLength,
-                           NULL);                                     
+                           NULL);
 }
 
 bool emberAfReadSequentialAttributesAddToResponse(uint8_t endpoint,
@@ -333,7 +333,7 @@ static void emberAfAttributeDecodeAndPrintCluster(EmberAfClusterId cluster)
 {
 #if defined(EMBER_AF_PRINT_ENABLE) && defined(EMBER_AF_PRINT_ATTRIBUTES)
   uint16_t index = emberAfFindClusterNameIndex(cluster);
-  if (index != 0xFFFF) { 
+  if (index != 0xFFFF) {
     emberAfAttributesPrintln("(%p)", zclClusterNames[index].name);
   }
   emberAfAttributesFlush();
@@ -341,7 +341,7 @@ static void emberAfAttributeDecodeAndPrintCluster(EmberAfClusterId cluster)
 }
 
 
-void emberAfPrintAttributeTable(void) 
+void emberAfPrintAttributeTable(void)
 {
   uint8_t data[ATTRIBUTE_LARGEST];
   uint8_t endpointIndex, clusterIndex;
@@ -360,7 +360,7 @@ void emberAfPrintAttributeTable(void)
          clusterIndex++) {
       EmberAfCluster *cluster = &(ep->endpointType->cluster[clusterIndex]);
 
- 
+
       for (attributeIndex = 0;
            attributeIndex < cluster->attributeCount;
            attributeIndex++) {
@@ -445,8 +445,8 @@ void emberAfRetrieveAttributeAndCraftResponse(uint8_t endpoint,
     return;
   }
 
-  emberAfAttributesPrintln("OTA READ: ep:%x cid:%2x attid:%2x msk:%x mfcode:%2x", 
-                           endpoint, 
+  emberAfAttributesPrintln("OTA READ: ep:%x cid:%2x attid:%2x msk:%x mfcode:%2x",
+                           endpoint,
                            clusterId, attrId, mask, manufacturerCode);
 
   // lookup the attribute in our table
@@ -475,16 +475,16 @@ void emberAfRetrieveAttributeAndCraftResponse(uint8_t endpoint,
     emberAfAttributesFlush();
     return;
   }
-  
+
   // put attribute in least sig byte first
   emberAfPutInt16uInResp(attrId);
 
-  // attribute is found, so copy in the status and the data type 
+  // attribute is found, so copy in the status and the data type
   emberAfPutInt8uInResp(EMBER_ZCL_STATUS_SUCCESS);
   emberAfPutInt8uInResp(dataType);
 
   if ((appResponseLength + dataLen) < EMBER_AF_RESPONSE_BUFFER_LEN) {
-#if (BIGENDIAN_CPU)     
+#if (BIGENDIAN_CPU)
     // strings go over the air as length byte and then in human
     // readable format. These should not be flipped. Other attributes
     // need to be flipped so they go little endian OTA
@@ -501,7 +501,7 @@ void emberAfRetrieveAttributeAndCraftResponse(uint8_t endpoint,
 #endif //(BIGENDIAN_CPU)
     appResponseLength += dataLen;
   }
-  
+
   emberAfAttributesPrintln("READ: clus %2x, attr %2x, dataLen: %x, OK",
                            clusterId,
                            attrId,
@@ -573,7 +573,7 @@ kickout:
 //------------------------------------------------------------------------------
 // Internal Functions
 
-// writes an attribute (identified by clusterID and attrID to the given value. 
+// writes an attribute (identified by clusterID and attrID to the given value.
 // this returns:
 // - EMBER_ZCL_STATUS_UNSUPPORTED_ATTRIBUTE: if attribute isnt supported by the device (the
 //           device is not found in the attribute table)
@@ -583,12 +583,12 @@ kickout:
 // - EMBER_ZCL_STATUS_INVALID_VALUE: if the value is set out of the allowable range for
 //           the attribute
 // - EMBER_ZCL_STATUS_SUCCESS: if the attribute was found and successfully written
-// 
+//
 // if true is passed in for overrideReadOnlyAndDataType then the data type is
-// not checked and the read-only flag is ignored. This mode is meant for 
+// not checked and the read-only flag is ignored. This mode is meant for
 // testing or setting the initial value of the attribute on the device.
 //
-// if true is passed for justTest, then the type is not written but all 
+// if true is passed for justTest, then the type is not written but all
 // checks are done to see if the type could be written
 // reads the attribute specified, returns false if the attribute is not in
 // the table or the data is too large, returns true and writes to dataPtr
@@ -621,8 +621,8 @@ EmberAfStatus emAfWriteAttribute(uint8_t endpoint,
   if (metadata == NULL) {
     emberAfAttributesPrintln("%pep %x clus %2x attr %2x not supported",
                              "WRITE ERR: ",
-                             endpoint, 
-                             cluster, 
+                             endpoint,
+                             cluster,
                              attributeID);
     emberAfAttributesFlush();
     return EMBER_ZCL_STATUS_UNSUPPORTED_ATTRIBUTE;
@@ -635,7 +635,7 @@ EmberAfStatus emAfWriteAttribute(uint8_t endpoint,
       emberAfAttributesFlush();
       return EMBER_ZCL_STATUS_INVALID_DATA_TYPE;
     }
-    
+
     if (emberAfAttributeIsReadOnly(metadata)) {
       emberAfAttributesPrintln("%pattr not writable", "WRITE ERR: ");
       emberAfAttributesFlush();
@@ -752,7 +752,7 @@ EmberAfStatus emAfWriteAttribute(uint8_t endpoint,
   return EMBER_ZCL_STATUS_SUCCESS;
 }
 
-// If dataPtr is NULL, no data is copied to the caller.  
+// If dataPtr is NULL, no data is copied to the caller.
 // readLength should be 0 in that case.
 
 EmberAfStatus emAfReadAttribute(uint8_t endpoint,
