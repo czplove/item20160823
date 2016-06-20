@@ -37,7 +37,7 @@ typedef enum {
 void emberAfPluginButtonInterfaceButton0PressedShortCallback(
   uint16_t timePressedMs);
 
-  /** @brief Callback generated when button 1 is released after being held a short
+/** @brief Callback generated when button 1 is released after being held a short
  * amount of time
  *
  * @note This callback will be called when button 1 transitions from its active
@@ -49,12 +49,36 @@ void emberAfPluginButtonInterfaceButton0PressedShortCallback(
 void emberAfPluginButtonInterfaceButton1PressedShortCallback(
   uint16_t timePressedMs);
   
+/** @brief Callback generated when button 2 is released after being held a short
+ * amount of time
+ *
+ * @note This callback will be called when button 2 transitions from its active
+ * to non-active state if it was held for a shorter amount of time than
+ * specified as a long press by the button 2 plugin option.
+ *
+ * @param timePressedMs  The amount time in milliseconds the button was pressed.
+ */
+void emberAfPluginButtonInterfaceButton2PressedShortCallback(
+  uint16_t timePressedMs);
+  
+/** @brief Callback generated when button 3 is released after being held a short
+ * amount of time
+ *
+ * @note This callback will be called when button 3 transitions from its active
+ * to non-active state if it was held for a shorter amount of time than
+ * specified as a long press by the button 3 plugin option.
+ *
+ * @param timePressedMs  The amount time in milliseconds the button was pressed.
+ */
+void emberAfPluginButtonInterfaceButton3PressedShortCallback(
+  uint16_t timePressedMs);
+  
 /** @brief Callback generated when button 0 is released after being held a long
  * amount of time
  *
  * @note This callback will be called when button 0 transitions from its active
  * to non-active state if it was held for a longer amount of time than
- * specified as a long press by the button 1 plugin option.
+ * specified as a long press by the button 0 plugin option.
  *
  * @param timePressedMs  The amount time in milliseconds the button was pressed.
  * @param pressedAtReset True if the button was pressed at reset.
@@ -73,6 +97,33 @@ void emberAfPluginButtonInterfaceButton0PressedLongCallback(
  * @param pressedAtReset True if the button was pressed at reset.
  */
 void emberAfPluginButtonInterfaceButton1PressedLongCallback(
+       uint16_t timePressedMs,
+       bool pressedAtReset);
+
+/** @brief Callback generated when button 2 is released after being held a long
+ * amount of time
+ *
+ * @note This callback will be called when button 2 transitions from its active
+ * to non-active state if it was held for a longer amount of time than
+ * specified as a long press by the button 2 plugin option.
+ *
+ * @param timePressedMs  The amount time in milliseconds the button was pressed.
+ * @param pressedAtReset True if the button was pressed at reset.
+ */
+void emberAfPluginButtonInterfaceButton2PressedLongCallback(
+       uint16_t timePressedMs,
+       bool pressedAtReset);
+       
+/** @brief Callback generated when button 3 is released after being held a long
+ * amount of time
+ *
+ * This callback will be called when button 3 transitions from its active
+ * to non-active state if it was held for a longer amount of time than
+ * specified as a long press by the button 3 plugin option.
+ * @param timePressedMs  The amount time in milliseconds the button was pressed.
+ * @param pressedAtReset True if the button was pressed at reset.
+ */
+void emberAfPluginButtonInterfaceButton3PressedLongCallback(
        uint16_t timePressedMs,
        bool pressedAtReset);
        
@@ -99,6 +150,30 @@ void emberAfPluginButtonInterfaceButton0PressingCallback(void);
  *
  */
 void emberAfPluginButtonInterfaceButton1PressingCallback(void);
+
+/** @brief Callback generated when button 2 has been held for a long amount
+ * of time
+ *
+ * @note This callback will be called when button 2 has been held in its active
+ * state for a long amount of time, where long is defined by plugin option.
+ * Unlike emberAfPluginButtonInterfaceButton1PressedLongCallback, this callback
+ * will occur immediately after the button timeout interval has passed, instead
+ * of waiting until the button is released.
+ *
+ */
+void emberAfPluginButtonInterfaceButton2PressingCallback(void);
+
+/** @brief Callback generated when button 3 has been held for a long amount
+ * of time
+ *
+ * @note This callback will be called when button 3 has been held in its active
+ * state for a long amount of time, where long is defined by plugin option.
+ * Unlike emberAfPluginButtonInterfaceButton1PressedLongCallback, this callback
+ * will occur immediately after the button timeout interval has passed, instead
+ * of waiting until the button is released.
+ *
+ */
+void emberAfPluginButtonInterfaceButton3PressingCallback(void);
 
 /** @brief Callback generated when button 0 transfers from low to high.
  *
@@ -131,6 +206,38 @@ void emberAfPluginButtonInterfaceButton1HighCallback(void);
  *
  */
 void emberAfPluginButtonInterfaceButton1LowCallback(void);
+
+/** @brief Callback generated when button 2 transfers from low to high.
+ *
+ * @note This callback will occur immediately when the GPIO state of the button
+ * transitions from low to high.
+ *
+ */
+void emberAfPluginButtonInterfaceButton2HighCallback(void);
+
+/** @brief Callback generated when button 2 transfers from high to low.
+ *
+ * @note This callback will occur immediately when the GPIO state of the button
+ * transitions from low to high.
+ *
+ */
+void emberAfPluginButtonInterfaceButton2LowCallback(void);
+
+/** @brief Callback generated when button 3 transfers from low to high.
+ *
+ * @note This callback will occur immediately when the GPIO state of the button
+ * transitions from low to high.
+ *
+ */
+void emberAfPluginButtonInterfaceButton3HighCallback(void);
+
+/** @brief Callback generated when button 3 transfers from high to low.
+ *
+ * @note This callback will occur immediately when the GPIO state of the button
+ * transitions from low to high.
+ *
+ */
+void emberAfPluginButtonInterfaceButton3LowCallback(void);
 
 //------------------------------------------------------------------------------
 // Plugin public function declarations

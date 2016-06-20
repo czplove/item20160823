@@ -46,8 +46,8 @@ typedef uint8_t gpioBlinkState;
 
 //------------------------------------------------------------------------------
 // Forward declaration of private plugin functions
-static void turnLedOn( uint8_t led );
-static void turnLedOff( uint8_t led );
+//static void turnLedOn( uint8_t led );
+//static void turnLedOff( uint8_t led );
 static void setBit(uint8_t *data, uint8_t bit);
 static void clearBit(uint8_t *data, uint8_t bit);
 
@@ -56,7 +56,7 @@ static void clearBit(uint8_t *data, uint8_t bit);
 static gpioBlinkState ledEventState = LED_ON;
 static uint8_t ledBlinkCount = 0x00;
 static uint16_t ledBlinkTime;
-static uint8_t activeLed = BOARDLED1;
+static uint8_t activeLed = BOARDLED0;
 static uint16_t blinkPattern[MAX_BLINK_PATTERN_LENGTH];
 static uint8_t blinkPatternLength;
 static uint8_t blinkPatternPointer;
@@ -267,21 +267,28 @@ static void clearBit(uint8_t *data, uint8_t bit)
 
 // *****************************************************************************
 // Drive the LED for a GPIO high and update sleepy state
-static void turnLedOn( uint8_t led )
+void turnLedOn( uint8_t led )
 {
   uint8_t port = (led) >> 3;
   uint8_t pin = (led) & 0x07;
-
+#if defined(CONTACT_SWITCH_NETVOX)
+  halLedBlinkSleepySetGpio( port, pin );
+#else
   halLedBlinkSleepyClearGpio( port, pin );
+#endif
 }
 
 // *****************************************************************************
 // Drive the LED for a GPIO low and update sleepy state
-static void turnLedOff( uint8_t led )
+void turnLedOff( uint8_t led )
 {
 
   uint8_t port = (led) >> 3;
   uint8_t pin = (led) & 0x07;
 
+#if defined(CONTACT_SWITCH_NETVOX)
+  halLedBlinkSleepyClearGpio( port, pin );
+#else
   halLedBlinkSleepySetGpio( port, pin );
+#endif
 }

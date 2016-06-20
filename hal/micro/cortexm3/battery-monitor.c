@@ -26,7 +26,7 @@
           (EMBER_AF_PLUGIN_BATTERY_MONITOR_MONITOR_TIMEOUT_M * 60 * 1000)
 
 #define MAX_INT_MINUS_DELTA 0xe0000000
-          
+
 //------------------------------------------------------------------------------
 // Forward Declaration
 static uint16_t filterVoltageSample(uint16_t sample);

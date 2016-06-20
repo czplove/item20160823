@@ -15,7 +15,13 @@
 #include "hal/micro/generic-interrupt-control.h"
 #include "hal/micro/micro.h"
 #include "hal/micro/gpio-sensor.h"
-
+#ifdef MOTION_SENSOR
+#if defined(MOTION_SENSOR_E93196)
+#include "E93196.h"
+#endif
+#include "hal/micro/led-blink.h"
+#include "app/framework/include/af.h"
+#endif
 //------------------------------------------------------------------------------
 // Plugin private macros
 
@@ -23,8 +29,11 @@
 #define SENSOR_ASSERT_DEBOUNCE   EMBER_AF_PLUGIN_GPIO_SENSOR_ASSERT_DEBOUNCE
 #define SENSOR_DEASSERT_DEBOUNCE \
                               EMBER_AF_PLUGIN_GPIO_SENSOR_DEASSERT_DEBOUNCE
+#if defined(CONTACT_SWITCH_NETVOX)
+#define SENSOR_IS_ACTIVE_HI   0
+#else
 #define SENSOR_IS_ACTIVE_HI   EMBER_AF_PLUGIN_GPIO_SENSOR_SENSOR_POLARITY
-
+#endif
 //------------------------------------------------------------------------------
 // Plugin private variables
 
@@ -52,7 +61,7 @@ void emberAfPluginGpioSensorStateChangedCallback(uint8_t);
 
 // This function will be called on device init.
 void emberAfPluginGpioSensorInitCallback(void)
-{  
+{
   halGpioSensorInitialize();
 }
 
@@ -68,9 +77,15 @@ void emberAfPluginGpioSensorInterruptEventHandler(void)
   uint8_t reedValue;
 
   emberEventControlSetInactive(emberAfPluginGpioSensorInterruptEventControl);
-  
+
   reedValue = halGenericInterruptControlIrqReadGpio(irqConfig);
-  
+
+#if defined(MOTION_SENSOR_E93196)
+  if(lastSensorStatus == HAL_GPIO_SENSOR_ACTIVE)
+  {
+    ProcessDOCIInterrupt();
+  }
+#endif
   // If the gpio sensor was set to active high by the plugin properties, call
   // deassert when the value is 0 and assert when the value is 1.
   if (SENSOR_IS_ACTIVE_HI) {
@@ -98,7 +113,18 @@ void emberAfPluginGpioSensorDebounceEventHandler(void)
   emberEventControlSetInactive(emberAfPluginGpioSensorDebounceEventControl);
   lastSensorStatus = newSensorStatus;
 
+#if defined(MOTION_SENSOR_E93196)
+  emberEventControlSetDelayMS(emberAfPluginGpioSensorInterruptEventControl,
+                                6*MILLISECOND_TICKS_PER_SECOND);
+
+#endif
+  if (emberAfNetworkState() == EMBER_JOINED_NETWORK)
+  {
+#ifdef MOTION_SENSOR
+    turnLedOff(BOARDLED1);
+#endif
   emberAfPluginGpioSensorStateChangedCallback(newSensorStatus);
+  }
 }
 
 //------------------------------------------------------------------------------
@@ -134,6 +160,10 @@ static void sensorStateChangeDebounce(HalGpioSensorState status)
   }
   if (status == HAL_GPIO_SENSOR_ACTIVE) {
     newSensorStatus = status;
+#ifdef MOTION_SENSOR
+    if (emberAfNetworkState() == EMBER_JOINED_NETWORK)
+      turnLedOn(BOARDLED1);
+#endif
     emberEventControlSetDelayMS(emberAfPluginGpioSensorDebounceEventControl,
                                 SENSOR_ASSERT_DEBOUNCE);
     return;
@@ -154,13 +184,13 @@ void halGpioSensorInitialize(void)
 
   // Set up the generic interrupt controller to handle changes on the gpio
   // sensor
-  irqConfig = halGenericInterruptControlIrqCfgInitialize(GPIO_SENSOR_PIN, 
-                                                         GPIO_SENSOR_PORT, 
+  irqConfig = halGenericInterruptControlIrqCfgInitialize(GPIO_SENSOR_PIN,
+                                                         GPIO_SENSOR_PORT,
                                                          GPIO_SENSOR_IRQ);
   halGenericInterruptControlIrqEventRegister(irqConfig,
                            &emberAfPluginGpioSensorInterruptEventControl);
   halGenericInterruptControlIrqEnable(irqConfig);
-  
+
   // Determine the initial value of the sensor
   reedValue = halGenericInterruptControlIrqReadGpio(irqConfig);
   if (SENSOR_IS_ACTIVE_HI) {

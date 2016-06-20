@@ -11,7 +11,9 @@
 
 #include "app/framework/include/af.h"
 #include "ias-zone-server.h"
-
+#if defined(MOTION_SENSOR_E93196)
+#include "E93196.h"
+#endif
 #ifdef EMBER_SCRIPTED_TEST
 #include "app/framework/plugin/ias-zone-server/ias-zone-server-test.h"
 #endif
@@ -205,6 +207,10 @@ bool emberAfIasZoneClusterZoneEnrollResponseCallback(uint8_t enrollResponseCode,
     if (enrollResponseCode == EMBER_ZCL_IAS_ENROLL_RESPONSE_CODE_SUCCESS) {
       updateEnrollState(endpoint, true);
       setZoneId(endpoint, zoneId);
+#if defined(MOTION_SENSOR_E93196)
+      PIR_SetDefence();
+      ProcessDOCIInterrupt();
+#endif
     } else {
       updateEnrollState(endpoint, false);
       setZoneId(endpoint, UNDEFINED_ZONE_ID);

@@ -1,0 +1,17 @@
+
+/** @brief Data Ready
+ *
+ * This function is called when the humidity and temperature sensor hardware has new data
+ * available.
+ *
+ * @param temperatureMilliC The temperature in milli degrees Celsius  Ver.: always
+ * @param humidityMilliP The Humidity in milli Percentage   Ver.: always 
+ * @param readStatus True if the value was read succesfully, false if an error
+ * occurred  Ver.: always
+ */
+void emberAfPluginTemperatureDataReadyCallback(int16_t temperatureMilliC,
+											   uint16_t humidityMilliP,
+                                               bool readStatus)
+{
+
+}

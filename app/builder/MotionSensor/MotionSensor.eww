@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<workspace>
+  <project>
+    <path>$WS_DIR$\MotionSensor.ewp</path>
+  </project>
+  <batchBuild>
+    <batchDefinition>
+      <name>MotionSensor</name>
+      <member>
+        <project>MotionSensor</project>
+        <configuration>Normal-Test</configuration>
+      </member>
+      <member>
+        <project>MotionSensor</project>
+        <configuration>Normal</configuration>
+      </member>
+    </batchDefinition>
+  </batchBuild>
+</workspace>
+
+

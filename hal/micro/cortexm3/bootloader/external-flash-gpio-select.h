@@ -111,10 +111,10 @@
   #define EXTERNAL_FLASH_SCLK_PIN        PORTA_PIN(2) // PA2
 
   #if !defined(EXTERNAL_FLASH_CS_ACTIVE)
-  // default to PA3 if it is not already defined
-    #define EXTERNAL_FLASH_CS_ACTIVE()     do { GPIO_PACLR = BIT(3); } while (0)
-    #define EXTERNAL_FLASH_CS_INACTIVE()   do { GPIO_PASET = BIT(3); } while (0)
-    #define EXTERNAL_FLASH_nCS_PIN         PORTA_PIN(3) // PA3
+  // default to PA6 if it is not already defined
+    #define EXTERNAL_FLASH_CS_ACTIVE()     do { GPIO_PACLR = BIT(6); } while (0)
+    #define EXTERNAL_FLASH_CS_INACTIVE()   do { GPIO_PASET = BIT(6); } while (0)
+    #define EXTERNAL_FLASH_nCS_PIN         PORTA_PIN(6) // PA6
   #endif
   
   #define EXTERNAL_FLASH_SCx_MODE_SPI    SC2_MODE_SPI

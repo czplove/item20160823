@@ -15,7 +15,7 @@
 #include "app/framework/util/service-discovery.h"
 #ifdef EMBER_AF_PLUGIN_FRAGMENTATION
 #include "app/framework/plugin/fragmentation/fragmentation.h"
-#endif 
+#endif
 
 #include "app/framework/plugin/test-harness/test-harness.h"
 
@@ -74,13 +74,13 @@ PGM char emAfStackEventString[] = "Stack";
 // Functions
 
 // A function used to initialize events for idling
-void emAfInitEvents(void) 
+void emAfInitEvents(void)
 {
   emberTaskEnableIdling(true);
   emAfTaskId = emberTaskInit(emAfEvents);
 }
 
-void emberAfRunEvents(void) 
+void emberAfRunEvents(void)
 {
   // Don't run events while crypto operation is in progress
   // (BUGZID: 12127)

@@ -4,9 +4,9 @@
  *  instances used below.  The BUTTON* defines used here are designed to make
  *  this library generic such that only the board header needs to be modified
  *  to change which GPIO the buttons are on.
- * 
+ *
  * <!-- Author(s): Brooks Barrett -->
- * <!-- Copyright 2007 by Ember Corporation. All rights reserved.       *80*-->   
+ * <!-- Copyright 2007 by Ember Corporation. All rights reserved.       *80*-->
  */
 
 #include PLATFORM_HEADER
@@ -83,7 +83,7 @@ void halInternalInitButton(void)
   BUTTON3_INTCFG |= (3 << GPIO_INTMOD_BIT);  //3 = both edges
   button3State = halButtonPinState(BUTTON3);
 #endif
-  
+
 #ifdef BUTTON0
   INT_CFGSET = BUTTON0_INT_EN_BIT; //set top level interrupt enable
 #endif
@@ -91,11 +91,11 @@ void halInternalInitButton(void)
 #ifdef BUTTON1
   INT_CFGSET = BUTTON1_INT_EN_BIT; //set top level interrupt enable
 #endif
-  
+
 #ifdef BUTTON2
   INT_CFGSET = BUTTON2_INT_EN_BIT; //set top level interrupt enable
 #endif
-  
+
 #ifdef BUTTON3
   INT_CFGSET = BUTTON3_INT_EN_BIT; //set top level interrupt enable
 #endif
@@ -184,7 +184,7 @@ void BUTTON0_ISR(void)
   //clear int before read to avoid potential of missing interrupt
   INT_MISS = BUTTON0_MISS_BIT;     //clear missed BUTTON0 interrupt flag
   INT_GPIOFLAG = BUTTON0_FLAG_BIT; //clear top level BUTTON0 interrupt flag
-  
+
   buttonStateNow = halButtonPinState(BUTTON0);
   #if (DEBOUNCE > 0)
     //read button until get "DEBOUNCE" number of consistent readings
@@ -206,7 +206,7 @@ void BUTTON0_ISR(void)
     button0State = !button0State; //and put it back to current state
     halButtonIsr(BUTTON0, button0State);
   }
-  
+
 }
 #endif
 
@@ -218,11 +218,11 @@ void BUTTON1_ISR(void)
     uint8_t buttonStatePrev;
     uint32_t debounce;
   #endif //(DEBOUNCE > 0)
-  
+
   //clear int before read to avoid potential of missing interrupt
   INT_MISS = BUTTON1_MISS_BIT;     //clear missed BUTTON1 interrupt flag
   INT_GPIOFLAG = BUTTON1_FLAG_BIT; //clear top level BUTTON1 interrupt flag
-  
+
   buttonStateNow = halButtonPinState(BUTTON1);
   #if (DEBOUNCE > 0)
     //read button until get "DEBOUNCE" number of consistent readings
@@ -259,7 +259,7 @@ void BUTTON2_ISR(void)
   //clear int before read to avoid potential of missing interrupt
   INT_MISS = BUTTON2_MISS_BIT;     //clear missed BUTTON2 interrupt flag
   INT_GPIOFLAG = BUTTON2_FLAG_BIT; //clear top level BUTTON2 interrupt flag
-  
+
   buttonStateNow = halButtonPinState(BUTTON2);
   #if (DEBOUNCE > 0)
     //read button until get "DEBOUNCE" number of consistent readings
@@ -281,7 +281,7 @@ void BUTTON2_ISR(void)
     button2State = !button2State; //and put it back to current state
     halButtonIsr(BUTTON2, button2State);
   }
-  
+
 }
 #endif
 
@@ -297,7 +297,7 @@ void BUTTON3_ISR(void)
   //clear int before read to avoid potential of missing interrupt
   INT_MISS = BUTTON3_MISS_BIT;     //clear missed BUTTON3 interrupt flag
   INT_GPIOFLAG = BUTTON3_FLAG_BIT; //clear top level BUTTON3 interrupt flag
-  
+
   buttonStateNow = halButtonPinState(BUTTON3);
   #if (DEBOUNCE > 0)
     //read button until get "DEBOUNCE" number of consistent readings
@@ -319,7 +319,7 @@ void BUTTON3_ISR(void)
     button3State = !button3State; //and put it back to current state
     halButtonIsr(BUTTON3, button3State);
   }
-  
+
 }
 #endif
 
