@@ -49,6 +49,18 @@
     { 0x0010, ZCL_IEEE_ADDRESS_ATTRIBUTE_TYPE, 8, (ATTRIBUTE_MASK_WRITABLE|ATTRIBUTE_MASK_TOKENIZE), { NULL } }, /* 15 / IAS Zone / IAS CIE address*/\
     { 0x0011, ZCL_INT8U_ATTRIBUTE_TYPE, 1, (ATTRIBUTE_MASK_TOKENIZE), { (uint8_t*)0xff } }, /* 16 / IAS Zone / Zone ID*/\
     { 0x0000, ZCL_INT16U_ATTRIBUTE_TYPE, 2, (ATTRIBUTE_MASK_WRITABLE), { (uint8_t*)240 } }, /* 17 / IAS WD / max duration*/\
+    { 0x0000, ZCL_INT16U_ATTRIBUTE_TYPE, 2, (ATTRIBUTE_MASK_TOKENIZE|ATTRIBUTE_MASK_SINGLETON), { (uint8_t*)0x0000 } }, /* 18 / Diagnostics / number of resets*/\
+    { 0x0104, ZCL_INT16U_ATTRIBUTE_TYPE, 2, (ATTRIBUTE_MASK_TOKENIZE|ATTRIBUTE_MASK_SINGLETON), { (uint8_t*)0x0000 } }, /* 19 / Diagnostics / mac tx unicast retry*/\
+    { 0x010A, ZCL_INT16U_ATTRIBUTE_TYPE, 2, (ATTRIBUTE_MASK_TOKENIZE|ATTRIBUTE_MASK_SINGLETON), { (uint8_t*)0x0000 } }, /* 20 / Diagnostics / aps tx unicast retries*/\
+    { 0x010C, ZCL_INT16U_ATTRIBUTE_TYPE, 2, (ATTRIBUTE_MASK_TOKENIZE|ATTRIBUTE_MASK_SINGLETON), { (uint8_t*)0x0000 } }, /* 21 / Diagnostics / route discovery initiated*/\
+    { 0x010D, ZCL_INT16U_ATTRIBUTE_TYPE, 2, (ATTRIBUTE_MASK_TOKENIZE|ATTRIBUTE_MASK_SINGLETON), { (uint8_t*)0x0000 } }, /* 22 / Diagnostics / neighbor added*/\
+    { 0x010E, ZCL_INT16U_ATTRIBUTE_TYPE, 2, (ATTRIBUTE_MASK_TOKENIZE|ATTRIBUTE_MASK_SINGLETON), { (uint8_t*)0x0000 } }, /* 23 / Diagnostics / neighbor moved*/\
+    { 0x010F, ZCL_INT16U_ATTRIBUTE_TYPE, 2, (ATTRIBUTE_MASK_TOKENIZE|ATTRIBUTE_MASK_SINGLETON), { (uint8_t*)0x0000 } }, /* 24 / Diagnostics / neighbor stale*/\
+    { 0x0110, ZCL_INT16U_ATTRIBUTE_TYPE, 2, (ATTRIBUTE_MASK_TOKENIZE|ATTRIBUTE_MASK_SINGLETON), { (uint8_t*)0x0000 } }, /* 25 / Diagnostics / join indication*/\
+    { 0x0111, ZCL_INT16U_ATTRIBUTE_TYPE, 2, (ATTRIBUTE_MASK_TOKENIZE|ATTRIBUTE_MASK_SINGLETON), { (uint8_t*)0x0000 } }, /* 26 / Diagnostics / child moved*/\
+    { 0x011B, ZCL_INT16U_ATTRIBUTE_TYPE, 2, (ATTRIBUTE_MASK_TOKENIZE|ATTRIBUTE_MASK_SINGLETON), { (uint8_t*)0x0000 } }, /* 27 / Diagnostics / average mac retry per aps message sent*/\
+    { 0x011C, ZCL_INT8U_ATTRIBUTE_TYPE, 1, (ATTRIBUTE_MASK_TOKENIZE|ATTRIBUTE_MASK_SINGLETON), { (uint8_t*)0x0000 } }, /* 28 / Diagnostics / last message lqi*/\
+    { 0x011D, ZCL_INT8S_ATTRIBUTE_TYPE, 1, (ATTRIBUTE_MASK_TOKENIZE|ATTRIBUTE_MASK_SINGLETON), { (uint8_t*)0x0000 } }, /* 29 / Diagnostics / last message rssi*/\
   }
 
 
@@ -65,12 +77,13 @@ PGM EmberAfGenericClusterFunction emberAfFuncArrayIasWdClusterServer[] = { (Embe
     { 0x0003, (EmberAfAttributeMetadata*)&(generatedAttributes[11]), 1, 2, (CLUSTER_MASK_SERVER| CLUSTER_MASK_INIT_FUNCTION| CLUSTER_MASK_ATTRIBUTE_CHANGED_FUNCTION), emberAfFuncArrayIdentifyClusterServer, },    \
     { 0x0500, (EmberAfAttributeMetadata*)&(generatedAttributes[12]), 5, 14, (CLUSTER_MASK_SERVER| CLUSTER_MASK_INIT_FUNCTION| CLUSTER_MASK_PRE_ATTRIBUTE_CHANGED_FUNCTION), emberAfFuncArrayIasZoneClusterServer, },    \
     { 0x0502, (EmberAfAttributeMetadata*)&(generatedAttributes[17]), 1, 2, (CLUSTER_MASK_SERVER| CLUSTER_MASK_INIT_FUNCTION| CLUSTER_MASK_ATTRIBUTE_CHANGED_FUNCTION| CLUSTER_MASK_PRE_ATTRIBUTE_CHANGED_FUNCTION), emberAfFuncArrayIasWdClusterServer, },    \
+    { 0x0B05, (EmberAfAttributeMetadata*)&(generatedAttributes[18]), 12, 0, (CLUSTER_MASK_SERVER), NULL,  },    \
   }
 
 
 // Endpoint types
 #define GENERATED_ENDPOINT_TYPES {        \
-    { (EmberAfCluster*)&(generatedClusters[0]), 4, 18 }, \
+    { (EmberAfCluster*)&(generatedClusters[0]), 5, 18 }, \
   }
 
 
@@ -105,7 +118,7 @@ PGM EmberAfGenericClusterFunction emberAfFuncArrayIasWdClusterServer[] = { (Embe
 // Largest attribute size is needed for various buffers
 #define ATTRIBUTE_LARGEST (33)
 // Total size of singleton attributes
-#define ATTRIBUTE_SINGLETONS_SIZE (107)
+#define ATTRIBUTE_SINGLETONS_SIZE (129)
 
 // Total size of attribute storage
 #define ATTRIBUTE_MAX_SIZE 18
@@ -286,6 +299,7 @@ PGM EmberAfGenericClusterFunction emberAfFuncArrayIasWdClusterServer[] = { (Embe
 
 #define EMBER_AF_GENERATED_PLUGIN_INIT_FUNCTION_DECLARATIONS \
   void emberAfPluginConnectionManagerInitCallback(void); \
+  void emberAfPluginCountersInitCallback(void); \
   void emberAfPluginGpioSensorInitCallback(void); \
   void emberAfPluginNetworkFindInitCallback(void); \
   void emberAfPluginPermitJoinManagerInitCallback(void); \
@@ -296,6 +310,7 @@ PGM EmberAfGenericClusterFunction emberAfFuncArrayIasWdClusterServer[] = { (Embe
 
 #define EMBER_AF_GENERATED_PLUGIN_INIT_FUNCTION_CALLS \
   emberAfPluginConnectionManagerInitCallback(); \
+  emberAfPluginCountersInitCallback(); \
   emberAfPluginGpioSensorInitCallback(); \
   emberAfPluginNetworkFindInitCallback(); \
   emberAfPluginPermitJoinManagerInitCallback(); \

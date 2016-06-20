@@ -834,6 +834,59 @@
 
 /** @} */ // end group plugin-connection-manager
 
+/** @addtogroup plugin-counters Plugin Commands: Counters
+ * @ingroup cli
+ * This plugin provides APIs and CLI commands for reading and manipulating
+ * counters that record different events in the stack.
+ * 
+ * @{
+ */
+
+/** @brief <b>plugin counters print </b>
+ *   - <i>Print all counter values and clear them.</i>
+ */
+#define EMBER_AF_DOXYGEN_CLI_COMMAND_PLUGIN_COUNTERS_PLUGIN_COUNTERS_PRINT
+
+/** @brief <b>plugin counter print-counter-type [type:1] </b>
+ *   - <i>Print value of this particular counter.</i>
+ *     - type - INT8U - The counter type       to print.
+ */
+#define EMBER_AF_DOXYGEN_CLI_COMMAND_PLUGIN_COUNTERS_PLUGIN_COUNTER_PRINT_COUNTER_TYPE
+
+/** @brief <b>plugin counters simple-print </b>
+ *   - <i>Print all counter values.</i>
+ */
+#define EMBER_AF_DOXYGEN_CLI_COMMAND_PLUGIN_COUNTERS_PLUGIN_COUNTERS_SIMPLE_PRINT
+
+/** @brief <b>plugin counters clear </b>
+ *   - <i>Clear all counter values.</i>
+ */
+#define EMBER_AF_DOXYGEN_CLI_COMMAND_PLUGIN_COUNTERS_PLUGIN_COUNTERS_CLEAR
+
+/** @brief <b>plugin counters print-thresholds </b>
+ *   - <i>Prints the thresholds of all the counters.</i>
+ */
+#define EMBER_AF_DOXYGEN_CLI_COMMAND_PLUGIN_COUNTERS_PLUGIN_COUNTERS_PRINT_THRESHOLDS
+
+/** @brief <b>plugin counters set-threshold [type:1] [threshold:2] </b>
+ *   - <i>Set a threshold value for a particular type of counter.</i>
+ *     - type - INT8U - type of counter
+ *     - threshold - INT16U - Threshold Value
+ */
+#define EMBER_AF_DOXYGEN_CLI_COMMAND_PLUGIN_COUNTERS_PLUGIN_COUNTERS_SET_THRESHOLD
+
+/** @brief <b>plugin counters reset-threshold </b>
+ *   - <i>Resets all thresholds values to 0xFFFF.</i>
+ */
+#define EMBER_AF_DOXYGEN_CLI_COMMAND_PLUGIN_COUNTERS_PLUGIN_COUNTERS_RESET_THRESHOLD
+
+/** @brief <b>plugin counters send-request </b>
+ *   - <i>Sends a request for ota counters</i>
+ */
+#define EMBER_AF_DOXYGEN_CLI_COMMAND_PLUGIN_COUNTERS_PLUGIN_COUNTERS_SEND_REQUEST
+
+/** @} */ // end group plugin-counters
+
 /** @addtogroup plugin-ezmode-commissioning Plugin Commands: EZ-Mode Commissioning
  * @ingroup cli
  * The EZ-Mode Commissioning plugin contributes several commands to the
@@ -1175,6 +1228,16 @@
  */
 
 /** @} */ // end group plugin-connection-manager
+
+/** @addtogroup plugin-counters Plugin Commands: Counters
+ * @ingroup cli
+ * This plugin provides APIs and CLI commands for reading and manipulating
+ * counters that record different events in the stack.
+ * 
+ * @{
+ */
+
+/** @} */ // end group plugin-counters
 
 /** @addtogroup plugin-ezmode-commissioning Plugin Commands: EZ-Mode Commissioning
  * @ingroup cli
