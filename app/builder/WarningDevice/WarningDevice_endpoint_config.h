@@ -16,13 +16,13 @@
 #define GENERATED_DEFAULTS { \
 6,'W','u','l','i','a','n',0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 /* 0,Default value: Basic,manufacturer name */, \
 6,'T','-','S','G','0','1',0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 /* 33,Default value: Basic,model identifier */, \
-8,'2','0','1','6','0','4','0','7',0,0,0,0,0,0,0,0 /* 66,Default value: Basic,date code */, \
+8,'2','0','1','6','0','6','2','1',0,0,0,0,0,0,0,0 /* 66,Default value: Basic,date code */, \
   }
 #else // ! BIGENDIAN_CPU
 #define GENERATED_DEFAULTS { \
 6,'W','u','l','i','a','n',0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 /* 0,Default value: Basic,manufacturer name */, \
 6,'T','-','S','G','0','1',0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 /* 33,Default value: Basic,model identifier */, \
-8,'2','0','1','6','0','4','0','7',0,0,0,0,0,0,0,0 /* 66,Default value: Basic,date code */, \
+8,'2','0','1','6','0','6','2','1',0,0,0,0,0,0,0,0 /* 66,Default value: Basic,date code */, \
   }
 #endif // BIGENDIAN_CPU
 
@@ -32,7 +32,7 @@
 // Generated attributes
 #define GENERATED_ATTRIBUTES { \
     { 0x0000, ZCL_INT8U_ATTRIBUTE_TYPE, 1, (ATTRIBUTE_MASK_SINGLETON), { (uint8_t*)0x02 } }, /* 0 / Basic / ZCL version*/\
-    { 0x0001, ZCL_INT8U_ATTRIBUTE_TYPE, 1, (ATTRIBUTE_MASK_SINGLETON), { (uint8_t*)0x01 } }, /* 1 / Basic / application version*/\
+    { 0x0001, ZCL_INT8U_ATTRIBUTE_TYPE, 1, (ATTRIBUTE_MASK_SINGLETON), { (uint8_t*)0x02 } }, /* 1 / Basic / application version*/\
     { 0x0002, ZCL_INT8U_ATTRIBUTE_TYPE, 1, (ATTRIBUTE_MASK_SINGLETON), { (uint8_t*)0x01 } }, /* 2 / Basic / stack version*/\
     { 0x0003, ZCL_INT8U_ATTRIBUTE_TYPE, 1, (ATTRIBUTE_MASK_SINGLETON), { (uint8_t*)0x01 } }, /* 3 / Basic / hardware version*/\
     { 0x0004, ZCL_CHAR_STRING_ATTRIBUTE_TYPE, 33, (ATTRIBUTE_MASK_SINGLETON), { (uint8_t*)&(generatedDefaults[0]) } }, /* 4 / Basic / manufacturer name*/\
