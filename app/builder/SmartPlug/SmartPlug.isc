@@ -337,7 +337,7 @@ FlashAttributes:0,0,server,0:0,1,server,0:0,2,server,0:0,3,server,0:0,4,server,0
 SingletonAttributes:2821,285,server,0:2821,284,server,0:2821,283,server,0:2821,273,server,0:2821,272,server,0:2821,271,server,0:2821,270,server,0:2821,269,server,0:2821,268,server,0:2821,0,server,0:2821,260,server,0:2821,266,server,0
 
 #  User defined default values for attributes.
-AttributeDefaults:0,7,server,0,0x01:0,1,server,0,0x01:0,2,server,0,0x01:0,3,server,0,0x01:0,4,server,0,Wulian:0,5,server,0,T-CZ0X:0,6,server,0,20160317:1794,0,server,0,0x000000000000:1794,771,server,0,0xF3:1794,774,server,0,0x00:1794,770,server,0,0x002710:1794,769,server,0,0x000001:1794,6,server,0,0xFF
+AttributeDefaults:0,7,server,0,0x01:0,1,server,0,0x02:0,2,server,0,0x01:0,3,server,0,0x01:0,4,server,0,Wulian:0,5,server,0,T-CZ0X:0,6,server,0,20160621:1794,0,server,0,0x000000000000:1794,771,server,0,0xF3:1794,774,server,0,0x00:1794,770,server,0,0x002710:1794,769,server,0,0x000001:1794,6,server,0,0xFF
 
 #  Lists the channels that this application will be configured to use.
 Channels:11
