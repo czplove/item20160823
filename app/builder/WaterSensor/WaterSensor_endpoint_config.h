@@ -16,13 +16,13 @@
 #define GENERATED_DEFAULTS { \
 6,'W','u','l','i','a','n',0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 /* 0,Default value: Basic,manufacturer name */, \
 6,'T','-','S','J','0','1',0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 /* 33,Default value: Basic,model identifier */, \
-8,'2','0','1','6','0','4','0','5',0,0,0,0,0,0,0,0 /* 66,Default value: Basic,date code */, \
+8,'2','0','1','6','0','6','2','1',0,0,0,0,0,0,0,0 /* 66,Default value: Basic,date code */, \
   }
 #else // ! BIGENDIAN_CPU
 #define GENERATED_DEFAULTS { \
 6,'W','u','l','i','a','n',0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 /* 0,Default value: Basic,manufacturer name */, \
 6,'T','-','S','J','0','1',0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 /* 33,Default value: Basic,model identifier */, \
-8,'2','0','1','6','0','4','0','5',0,0,0,0,0,0,0,0 /* 66,Default value: Basic,date code */, \
+8,'2','0','1','6','0','6','2','1',0,0,0,0,0,0,0,0 /* 66,Default value: Basic,date code */, \
   }
 #endif // BIGENDIAN_CPU
 
