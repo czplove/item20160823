@@ -313,7 +313,7 @@ OverrideServer:b03,exclude,Primary
 
 OverrideServer:b04,exclude,Primary
 
-OverrideServer:b05,exclude,Primary
+OverrideServer:b05,include,Primary
 
 OverrideServer:1000,exclude,Primary
 
@@ -326,15 +326,18 @@ ZigbeeProNetwork:*Primary,ZA_ROUTER,HA
 #  A list of optional attributes that are included in this configuration. Format
 #  is a list of "clusterId,attributeId,<server|client>,manufacturerCode"
 #  entries, separated by semicolon.
-OptionalAttributes:0,1,server,0:0,2,server,0:0,3,server,0:0,4,server,0:0,5,server,0:0,6,server,0:0,16,server,0:0,17,server,0:0,18,server,0
+OptionalAttributes:0,1,server,0:0,2,server,0:0,3,server,0:0,4,server,0:0,5,server,0:0,6,server,0:0,16,server,0:0,17,server,0:0,18,server,0:2821,0,server,0:2821,260,server,0:2821,266,server,0:2821,268,server,0:2821,269,server,0:2821,270,server,0:2821,271,server,0:2821,272,server,0:2821,273,server,0:2821,284,server,0:2821,283,server,0:2821,285,server,0
 
 #  A list of attributes that are to be saved as tokens in persistent memory.
 #  Format is a list of "clusterId,attributeId,<server|client>,manufacturerCode"
 #  entries, separated by semicolon.
-FlashAttributes:1280,17,server,0:1280,16,server,0:1280,1,server,0:1280,0,server,0
+FlashAttributes:1280,17,server,0:1280,16,server,0:1280,1,server,0:1280,0,server,0:2821,285,server,0:2821,284,server,0:2821,283,server,0:2821,273,server,0:2821,272,server,0:2821,271,server,0:2821,270,server,0:2821,269,server,0:2821,268,server,0:2821,266,server,0:2821,260,server,0:2821,0,server,0
+
+#  Attributes which have their singletoness overridden from default value.
+SingletonAttributes:2821,285,server,0:2821,284,server,0:2821,283,server,0:2821,266,server,0:2821,268,server,0:2821,269,server,0:2821,270,server,0:2821,271,server,0:2821,272,server,0:2821,273,server,0:2821,260,server,0:2821,0,server,0
 
 #  User defined default values for attributes.
-AttributeDefaults:0,4,server,0,Wulian:0,7,server,0,0x01:0,6,server,0,20160407:0,5,server,0,T-SG01:0,1,server,0,0x01:0,2,server,0,0x01:0,3,server,0,0x01
+AttributeDefaults:0,4,server,0,Wulian:0,7,server,0,0x01:0,6,server,0,20160621:0,5,server,0,T-SG01:0,1,server,0,0x02:0,2,server,0,0x01:0,3,server,0,0x01:1280,1,server,0,0x0225
 
 #  Lists the channels that this application will be configured to use.
 Channels:11
@@ -540,7 +543,7 @@ em357=null,
 {setupId:callbackConfiguration
 }
 {setupId:debugConfiguration
-on
+off
 area name off
 appSerial=1
 }
@@ -601,7 +604,7 @@ appPlugin:comms-hub-function,false
 
 appPlugin:concentrator,false
 
-appPlugin:counters,false
+appPlugin:counters,true
 
 appPlugin:device-database,false
 
@@ -969,4 +972,6 @@ AppPluginOption:EMBER_END_DEVICE_POLL_TIMEOUT,60
 AppPluginOption:EMBER_AF_PLUGIN_SECURITY_SENSOR_BUTTON_DEBOUNCE_TIME_MS,50
 
 AppPluginOption:EMBER_AF_PLUGIN_SECURITY_SENSOR_NETWORK_LEAVE_TIME_MS,10000
+
+AppPluginOption:EMBER_BINDING_TABLE_SIZE,4
 

@@ -333,7 +333,7 @@ void emberAfPluginConnectionManagerFinishedCallback(EmberStatus status)
  */
 void emberAfPluginBasicResetToFactoryDefaultsCallback(uint8_t endpoint)
 {
-  emberAfPluginConnectionManagerFactoryReset();
+  emberAfIdentifyClusterServerInitCallback(endpoint);
 }
 
 /** @brief Main Init
