@@ -26,8 +26,32 @@
 #define CREATOR_ON_OFF_1 0xB008
 // Creator for attribute: current summation delivered, endpoint: 1
 #define CREATOR_CURRENT_SUMMATION_DELIVERED_1 0xB009
+// Creator for attribute: number of resets, singleton.
+#define CREATOR_NUMBER_OF_RESETS_SINGLETON 0xB00A
+// Creator for attribute: mac tx unicast retry, singleton.
+#define CREATOR_MAC_TX_UCAST_RETRY_SINGLETON 0xB00B
+// Creator for attribute: aps tx unicast retries, singleton.
+#define CREATOR_APS_TX_UCAST_RETRY_SINGLETON 0xB00C
+// Creator for attribute: route discovery initiated, singleton.
+#define CREATOR_ROUTE_DISC_INITIATED_SINGLETON 0xB00D
+// Creator for attribute: neighbor added, singleton.
+#define CREATOR_NEIGHBOR_ADDED_SINGLETON 0xB00E
+// Creator for attribute: neighbor moved, singleton.
+#define CREATOR_NEIGHBOR_REMOVED_SINGLETON 0xB00F
+// Creator for attribute: neighbor stale, singleton.
+#define CREATOR_NEIGHBOR_STALE_SINGLETON 0xB010
+// Creator for attribute: join indication, singleton.
+#define CREATOR_JOIN_INDICATION_SINGLETON 0xB011
+// Creator for attribute: child moved, singleton.
+#define CREATOR_CHILD_MOVED_SINGLETON 0xB012
+// Creator for attribute: average mac retry per aps message sent, singleton.
+#define CREATOR_AVERAGE_MAC_RETRY_PER_APS_MSG_SENT_SINGLETON 0xB013
+// Creator for attribute: last message lqi, singleton.
+#define CREATOR_LAST_MESSAGE_LQI_SINGLETON 0xB014
+// Creator for attribute: last message rssi, singleton.
+#define CREATOR_LAST_MESSAGE_RSSI_SINGLETON 0xB015
 // Creator for MAX71020: calibration parameter
-#define CREATOR_MAX71020_AFE_PARAMTER   0xB00A
+#define CREATOR_MAX71020_AFE_PARAMTER   0xB016
 
 // Types for the tokens
 #ifdef DEFINETYPES
@@ -41,6 +65,18 @@ typedef uint8_t  tokType_date_code[17];
 typedef uint8_t  tokType_power_source;
 typedef uint8_t  tokType_current_summation_delivered[6];
 typedef uint8_t  tokType_on_off;
+typedef int8_t  tokType_last_message_rssi;
+typedef uint8_t  tokType_last_message_lqi;
+typedef uint16_t  tokType_average_mac_retry_per_aps_msg_sent;
+typedef uint16_t  tokType_child_moved;
+typedef uint16_t  tokType_join_indication;
+typedef uint16_t  tokType_neighbor_stale;
+typedef uint16_t  tokType_neighbor_removed;
+typedef uint16_t  tokType_neighbor_added;
+typedef uint16_t  tokType_route_disc_initiated;
+typedef uint16_t  tokType_aps_tx_ucast_retry;
+typedef uint16_t  tokType_mac_tx_ucast_retry;
+typedef uint16_t  tokType_number_of_resets;
 typedef uint8_t  tokType_max71020_afe_paramter[36];
 
 #endif // DEFINETYPES
@@ -58,6 +94,18 @@ DEFINE_BASIC_TOKEN(DATE_CODE_SINGLETON, tokType_date_code, {8,'2','0','1','6','0
 DEFINE_BASIC_TOKEN(POWER_SOURCE_SINGLETON, tokType_power_source, 0x01)
 DEFINE_BASIC_TOKEN(ON_OFF_1, tokType_on_off, 0x00)
 DEFINE_BASIC_TOKEN(CURRENT_SUMMATION_DELIVERED_1, tokType_current_summation_delivered, {0x00, 0x00, 0x00, 0x00, 0x00, 0x00})
+DEFINE_BASIC_TOKEN(NUMBER_OF_RESETS_SINGLETON, tokType_number_of_resets, 0x0000)
+DEFINE_BASIC_TOKEN(MAC_TX_UCAST_RETRY_SINGLETON, tokType_mac_tx_ucast_retry, 0x0000)
+DEFINE_BASIC_TOKEN(APS_TX_UCAST_RETRY_SINGLETON, tokType_aps_tx_ucast_retry, 0x0000)
+DEFINE_BASIC_TOKEN(ROUTE_DISC_INITIATED_SINGLETON, tokType_route_disc_initiated, 0x0000)
+DEFINE_BASIC_TOKEN(NEIGHBOR_ADDED_SINGLETON, tokType_neighbor_added, 0x0000)
+DEFINE_BASIC_TOKEN(NEIGHBOR_REMOVED_SINGLETON, tokType_neighbor_removed, 0x0000)
+DEFINE_BASIC_TOKEN(NEIGHBOR_STALE_SINGLETON, tokType_neighbor_stale, 0x0000)
+DEFINE_BASIC_TOKEN(JOIN_INDICATION_SINGLETON, tokType_join_indication, 0x0000)
+DEFINE_BASIC_TOKEN(CHILD_MOVED_SINGLETON, tokType_child_moved, 0x0000)
+DEFINE_BASIC_TOKEN(AVERAGE_MAC_RETRY_PER_APS_MSG_SENT_SINGLETON, tokType_average_mac_retry_per_aps_msg_sent, 0x0000)
+DEFINE_BASIC_TOKEN(LAST_MESSAGE_LQI_SINGLETON, tokType_last_message_lqi, 0x0000)
+DEFINE_BASIC_TOKEN(LAST_MESSAGE_RSSI_SINGLETON, tokType_last_message_rssi, 0x0000)
 DEFINE_BASIC_TOKEN(MAX71020_AFE_PARAMTER, tokType_max71020_afe_paramter, {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0})
 #endif // DEFINETOKENS
 
@@ -83,6 +131,30 @@ DEFINE_BASIC_TOKEN(MAX71020_AFE_PARAMTER, tokType_max71020_afe_paramter, {0,0,0,
   emberAfWriteServerAttribute(1, ZCL_BASIC_CLUSTER_ID, ZCL_DATE_CODE_ATTRIBUTE_ID, (uint8_t*)ptr, ZCL_CHAR_STRING_ATTRIBUTE_TYPE); \
   halCommonGetToken((tokType_power_source *)ptr, TOKEN_POWER_SOURCE_SINGLETON); \
   emberAfWriteServerAttribute(1, ZCL_BASIC_CLUSTER_ID, ZCL_POWER_SOURCE_ATTRIBUTE_ID, (uint8_t*)ptr, ZCL_ENUM8_ATTRIBUTE_TYPE); \
+  halCommonGetToken((tokType_number_of_resets *)ptr, TOKEN_NUMBER_OF_RESETS_SINGLETON); \
+  emberAfWriteServerAttribute(1, ZCL_DIAGNOSTICS_CLUSTER_ID, ZCL_NUMBER_OF_RESETS_ATTRIBUTE_ID, (uint8_t*)ptr, ZCL_INT16U_ATTRIBUTE_TYPE); \
+  halCommonGetToken((tokType_mac_tx_ucast_retry *)ptr, TOKEN_MAC_TX_UCAST_RETRY_SINGLETON); \
+  emberAfWriteServerAttribute(1, ZCL_DIAGNOSTICS_CLUSTER_ID, ZCL_MAC_TX_UCAST_RETRY_ATTRIBUTE_ID, (uint8_t*)ptr, ZCL_INT16U_ATTRIBUTE_TYPE); \
+  halCommonGetToken((tokType_aps_tx_ucast_retry *)ptr, TOKEN_APS_TX_UCAST_RETRY_SINGLETON); \
+  emberAfWriteServerAttribute(1, ZCL_DIAGNOSTICS_CLUSTER_ID, ZCL_APS_TX_UCAST_RETRY_ATTRIBUTE_ID, (uint8_t*)ptr, ZCL_INT16U_ATTRIBUTE_TYPE); \
+  halCommonGetToken((tokType_route_disc_initiated *)ptr, TOKEN_ROUTE_DISC_INITIATED_SINGLETON); \
+  emberAfWriteServerAttribute(1, ZCL_DIAGNOSTICS_CLUSTER_ID, ZCL_ROUTE_DISC_INITIATED_ATTRIBUTE_ID, (uint8_t*)ptr, ZCL_INT16U_ATTRIBUTE_TYPE); \
+  halCommonGetToken((tokType_neighbor_added *)ptr, TOKEN_NEIGHBOR_ADDED_SINGLETON); \
+  emberAfWriteServerAttribute(1, ZCL_DIAGNOSTICS_CLUSTER_ID, ZCL_NEIGHBOR_ADDED_ATTRIBUTE_ID, (uint8_t*)ptr, ZCL_INT16U_ATTRIBUTE_TYPE); \
+  halCommonGetToken((tokType_neighbor_removed *)ptr, TOKEN_NEIGHBOR_REMOVED_SINGLETON); \
+  emberAfWriteServerAttribute(1, ZCL_DIAGNOSTICS_CLUSTER_ID, ZCL_NEIGHBOR_REMOVED_ATTRIBUTE_ID, (uint8_t*)ptr, ZCL_INT16U_ATTRIBUTE_TYPE); \
+  halCommonGetToken((tokType_neighbor_stale *)ptr, TOKEN_NEIGHBOR_STALE_SINGLETON); \
+  emberAfWriteServerAttribute(1, ZCL_DIAGNOSTICS_CLUSTER_ID, ZCL_NEIGHBOR_STALE_ATTRIBUTE_ID, (uint8_t*)ptr, ZCL_INT16U_ATTRIBUTE_TYPE); \
+  halCommonGetToken((tokType_join_indication *)ptr, TOKEN_JOIN_INDICATION_SINGLETON); \
+  emberAfWriteServerAttribute(1, ZCL_DIAGNOSTICS_CLUSTER_ID, ZCL_JOIN_INDICATION_ATTRIBUTE_ID, (uint8_t*)ptr, ZCL_INT16U_ATTRIBUTE_TYPE); \
+  halCommonGetToken((tokType_child_moved *)ptr, TOKEN_CHILD_MOVED_SINGLETON); \
+  emberAfWriteServerAttribute(1, ZCL_DIAGNOSTICS_CLUSTER_ID, ZCL_CHILD_MOVED_ATTRIBUTE_ID, (uint8_t*)ptr, ZCL_INT16U_ATTRIBUTE_TYPE); \
+  halCommonGetToken((tokType_average_mac_retry_per_aps_msg_sent *)ptr, TOKEN_AVERAGE_MAC_RETRY_PER_APS_MSG_SENT_SINGLETON); \
+  emberAfWriteServerAttribute(1, ZCL_DIAGNOSTICS_CLUSTER_ID, ZCL_AVERAGE_MAC_RETRY_PER_APS_MSG_SENT_ATTRIBUTE_ID, (uint8_t*)ptr, ZCL_INT16U_ATTRIBUTE_TYPE); \
+  halCommonGetToken((tokType_last_message_lqi *)ptr, TOKEN_LAST_MESSAGE_LQI_SINGLETON); \
+  emberAfWriteServerAttribute(1, ZCL_DIAGNOSTICS_CLUSTER_ID, ZCL_LAST_MESSAGE_LQI_ATTRIBUTE_ID, (uint8_t*)ptr, ZCL_INT8U_ATTRIBUTE_TYPE); \
+  halCommonGetToken((tokType_last_message_rssi *)ptr, TOKEN_LAST_MESSAGE_RSSI_SINGLETON); \
+  emberAfWriteServerAttribute(1, ZCL_DIAGNOSTICS_CLUSTER_ID, ZCL_LAST_MESSAGE_RSSI_ATTRIBUTE_ID, (uint8_t*)ptr, ZCL_INT8S_ATTRIBUTE_TYPE); \
   epNetwork = emberAfNetworkIndexFromEndpoint(1); \
   if((endpoint) == 1 || ((endpoint) == EMBER_BROADCAST_ENDPOINT && epNetwork == curNetwork)) { \
     halCommonGetToken((tokType_on_off *)ptr, TOKEN_ON_OFF_1); \
@@ -115,6 +187,31 @@ DEFINE_BASIC_TOKEN(MAX71020_AFE_PARAMTER, tokType_max71020_afe_paramter, {0,0,0,
       halCommonSetToken(TOKEN_DATE_CODE_SINGLETON, data); \
     if ( metadata->attributeId == 0x0007 && !emberAfAttributeIsClient(metadata) ) \
       halCommonSetToken(TOKEN_POWER_SOURCE_SINGLETON, data); \
+  } else if ( clusterId == 0x0B05 ) { \
+    if ( metadata->attributeId == 0x0000 && !emberAfAttributeIsClient(metadata) ) \
+      halCommonSetToken(TOKEN_NUMBER_OF_RESETS_SINGLETON, data); \
+    if ( metadata->attributeId == 0x0104 && !emberAfAttributeIsClient(metadata) ) \
+      halCommonSetToken(TOKEN_MAC_TX_UCAST_RETRY_SINGLETON, data); \
+    if ( metadata->attributeId == 0x010A && !emberAfAttributeIsClient(metadata) ) \
+      halCommonSetToken(TOKEN_APS_TX_UCAST_RETRY_SINGLETON, data); \
+    if ( metadata->attributeId == 0x010C && !emberAfAttributeIsClient(metadata) ) \
+      halCommonSetToken(TOKEN_ROUTE_DISC_INITIATED_SINGLETON, data); \
+    if ( metadata->attributeId == 0x010D && !emberAfAttributeIsClient(metadata) ) \
+      halCommonSetToken(TOKEN_NEIGHBOR_ADDED_SINGLETON, data); \
+    if ( metadata->attributeId == 0x010E && !emberAfAttributeIsClient(metadata) ) \
+      halCommonSetToken(TOKEN_NEIGHBOR_REMOVED_SINGLETON, data); \
+    if ( metadata->attributeId == 0x010F && !emberAfAttributeIsClient(metadata) ) \
+      halCommonSetToken(TOKEN_NEIGHBOR_STALE_SINGLETON, data); \
+    if ( metadata->attributeId == 0x0110 && !emberAfAttributeIsClient(metadata) ) \
+      halCommonSetToken(TOKEN_JOIN_INDICATION_SINGLETON, data); \
+    if ( metadata->attributeId == 0x0111 && !emberAfAttributeIsClient(metadata) ) \
+      halCommonSetToken(TOKEN_CHILD_MOVED_SINGLETON, data); \
+    if ( metadata->attributeId == 0x011B && !emberAfAttributeIsClient(metadata) ) \
+      halCommonSetToken(TOKEN_AVERAGE_MAC_RETRY_PER_APS_MSG_SENT_SINGLETON, data); \
+    if ( metadata->attributeId == 0x011C && !emberAfAttributeIsClient(metadata) ) \
+      halCommonSetToken(TOKEN_LAST_MESSAGE_LQI_SINGLETON, data); \
+    if ( metadata->attributeId == 0x011D && !emberAfAttributeIsClient(metadata) ) \
+      halCommonSetToken(TOKEN_LAST_MESSAGE_RSSI_SINGLETON, data); \
   }\
   if ( endpoint == 1 ) { \
     if ( clusterId == 0x06 ) { \

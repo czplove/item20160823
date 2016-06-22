@@ -25,11 +25,11 @@
         </option>
         <option>
           <name>ObjPath</name>
-          <state>D:\tmp\SmartPlug-Ha12\build\obj</state>
+          <state>D:\tmp\SmartPlug-Ha12\obj</state>
         </option>
         <option>
           <name>ListPath</name>
-          <state>D:\tmp\SmartPlug-Ha12\build\lst</state>
+          <state>D:\tmp\SmartPlug-Ha12\lst</state>
         </option>
         <option>
           <name>Variant</name>
@@ -1178,6 +1178,9 @@
   </file>
   <file>
     <name>$PROJ_DIR$\..\..\..\hal\micro\cortexm3\usb\cdc\descriptors.c</name>
+  </file>
+  <file>
+    <name>$PROJ_DIR$\..\..\framework\plugin\diagnostic-server\diagnostic-server-soc.c</name>
   </file>
   <file>
     <name>$PROJ_DIR$\..\..\..\hal\micro\cortexm3\diagnostic.c</name>
