@@ -19889,6 +19889,19 @@ void emberAfPluginConnectionManagerFinishedCallback(EmberStatus status);
 /** @} END Connection Manager Plugin Callbacks */
 
 
+/** @name Counters Plugin Callbacks */
+// @{
+
+/** @brief Rollover
+ *
+ * This function is called every time a counter exceeds its threshold.
+ *
+ * @param type The counter that rolled over Ver.: always
+ */
+void emberAfPluginCountersRolloverCallback(EmberCounterType type);
+/** @} END Counters Plugin Callbacks */
+
+
 /** @name End Device Support Plugin Callbacks */
 // @{
 

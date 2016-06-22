@@ -70,6 +70,15 @@ void emberAfPluginLowVoltageShutdownGetVoltageCallback(uint16_t currentVoltage)
   uint8_t voltageMinThreshold;
   uint8_t batteryAlarmMask;
   uint8_t voltage = currentVoltage/100;
+  uint8_t batteryPercentage  = 0;
+  if(voltage>24 && voltage < 33 )
+  {
+    batteryPercentage = (uint8_t)(((float)currentVoltage*2 -4800)/9);
+  }
+  else if(voltage >= 33)
+  {
+    batteryPercentage = 0xC8;
+  }
   for (i = 0; i < emberAfEndpointCount(); i++) {
     endpoint = emberAfEndpointFromIndex(i);
     if (emberAfContainsServer(endpoint, ZCL_POWER_CONFIG_CLUSTER_ID))
@@ -78,6 +87,12 @@ void emberAfPluginLowVoltageShutdownGetVoltageCallback(uint16_t currentVoltage)
                                   ZCL_POWER_CONFIG_CLUSTER_ID,
                                   ZCL_BATTERY_VOLTAGE_ATTRIBUTE_ID,
                                   (uint8_t *) &voltage,
+                                  ZCL_INT8U_ATTRIBUTE_TYPE);
+
+      emberAfWriteServerAttribute(endpoint,
+                                  ZCL_POWER_CONFIG_CLUSTER_ID,
+                                  ZCL_BATTERY_PERCENTAGE_REMAINING_ATTRIBUTE_ID,
+                                  (uint8_t *) &batteryPercentage,
                                   ZCL_INT8U_ATTRIBUTE_TYPE);
 
       emberAfReadServerAttribute(endpoint,
