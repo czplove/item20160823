@@ -16,13 +16,13 @@
 #define GENERATED_DEFAULTS { \
 6,'W','u','l','i','a','n',0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 /* 0,Default value: Basic,manufacturer name */, \
 6,'T','-','W','S','0','1',0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 /* 33,Default value: Basic,model identifier */, \
-8,'2','0','1','6','0','4','0','1',0,0,0,0,0,0,0,0 /* 66,Default value: Basic,date code */, \
+8,'2','0','1','6','0','6','2','1',0,0,0,0,0,0,0,0 /* 66,Default value: Basic,date code */, \
   }
 #else // ! BIGENDIAN_CPU
 #define GENERATED_DEFAULTS { \
 6,'W','u','l','i','a','n',0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 /* 0,Default value: Basic,manufacturer name */, \
 6,'T','-','W','S','0','1',0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 /* 33,Default value: Basic,model identifier */, \
-8,'2','0','1','6','0','4','0','1',0,0,0,0,0,0,0,0 /* 66,Default value: Basic,date code */, \
+8,'2','0','1','6','0','6','2','1',0,0,0,0,0,0,0,0 /* 66,Default value: Basic,date code */, \
   }
 #endif // BIGENDIAN_CPU
 
@@ -32,9 +32,9 @@
 // Generated attributes
 #define GENERATED_ATTRIBUTES { \
     { 0x0000, ZCL_INT8U_ATTRIBUTE_TYPE, 1, (ATTRIBUTE_MASK_SINGLETON), { (uint8_t*)0x02 } }, /* 0 / Basic / ZCL version*/\
-    { 0x0001, ZCL_INT8U_ATTRIBUTE_TYPE, 1, (ATTRIBUTE_MASK_SINGLETON), { (uint8_t*)0x00 } }, /* 1 / Basic / application version*/\
-    { 0x0002, ZCL_INT8U_ATTRIBUTE_TYPE, 1, (ATTRIBUTE_MASK_SINGLETON), { (uint8_t*)0x00 } }, /* 2 / Basic / stack version*/\
-    { 0x0003, ZCL_INT8U_ATTRIBUTE_TYPE, 1, (ATTRIBUTE_MASK_SINGLETON), { (uint8_t*)0x00 } }, /* 3 / Basic / hardware version*/\
+    { 0x0001, ZCL_INT8U_ATTRIBUTE_TYPE, 1, (ATTRIBUTE_MASK_SINGLETON), { (uint8_t*)0x02 } }, /* 1 / Basic / application version*/\
+    { 0x0002, ZCL_INT8U_ATTRIBUTE_TYPE, 1, (ATTRIBUTE_MASK_SINGLETON), { (uint8_t*)0x01 } }, /* 2 / Basic / stack version*/\
+    { 0x0003, ZCL_INT8U_ATTRIBUTE_TYPE, 1, (ATTRIBUTE_MASK_SINGLETON), { (uint8_t*)0x01 } }, /* 3 / Basic / hardware version*/\
     { 0x0004, ZCL_CHAR_STRING_ATTRIBUTE_TYPE, 33, (ATTRIBUTE_MASK_SINGLETON), { (uint8_t*)&(generatedDefaults[0]) } }, /* 4 / Basic / manufacturer name*/\
     { 0x0005, ZCL_CHAR_STRING_ATTRIBUTE_TYPE, 33, (ATTRIBUTE_MASK_SINGLETON), { (uint8_t*)&(generatedDefaults[33]) } }, /* 5 / Basic / model identifier*/\
     { 0x0006, ZCL_CHAR_STRING_ATTRIBUTE_TYPE, 17, (ATTRIBUTE_MASK_SINGLETON), { (uint8_t*)&(generatedDefaults[66]) } }, /* 6 / Basic / date code*/\
@@ -43,15 +43,28 @@
     { 0x0011, ZCL_ENUM8_ATTRIBUTE_TYPE, 1, (ATTRIBUTE_MASK_WRITABLE|ATTRIBUTE_MASK_SINGLETON), { (uint8_t*)0x00 } }, /* 9 / Basic / physical environment*/\
     { 0x0012, ZCL_BOOLEAN_ATTRIBUTE_TYPE, 1, (ATTRIBUTE_MASK_WRITABLE|ATTRIBUTE_MASK_SINGLETON), { (uint8_t*)0x01 } }, /* 10 / Basic / device enabled*/\
     { 0x0020, ZCL_INT8U_ATTRIBUTE_TYPE, 1, (ATTRIBUTE_MASK_SINGLETON), { (uint8_t*)0x00UL } }, /* 11 / Power Configuration / battery voltage*/\
-    { 0x0035, ZCL_BITMAP8_ATTRIBUTE_TYPE, 1, (ATTRIBUTE_MASK_WRITABLE|ATTRIBUTE_MASK_SINGLETON), { (uint8_t*)0x01 } }, /* 12 / Power Configuration / battery alarm mask*/\
-    { 0x0036, ZCL_INT8U_ATTRIBUTE_TYPE, 1, (ATTRIBUTE_MASK_WRITABLE|ATTRIBUTE_MASK_SINGLETON), { (uint8_t*)0x1A } }, /* 13 / Power Configuration / battery voltage min threshold*/\
-    { 0x0000, ZCL_INT16U_ATTRIBUTE_TYPE, 2, (ATTRIBUTE_MASK_WRITABLE), { (uint8_t*)0x0000 } }, /* 14 / Identify / identify time*/\
-    { 0x0000, ZCL_INT16S_ATTRIBUTE_TYPE, 2, (0x00), { (uint8_t*)0x0000 } }, /* 15 / Temperature Measurement / measured value*/\
-    { 0x0001, ZCL_INT16S_ATTRIBUTE_TYPE, 2, (0x00), { (uint8_t*)0xF060 } }, /* 16 / Temperature Measurement / min measured value*/\
-    { 0x0002, ZCL_INT16S_ATTRIBUTE_TYPE, 2, (0x00), { (uint8_t*)0x2EE0 } }, /* 17 / Temperature Measurement / max measured value*/\
-    { 0x0000, ZCL_INT16U_ATTRIBUTE_TYPE, 2, (0x00), { (uint8_t*)0x0000 } }, /* 18 / Relative Humidity Measurement / measured value*/\
-    { 0x0001, ZCL_INT16U_ATTRIBUTE_TYPE, 2, (0x00), { (uint8_t*)0x0000 } }, /* 19 / Relative Humidity Measurement / min measured value*/\
-    { 0x0002, ZCL_INT16U_ATTRIBUTE_TYPE, 2, (0x00), { (uint8_t*)0x2710 } }, /* 20 / Relative Humidity Measurement / max measured value*/\
+    { 0x0021, ZCL_INT8U_ATTRIBUTE_TYPE, 1, (ATTRIBUTE_MASK_SINGLETON), { (uint8_t*)0x00 } }, /* 12 / Power Configuration / battery percentage remaining*/\
+    { 0x0035, ZCL_BITMAP8_ATTRIBUTE_TYPE, 1, (ATTRIBUTE_MASK_WRITABLE|ATTRIBUTE_MASK_SINGLETON), { (uint8_t*)0x01 } }, /* 13 / Power Configuration / battery alarm mask*/\
+    { 0x0036, ZCL_INT8U_ATTRIBUTE_TYPE, 1, (ATTRIBUTE_MASK_WRITABLE|ATTRIBUTE_MASK_SINGLETON), { (uint8_t*)0x1A } }, /* 14 / Power Configuration / battery voltage min threshold*/\
+    { 0x0000, ZCL_INT16U_ATTRIBUTE_TYPE, 2, (ATTRIBUTE_MASK_WRITABLE), { (uint8_t*)0x0000 } }, /* 15 / Identify / identify time*/\
+    { 0x0000, ZCL_INT16S_ATTRIBUTE_TYPE, 2, (0x00), { (uint8_t*)0x0000 } }, /* 16 / Temperature Measurement / measured value*/\
+    { 0x0001, ZCL_INT16S_ATTRIBUTE_TYPE, 2, (0x00), { (uint8_t*)0xF060 } }, /* 17 / Temperature Measurement / min measured value*/\
+    { 0x0002, ZCL_INT16S_ATTRIBUTE_TYPE, 2, (0x00), { (uint8_t*)0x2EE0 } }, /* 18 / Temperature Measurement / max measured value*/\
+    { 0x0000, ZCL_INT16U_ATTRIBUTE_TYPE, 2, (0x00), { (uint8_t*)0x0000 } }, /* 19 / Relative Humidity Measurement / measured value*/\
+    { 0x0001, ZCL_INT16U_ATTRIBUTE_TYPE, 2, (0x00), { (uint8_t*)0x0000 } }, /* 20 / Relative Humidity Measurement / min measured value*/\
+    { 0x0002, ZCL_INT16U_ATTRIBUTE_TYPE, 2, (0x00), { (uint8_t*)0x2710 } }, /* 21 / Relative Humidity Measurement / max measured value*/\
+    { 0x0000, ZCL_INT16U_ATTRIBUTE_TYPE, 2, (ATTRIBUTE_MASK_TOKENIZE|ATTRIBUTE_MASK_SINGLETON), { (uint8_t*)0x0000 } }, /* 22 / Diagnostics / number of resets*/\
+    { 0x0104, ZCL_INT16U_ATTRIBUTE_TYPE, 2, (ATTRIBUTE_MASK_TOKENIZE|ATTRIBUTE_MASK_SINGLETON), { (uint8_t*)0x0000 } }, /* 23 / Diagnostics / mac tx unicast retry*/\
+    { 0x010A, ZCL_INT16U_ATTRIBUTE_TYPE, 2, (ATTRIBUTE_MASK_TOKENIZE|ATTRIBUTE_MASK_SINGLETON), { (uint8_t*)0x0000 } }, /* 24 / Diagnostics / aps tx unicast retries*/\
+    { 0x010C, ZCL_INT16U_ATTRIBUTE_TYPE, 2, (ATTRIBUTE_MASK_TOKENIZE|ATTRIBUTE_MASK_SINGLETON), { (uint8_t*)0x0000 } }, /* 25 / Diagnostics / route discovery initiated*/\
+    { 0x010D, ZCL_INT16U_ATTRIBUTE_TYPE, 2, (ATTRIBUTE_MASK_TOKENIZE|ATTRIBUTE_MASK_SINGLETON), { (uint8_t*)0x0000 } }, /* 26 / Diagnostics / neighbor added*/\
+    { 0x010E, ZCL_INT16U_ATTRIBUTE_TYPE, 2, (ATTRIBUTE_MASK_TOKENIZE|ATTRIBUTE_MASK_SINGLETON), { (uint8_t*)0x0000 } }, /* 27 / Diagnostics / neighbor moved*/\
+    { 0x010F, ZCL_INT16U_ATTRIBUTE_TYPE, 2, (ATTRIBUTE_MASK_TOKENIZE|ATTRIBUTE_MASK_SINGLETON), { (uint8_t*)0x0000 } }, /* 28 / Diagnostics / neighbor stale*/\
+    { 0x0110, ZCL_INT16U_ATTRIBUTE_TYPE, 2, (ATTRIBUTE_MASK_TOKENIZE|ATTRIBUTE_MASK_SINGLETON), { (uint8_t*)0x0000 } }, /* 29 / Diagnostics / join indication*/\
+    { 0x0111, ZCL_INT16U_ATTRIBUTE_TYPE, 2, (ATTRIBUTE_MASK_TOKENIZE|ATTRIBUTE_MASK_SINGLETON), { (uint8_t*)0x0000 } }, /* 30 / Diagnostics / child moved*/\
+    { 0x011B, ZCL_INT16U_ATTRIBUTE_TYPE, 2, (ATTRIBUTE_MASK_TOKENIZE|ATTRIBUTE_MASK_SINGLETON), { (uint8_t*)0x0000 } }, /* 31 / Diagnostics / average mac retry per aps message sent*/\
+    { 0x011C, ZCL_INT8U_ATTRIBUTE_TYPE, 1, (ATTRIBUTE_MASK_TOKENIZE|ATTRIBUTE_MASK_SINGLETON), { (uint8_t*)0x0000 } }, /* 32 / Diagnostics / last message lqi*/\
+    { 0x011D, ZCL_INT8S_ATTRIBUTE_TYPE, 1, (ATTRIBUTE_MASK_TOKENIZE|ATTRIBUTE_MASK_SINGLETON), { (uint8_t*)0x0000 } }, /* 33 / Diagnostics / last message rssi*/\
   }
 
 
@@ -64,17 +77,18 @@ PGM EmberAfGenericClusterFunction emberAfFuncArrayIdentifyClusterServer[] = { (E
 // Clusters defitions
 #define GENERATED_CLUSTERS { \
     { 0x0000, (EmberAfAttributeMetadata*)&(generatedAttributes[0]), 11, 0, (CLUSTER_MASK_SERVER), NULL,  },    \
-    { 0x0001, (EmberAfAttributeMetadata*)&(generatedAttributes[11]), 3, 0, (CLUSTER_MASK_SERVER| CLUSTER_MASK_ATTRIBUTE_CHANGED_FUNCTION), emberAfFuncArrayPowerConfigClusterServer, },    \
-    { 0x0003, (EmberAfAttributeMetadata*)&(generatedAttributes[14]), 0, 0, (CLUSTER_MASK_CLIENT), NULL,  },    \
-    { 0x0003, (EmberAfAttributeMetadata*)&(generatedAttributes[14]), 1, 2, (CLUSTER_MASK_SERVER| CLUSTER_MASK_INIT_FUNCTION| CLUSTER_MASK_ATTRIBUTE_CHANGED_FUNCTION), emberAfFuncArrayIdentifyClusterServer, },    \
-    { 0x0402, (EmberAfAttributeMetadata*)&(generatedAttributes[15]), 3, 6, (CLUSTER_MASK_SERVER), NULL,  },    \
-    { 0x0405, (EmberAfAttributeMetadata*)&(generatedAttributes[18]), 3, 6, (CLUSTER_MASK_SERVER), NULL,  },    \
+    { 0x0001, (EmberAfAttributeMetadata*)&(generatedAttributes[11]), 4, 0, (CLUSTER_MASK_SERVER| CLUSTER_MASK_ATTRIBUTE_CHANGED_FUNCTION), emberAfFuncArrayPowerConfigClusterServer, },    \
+    { 0x0003, (EmberAfAttributeMetadata*)&(generatedAttributes[15]), 0, 0, (CLUSTER_MASK_CLIENT), NULL,  },    \
+    { 0x0003, (EmberAfAttributeMetadata*)&(generatedAttributes[15]), 1, 2, (CLUSTER_MASK_SERVER| CLUSTER_MASK_INIT_FUNCTION| CLUSTER_MASK_ATTRIBUTE_CHANGED_FUNCTION), emberAfFuncArrayIdentifyClusterServer, },    \
+    { 0x0402, (EmberAfAttributeMetadata*)&(generatedAttributes[16]), 3, 6, (CLUSTER_MASK_SERVER), NULL,  },    \
+    { 0x0405, (EmberAfAttributeMetadata*)&(generatedAttributes[19]), 3, 6, (CLUSTER_MASK_SERVER), NULL,  },    \
+    { 0x0B05, (EmberAfAttributeMetadata*)&(generatedAttributes[22]), 12, 0, (CLUSTER_MASK_SERVER), NULL,  },    \
   }
 
 
 // Endpoint types
 #define GENERATED_ENDPOINT_TYPES {        \
-    { (EmberAfCluster*)&(generatedClusters[0]), 6, 14 }, \
+    { (EmberAfCluster*)&(generatedClusters[0]), 7, 14 }, \
   }
 
 
@@ -109,7 +123,7 @@ PGM EmberAfGenericClusterFunction emberAfFuncArrayIdentifyClusterServer[] = { (E
 // Largest attribute size is needed for various buffers
 #define ATTRIBUTE_LARGEST (33)
 // Total size of singleton attributes
-#define ATTRIBUTE_SINGLETONS_SIZE (110)
+#define ATTRIBUTE_SINGLETONS_SIZE (133)
 
 // Total size of attribute storage
 #define ATTRIBUTE_MAX_SIZE 14
@@ -148,6 +162,10 @@ PGM EmberAfGenericClusterFunction emberAfFuncArrayIdentifyClusterServer[] = { (E
   extern void emberAfPluginButtonInterfaceButton2PressedEventHandler(void); \
   extern EmberEventControl emberAfPluginButtonInterfaceButton2ReleasedEventControl; \
   extern void emberAfPluginButtonInterfaceButton2ReleasedEventHandler(void); \
+  extern EmberEventControl emberAfPluginButtonInterfaceButton3PressedEventControl; \
+  extern void emberAfPluginButtonInterfaceButton3PressedEventHandler(void); \
+  extern EmberEventControl emberAfPluginButtonInterfaceButton3ReleasedEventControl; \
+  extern void emberAfPluginButtonInterfaceButton3ReleasedEventHandler(void); \
   extern EmberEventControl emberAfPluginButtonInterfaceButtonTimeoutEventControl; \
   extern void emberAfPluginButtonInterfaceButtonTimeoutEventHandler(void); \
   extern EmberEventControl emberAfPluginConnectionManagerRebootEventControl; \
@@ -208,6 +226,8 @@ PGM EmberAfGenericClusterFunction emberAfFuncArrayIdentifyClusterServer[] = { (E
   { &emberAfPluginButtonInterfaceButton1ReleasedEventControl, emberAfPluginButtonInterfaceButton1ReleasedEventHandler }, \
   { &emberAfPluginButtonInterfaceButton2PressedEventControl, emberAfPluginButtonInterfaceButton2PressedEventHandler }, \
   { &emberAfPluginButtonInterfaceButton2ReleasedEventControl, emberAfPluginButtonInterfaceButton2ReleasedEventHandler }, \
+  { &emberAfPluginButtonInterfaceButton3PressedEventControl, emberAfPluginButtonInterfaceButton3PressedEventHandler }, \
+  { &emberAfPluginButtonInterfaceButton3ReleasedEventControl, emberAfPluginButtonInterfaceButton3ReleasedEventHandler }, \
   { &emberAfPluginButtonInterfaceButtonTimeoutEventControl, emberAfPluginButtonInterfaceButtonTimeoutEventHandler }, \
   { &emberAfPluginConnectionManagerRebootEventControl, emberAfPluginConnectionManagerRebootEventHandler }, \
   { &emberAfPluginConnectionManagerRejoinEventControl, emberAfPluginConnectionManagerRejoinEventHandler }, \
@@ -234,6 +254,8 @@ PGM EmberAfGenericClusterFunction emberAfFuncArrayIdentifyClusterServer[] = { (E
   "Button Interface Plugin Button1Released",  \
   "Button Interface Plugin Button2Pressed",  \
   "Button Interface Plugin Button2Released",  \
+  "Button Interface Plugin Button3Pressed",  \
+  "Button Interface Plugin Button3Released",  \
   "Button Interface Plugin ButtonTimeout",  \
   "Connection Manager Plugin Reboot",  \
   "Connection Manager Plugin Rejoin",  \
@@ -261,6 +283,7 @@ PGM EmberAfGenericClusterFunction emberAfFuncArrayIdentifyClusterServer[] = { (E
 
 #define EMBER_AF_GENERATED_PLUGIN_INIT_FUNCTION_DECLARATIONS \
   void emberAfPluginConnectionManagerInitCallback(void); \
+  void emberAfPluginCountersInitCallback(void); \
   void emberAfPluginEndDeviceSupportInitCallback(void); \
   void emberAfPluginI2cDriverInitCallback(void); \
   void emberAfPluginLowVoltageShutdownInitCallback(void); \
@@ -272,6 +295,7 @@ PGM EmberAfGenericClusterFunction emberAfFuncArrayIdentifyClusterServer[] = { (E
 
 #define EMBER_AF_GENERATED_PLUGIN_INIT_FUNCTION_CALLS \
   emberAfPluginConnectionManagerInitCallback(); \
+  emberAfPluginCountersInitCallback(); \
   emberAfPluginEndDeviceSupportInitCallback(); \
   emberAfPluginI2cDriverInitCallback(); \
   emberAfPluginLowVoltageShutdownInitCallback(); \

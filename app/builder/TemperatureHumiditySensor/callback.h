@@ -10712,9 +10712,11 @@ bool emberAfIasAceClusterArmResponseCallback(uint8_t armNotification);
  *
  * @param numberOfZones   Ver.: always
  * @param zoneIds   Ver.: always
+ * @param armDisarmCode   Ver.: since ha-1.2.1-05-3520-30
  */
 bool emberAfIasAceClusterBypassCallback(uint8_t numberOfZones,
-                                           uint8_t* zoneIds);
+                                           uint8_t* zoneIds,
+                                           uint8_t* armDisarmCode);
 /** @brief IAS ACE Cluster Bypass Response
  *
  * 
@@ -10898,10 +10900,12 @@ bool emberAfIasAceClusterGetZoneInformationCallback(uint8_t zoneId);
  * @param zoneId   Ver.: always
  * @param zoneType   Ver.: always
  * @param ieeeAddress   Ver.: always
+ * @param zoneLabel   Ver.: since ha-1.2.1-05-3520-30
  */
 bool emberAfIasAceClusterGetZoneInformationResponseCallback(uint8_t zoneId,
                                                                uint16_t zoneType,
-                                                               uint8_t* ieeeAddress);
+                                                               uint8_t* ieeeAddress,
+                                                               uint8_t* zoneLabel);
 /** @brief IAS ACE Cluster Get Zone Status
  *
  * 
@@ -10932,9 +10936,13 @@ bool emberAfIasAceClusterGetZoneStatusResponseCallback(uint8_t zoneStatusComplet
  *
  * @param panelStatus   Ver.: always
  * @param secondsRemaining   Ver.: always
+ * @param audibleNotification   Ver.: since ha-1.2.1-05-3520-30
+ * @param alarmStatus   Ver.: since ha-1.2.1-05-3520-30
  */
 bool emberAfIasAceClusterPanelStatusChangedCallback(uint8_t panelStatus,
-                                                       uint8_t secondsRemaining);
+                                                       uint8_t secondsRemaining,
+                                                       uint8_t audibleNotification,
+                                                       uint8_t alarmStatus);
 /** @brief IAS ACE Cluster Panic
  *
  * 
@@ -11036,9 +11044,13 @@ bool emberAfIasAceClusterSetBypassedZoneListCallback(uint8_t numberOfZones,
  *
  * @param zoneId   Ver.: always
  * @param zoneStatus   Ver.: always
+ * @param audibleNotification   Ver.: since ha-1.2.1-05-3520-30
+ * @param zoneLabel   Ver.: since ha-1.2.1-05-3520-30
  */
 bool emberAfIasAceClusterZoneStatusChangedCallback(uint8_t zoneId,
-                                                      uint16_t zoneStatus);
+                                                      uint16_t zoneStatus,
+                                                      uint8_t audibleNotification,
+                                                      uint8_t* zoneLabel);
 
 /** @} END IAS ACE Cluster Callbacks */
 
@@ -19744,6 +19756,13 @@ void emberAfPluginButtonInterfaceButton1PressedShortCallback(uint16_t timePresse
  * @param timePressedMs Time (in ms) button 2 was pressed  Ver.: always
  */
 void emberAfPluginButtonInterfaceButton2PressedShortCallback(uint16_t timePressedMs);
+/** @brief Button3 Pressed Short
+ *
+ * This function returns the number of times a button was short pressed.
+ *
+ * @param timePressedMs Time (in ms) button 3 was pressed  Ver.: always
+ */
+void emberAfPluginButtonInterfaceButton3PressedShortCallback(uint16_t timePressedMs);
 /** @brief Button0 Pressed Long
  *
  * This function returns the number of times a button was short pressed.
@@ -19771,6 +19790,15 @@ void emberAfPluginButtonInterfaceButton1PressedLongCallback(uint16_t timePressed
  */
 void emberAfPluginButtonInterfaceButton2PressedLongCallback(uint16_t timePressedMs,
                                                             bool pressedAtReset);
+/** @brief Button3 Pressed Long
+ *
+ * This function returns the number of times a button was short pressed.
+ *
+ * @param timePressedMs Amount of time button 3 was pressed.  Ver.: always
+ * @param pressedAtReset Was the button pressed at startup.  Ver.: always
+ */
+void emberAfPluginButtonInterfaceButton3PressedLongCallback(uint16_t timePressedMs,
+                                                            bool pressedAtReset);
 /** @brief Button0 Pressing
  *
  * This function is periodically called when button 0 is being pressed.
@@ -19789,6 +19817,12 @@ void emberAfPluginButtonInterfaceButton1PressingCallback(void);
  *
  */
 void emberAfPluginButtonInterfaceButton2PressingCallback(void);
+/** @brief Button3 Pressing
+ *
+ * This function is periodically called when button 3 is being pressed.
+ *
+ */
+void emberAfPluginButtonInterfaceButton3PressingCallback(void);
 /** @brief Button0 Low
  *
  * This function is called when the GPIO tied to button zero goes low
@@ -19825,6 +19859,18 @@ void emberAfPluginButtonInterfaceButton2LowCallback(void);
  *
  */
 void emberAfPluginButtonInterfaceButton2HighCallback(void);
+/** @brief Button3 Low
+ *
+ * This function is called when the GPIO tied to button one goes low
+ *
+ */
+void emberAfPluginButtonInterfaceButton3LowCallback(void);
+/** @brief Button3 High
+ *
+ * This function is called when the GPIO tied to button one goes high
+ *
+ */
+void emberAfPluginButtonInterfaceButton3HighCallback(void);
 /** @} END Button Interface Plugin Callbacks */
 
 
@@ -19841,6 +19887,19 @@ void emberAfPluginButtonInterfaceButton2HighCallback(void);
  */
 void emberAfPluginConnectionManagerFinishedCallback(EmberStatus status);
 /** @} END Connection Manager Plugin Callbacks */
+
+
+/** @name Counters Plugin Callbacks */
+// @{
+
+/** @brief Rollover
+ *
+ * This function is called every time a counter exceeds its threshold.
+ *
+ * @param type The counter that rolled over Ver.: always
+ */
+void emberAfPluginCountersRolloverCallback(EmberCounterType type);
+/** @} END Counters Plugin Callbacks */
 
 
 /** @name End Device Support Plugin Callbacks */

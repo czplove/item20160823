@@ -1,9 +1,22 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
-<!-- THIS IS A GENERATED FILE: PLEASE DO NOT EDIT -->
 
 <workspace>
   <project>
     <path>$WS_DIR$\TemperatureHumiditySensor.ewp</path>
   </project>
-  <batchBuild/>
+  <batchBuild>
+    <batchDefinition>
+      <name>TemperatureHumiditySensor</name>
+      <member>
+        <project>TemperatureHumiditySensor</project>
+        <configuration>Normal</configuration>
+      </member>
+      <member>
+        <project>TemperatureHumiditySensor</project>
+        <configuration>SHT30</configuration>
+      </member>
+    </batchDefinition>
+  </batchBuild>
 </workspace>
+
+

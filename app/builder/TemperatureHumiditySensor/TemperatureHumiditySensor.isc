@@ -1,12 +1,12 @@
 #ISD App Configuration:3.1
-# ISD version: 3.3.1959
+# ISD version: 3.3.1985
 #  Identified of a stack descriptor used for this configuration. This should not
 #  be changed manually, unless you really know what you are doing.
 ConfiguratorID:auto-EM35X
 
 #  Output directory which is used as a root for all generated files. The actual
 #  files relative to that directory are defined by individual file name.
-GenerationDirectory:PATH(ABSOLUTE):E:\ZigBee Stack\Ember\TemperatureHumiditySensor\.
+GenerationDirectory:PATH(ABSOLUTE):D:\SiliconLabs\EmberZNet5.7.0-GA
 
 #  Unique identifier for this device. This string should be in a form of a C
 #  identifier, as it will be used in both generated variable, macros, as well as
@@ -313,7 +313,7 @@ OverrideServer:b03,exclude,Primary
 
 OverrideServer:b04,exclude,Primary
 
-OverrideServer:b05,exclude,Primary
+OverrideServer:b05,include,Primary
 
 OverrideServer:1000,exclude,Primary
 
@@ -326,10 +326,18 @@ ZigbeeProNetwork:*Primary,ZA_SLEEPY_END_DEVICE,HA
 #  A list of optional attributes that are included in this configuration. Format
 #  is a list of "clusterId,attributeId,<server|client>,manufacturerCode"
 #  entries, separated by semicolon.
-OptionalAttributes:1,53,server,0:0,1,server,0:0,2,server,0:0,3,server,0:0,4,server,0:0,5,server,0:0,6,server,0:0,16,server,0:0,17,server,0:0,18,server,0:1,32,server,0:1,54,server,0
+OptionalAttributes:1,53,server,0:0,1,server,0:0,2,server,0:0,3,server,0:0,4,server,0:0,5,server,0:0,6,server,0:0,16,server,0:0,17,server,0:0,18,server,0:1,32,server,0:1,54,server,0:1,33,server,0:2821,0,server,0:2821,260,server,0:2821,266,server,0:2821,268,server,0:2821,269,server,0:2821,270,server,0:2821,271,server,0:2821,272,server,0:2821,273,server,0:2821,283,server,0:2821,284,server,0:2821,285,server,0
+
+#  A list of attributes that are to be saved as tokens in persistent memory.
+#  Format is a list of "clusterId,attributeId,<server|client>,manufacturerCode"
+#  entries, separated by semicolon.
+FlashAttributes:2821,283,server,0:2821,285,server,0:2821,284,server,0:2821,273,server,0:2821,272,server,0:2821,271,server,0:2821,270,server,0:2821,269,server,0:2821,268,server,0:2821,266,server,0:2821,260,server,0:2821,0,server,0
+
+#  Attributes which have their singletoness overridden from default value.
+SingletonAttributes:2821,283,server,0:2821,284,server,0:2821,285,server,0:2821,266,server,0:2821,268,server,0:2821,269,server,0:2821,270,server,0:2821,271,server,0:2821,272,server,0:2821,273,server,0:2821,260,server,0:2821,0,server,0
 
 #  User defined default values for attributes.
-AttributeDefaults:0,4,server,0,Wulian:0,6,server,0,20160401:0,7,server,0,0x03:1026,2,server,0,0x2EE0:1026,1,server,0,0xF060:1029,0,server,0,0x0000:1029,1,server,0,0x0000:1029,2,server,0,0x2710:0,5,server,0,T-WS01:1,54,server,0,0x1A:1,55,server,0,0x00:1,56,server,0,0x00:1,57,server,0,0x00:1,53,server,0,0x01
+AttributeDefaults:0,4,server,0,Wulian:0,6,server,0,20160621:0,7,server,0,0x03:1026,2,server,0,0x2EE0:1026,1,server,0,0xF060:1029,0,server,0,0x0000:1029,1,server,0,0x0000:1029,2,server,0,0x2710:0,5,server,0,T-WS01:1,54,server,0,0x1A:1,55,server,0,0x00:1,56,server,0,0x00:1,57,server,0,0x00:1,53,server,0,0x01:0,1,server,0,0x02:0,2,server,0,0x01:0,3,server,0,0x01
 
 #  Lists the channels that this application will be configured to use.
 Channels:11
@@ -341,7 +349,7 @@ ConfiguredEndpoints:*1&260&770&0&Primary&Primary
 
 #  A single specification version for each profile defining the max version of
 #  the spec supported by this configuration.
-SpecVersions:ha-1.2-05-3520-29,
+SpecVersions:ha-1.2.1-05-3520-30,
 
 #  In case of a network coprocessor, this lists a host processor used.
 Host:unknown
@@ -406,7 +414,7 @@ DefaultResponsePolicy:2
 DebugLevel:0
 
 #  Configuration of command-line interface.
-CLIMode:-1
+CLIMode:2
 
 #  Configuration of heartbeat.
 HeartbeatLed:2
@@ -557,7 +565,7 @@ power=3
 {setupId:rf4ceZrc
 }
 {setupId:serial
-em357=0,false,*,*,*,*,*,1,false,*,*,*,*,*
+em357=0,false,*,*,*,*,*,1,true,*,*,*,*,*
 }
 {setupId:token
 }
@@ -594,7 +602,7 @@ appPlugin:comms-hub-function,false
 
 appPlugin:concentrator,false
 
-appPlugin:counters,false
+appPlugin:counters,true
 
 appPlugin:device-database,false
 
@@ -947,21 +955,17 @@ appPlugin:temperature-si7053,false
 appPlugin:wstk-display,false
 
 #  Plugin specific options
-AppPluginOption:EMBER_BINDING_TABLE_SIZE,4
-
 AppPluginOption:EMBER_AF_PLUGIN_NETWORK_FIND_CHANNEL_MASK,0x07FFF800UL
 
 AppPluginOption:EMBER_AF_PLUGIN_NETWORK_FIND_RADIO_TX_CALLBACK,true
 
 AppPluginOption:EMBER_AF_PLUGIN_NETWORK_FIND_RADIO_TX_POWER,8
 
-AppPluginOption:EMBER_AF_PLUGIN_END_DEVICE_SUPPORT_SHORT_POLL_INTERVAL_SECONDS,2
-
 AppPluginOption:EMBER_AF_REJOIN_ATTEMPTS_MAX,10
 
 AppPluginOption:EMBER_AF_PLUGIN_BUTTON_INTERFACE_BUTTON_TIMEOUT_MS,1000
 
-AppPluginOption:EMBER_AF_PLUGIN_REPORTING_TABLE_SIZE,4
+AppPluginOption:EMBER_AF_PLUGIN_REPORTING_TABLE_SIZE,6
 
 AppPluginOption:EMBER_AF_PLUGIN_END_DEVICE_SUPPORT_WAKE_TIMEOUT_SECONDS,1
 
@@ -970,4 +974,8 @@ AppPluginOption:EMBER_AF_PLUGIN_END_DEVICE_SUPPORT_LONG_POLL_INTERVAL_SECONDS,20
 AppPluginOption:EMBER_AF_PLUGIN_END_DEVICE_SUPPORT_MAX_MISSED_POLLS,4
 
 AppPluginOption:EMBER_AF_PLUGIN_END_DEVICE_SUPPORT_ENABLE_POLL_COMPLETED_CALLBACK,false
+
+AppPluginOption:EMBER_AF_PLUGIN_END_DEVICE_SUPPORT_SHORT_POLL_INTERVAL_SECONDS,1
+
+AppPluginOption:EMBER_BINDING_TABLE_SIZE,6
 
