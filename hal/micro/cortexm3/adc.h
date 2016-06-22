@@ -10,7 +10,7 @@
 /** @addtogroup adc
  * Sample A/D converter driver.
  *
- * @note EM35x ADC driver support is preliminary and may be 
+ * @note EM35x ADC driver support is preliminary and may be
  * changed in a future release
  *
  *@{
@@ -36,7 +36,7 @@ enum {
 };
 
 
-/** @brief ADCRateType enumeration.  
+/** @brief ADCRateType enumeration.
  *         These rates are specified in the number of clock cycles
  *         That a conversion takes.  The actual time taken will depend on the
  *         selected ADC clock rate.  (Default is 6MHz)
@@ -88,7 +88,7 @@ enum
 #if defined(EMBER_TEST) && !defined(ADC_MUXN_BITS)
   #define ADC_MUXN_BITS (4)
 #endif
-  
+
   /** Channel 0 : ADC0 on PB5 */
 #define ADC_MUX_ADC0    0x0
   /** Channel 1 : ADC0 on PB6 */
@@ -110,7 +110,7 @@ enum
   /** Channel B : Regulator/2 (0.9V) - not for high voltage range */
 #define ADC_MUX_VREG2   0xB
 
-// ADC_SOURCE_<pos>_<neg> selects <pos> as the positive input and <neg> as  
+// ADC_SOURCE_<pos>_<neg> selects <pos> as the positive input and <neg> as
 // the negative input.
 enum
 {
@@ -164,7 +164,7 @@ bool halAdcGetClock(void);
  */
 uint16_t halMeasureVdd(ADCRateType rate);
 
-
+uint16_t halConvertBatteryVoltagemVolts(void);
 /** @} // END addtogroup
  */
 

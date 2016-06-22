@@ -1530,19 +1530,6 @@ void emberAfPluginButtonInterfaceButton0LowCallback(void)
 
 }
 
-/** @brief Button0 Pressed Long
- *
- * This function returns the number of times a button was short pressed.
- *
- * @param timePressedMs Amount of time button 0 was pressed.  Ver.: always
- * @param pressedAtReset Was the button pressed at startup.  Ver.: always
- */
-void emberAfPluginButtonInterfaceButton0PressedLongCallback(uint16_t timePressedMs,
-                                                            bool pressedAtReset)
-{
-
-}
-
 /** @brief Button1 High
  *
  * This function is called when the GPIO tied to button one goes high
