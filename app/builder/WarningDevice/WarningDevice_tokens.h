@@ -64,7 +64,7 @@ typedef uint16_t  tokType_number_of_resets;
 // Actual token definitions
 #ifdef DEFINETOKENS
 DEFINE_BASIC_TOKEN(ZONE_STATE_1, tokType_zone_state, 0x00)
-DEFINE_BASIC_TOKEN(ZONE_TYPE_1, tokType_zone_type, 0x0000)
+DEFINE_BASIC_TOKEN(ZONE_TYPE_1, tokType_zone_type, 0x0225)
 DEFINE_BASIC_TOKEN(IAS_CIE_ADDRESS_1, tokType_ias_cie_address, {0,0,0,0,0,0,0,0})
 DEFINE_BASIC_TOKEN(ZONE_ID_1, tokType_zone_id, 0xff)
 DEFINE_BASIC_TOKEN(NUMBER_OF_RESETS_SINGLETON, tokType_number_of_resets, 0x0000)
