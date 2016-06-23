@@ -6,7 +6,7 @@ ConfiguratorID:auto-EM35X
 
 #  Output directory which is used as a root for all generated files. The actual
 #  files relative to that directory are defined by individual file name.
-GenerationDirectory:PATH(ABSOLUTE):D:\SiliconLabs\EmberZNet5.7.0-GA
+GenerationDirectory:PATH(ABSOLUTE):E:\SiliconLabs\EmberZNet5.7.0-GA
 
 #  Unique identifier for this device. This string should be in a form of a C
 #  identifier, as it will be used in both generated variable, macros, as well as
@@ -414,7 +414,7 @@ DefaultResponsePolicy:2
 DebugLevel:0
 
 #  Configuration of command-line interface.
-CLIMode:2
+CLIMode:-1
 
 #  Configuration of heartbeat.
 HeartbeatLed:2
@@ -565,7 +565,7 @@ power=3
 {setupId:rf4ceZrc
 }
 {setupId:serial
-em357=0,false,*,*,*,*,*,1,true,*,*,*,*,*
+em357=0,false,*,*,*,*,*,1,false,*,*,*,*,*
 }
 {setupId:token
 }

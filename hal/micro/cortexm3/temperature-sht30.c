@@ -18,8 +18,9 @@
 #include "hal/micro/i2c-driver.h"
 #include "hal/micro/micro.h"
 #include "hal/micro/temperature.h"
+#ifndef SHT10X
 #include "sht10.h"
-
+#endif
 #include "app/framework/include/af.h"
 
 //------------------------------------------------------------------------------
