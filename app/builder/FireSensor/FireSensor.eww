@@ -1,9 +1,18 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
-<!-- THIS IS A GENERATED FILE: PLEASE DO NOT EDIT -->
 
 <workspace>
   <project>
     <path>$WS_DIR$\FireSensor.ewp</path>
   </project>
-  <batchBuild/>
+  <batchBuild>
+    <batchDefinition>
+      <name>FireSensor</name>
+      <member>
+        <project>FireSensor</project>
+        <configuration>YG0001</configuration>
+      </member>
+    </batchDefinition>
+  </batchBuild>
 </workspace>
+
+
