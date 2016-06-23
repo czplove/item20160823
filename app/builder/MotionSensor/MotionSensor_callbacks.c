@@ -161,6 +161,30 @@ boolean emberAfStackStatusCallback(EmberStatus status)
   {
   case EMBER_NETWORK_UP:
   case EMBER_TRUST_CENTER_EUI_HAS_CHANGED:  // also means NETWORK_UP
+    {
+      EmberAfPluginReportingEntry newEntry;
+      newEntry.attributeId = ZCL_BATTERY_VOLTAGE_ATTRIBUTE_ID;
+      newEntry.clusterId = ZCL_POWER_CONFIG_CLUSTER_ID;
+      newEntry.data.reported.minInterval = 3600;
+      newEntry.data.reported.maxInterval = 43200;
+      newEntry.data.reported.reportableChange = 01;
+      newEntry.direction = EMBER_ZCL_REPORTING_DIRECTION_REPORTED;
+      newEntry.endpoint = emberAfPrimaryEndpoint();
+      newEntry.manufacturerCode = EMBER_AF_NULL_MANUFACTURER_CODE;
+      newEntry.mask = CLUSTER_MASK_SERVER;
+      emberAfPluginReportingConfigureReportedAttribute(&newEntry);
+
+      newEntry.attributeId = ZCL_LAST_MESSAGE_RSSI_ATTRIBUTE_ID;
+      newEntry.clusterId = ZCL_DIAGNOSTICS_CLUSTER_ID;
+      newEntry.data.reported.minInterval = 60;
+      newEntry.data.reported.maxInterval = 60;
+      newEntry.data.reported.reportableChange = 10;
+      newEntry.direction = EMBER_ZCL_REPORTING_DIRECTION_REPORTED;
+      newEntry.endpoint = emberAfPrimaryEndpoint();
+      newEntry.manufacturerCode = EMBER_AF_NULL_MANUFACTURER_CODE;
+      newEntry.mask = CLUSTER_MASK_SERVER;
+      emberAfPluginReportingConfigureReportedAttribute(&newEntry);
+    }
     emberAfPluginLowVoltageShutdownGetVoltage();
     break;
   }

@@ -292,7 +292,9 @@ EmberStatus halBatteryAdcCalibrate(ADCUser id)
 }
 uint16_t halConvertBatteryVoltagemVolts(void)
 {
+
   uint16_t V;
+#ifdef WL_YG0001
   halClearLed(BOARDADCCTRLOUTPUT);
   if (!adcCalibrated) {
     halBatteryAdcCalibrate(ADC_USER_APP);
@@ -302,5 +304,6 @@ uint16_t halConvertBatteryVoltagemVolts(void)
     assert(Nvcc);
     V = (uint16_t)(((float)1250* (float)Nvcc/(float)Nvref)*9);
   }
+#endif
   return V;
 }
