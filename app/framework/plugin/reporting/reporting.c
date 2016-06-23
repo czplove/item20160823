@@ -6,6 +6,7 @@
 // *******************************************************************
 
 #include "app/framework/include/af.h"
+#include "app/framework/include/af-types.h"
 #include "app/framework/util/common.h"
 #include "app/framework/util/attribute-storage.h"
 #include "reporting.h"
@@ -17,7 +18,7 @@
 #endif
 
 #define NULL_INDEX 0xFF
-
+static uint8_t destinationEndpoint = 0xFF;
 static void conditionallySendReport(uint8_t endpoint, EmberAfClusterId clusterId);
 static void scheduleTick(void);
 static void removeConfiguration(uint8_t index);
@@ -34,6 +35,7 @@ static void retrySendReport(EmberOutgoingMessageType type,
                             uint16_t msgLen,
                             uint8_t *message,
                             EmberStatus status);
+static void activeEndpointResult(const EmberAfServiceDiscoveryResult *result);
 
 EmberEventControl emberAfPluginReportingTickEventControl;
 
@@ -49,6 +51,17 @@ static void retrySendReport(EmberOutgoingMessageType type,
   // Retry once, and do so by unicasting without a pointer to this callback
   if (status != EMBER_SUCCESS) {
     emberAfSendUnicast(type, indexOrDestination, apsFrame, msgLen, message);
+  }
+}
+static void activeEndpointResult(const EmberAfServiceDiscoveryResult *result)
+{
+  EmberApsFrame *apsFrame = emberAfGetCommandApsFrame();
+  if (emberAfHaveDiscoveryResponseStatus(result->status)) {
+    if (result->zdoRequestClusterId == ACTIVE_ENDPOINTS_REQUEST) {
+      EmberAfEndpointList *list = (EmberAfEndpointList*)result->responseData;
+      destinationEndpoint = list->list[0];
+      conditionallySendReport(apsFrame->sourceEndpoint, apsFrame->clusterId);
+    }
   }
 }
 
@@ -232,9 +245,32 @@ void emberAfPluginReportingTickEventHandler(void)
 
 static void conditionallySendReport(uint8_t endpoint, EmberAfClusterId clusterId)
 {
-  if (emberAfIsDeviceEnabled(endpoint)
-      || clusterId == ZCL_IDENTIFY_CLUSTER_ID) {
-    emberAfSendCommandUnicastToBindingsWithCallback((EmberAfMessageSentFunction)(&retrySendReport));
+  uint8_t i;
+  EmberBindingTableEntry candidate;
+  for (i = 0; i < EMBER_BINDING_TABLE_SIZE; i++) {
+    if (emberGetBinding(i, &candidate) == EMBER_SUCCESS
+        && candidate.type == EMBER_UNICAST_BINDING
+          && candidate.local == endpoint
+            && candidate.clusterId == clusterId)
+    {
+      if (emberAfIsDeviceEnabled(endpoint)
+          || clusterId == ZCL_IDENTIFY_CLUSTER_ID) {
+            emberAfSendCommandUnicastToBindingsWithCallback((EmberAfMessageSentFunction)(&retrySendReport));
+          }
+
+      return;
+    }
+  }
+  if(destinationEndpoint!=0xFF&&destinationEndpoint!=0x00)
+  {
+    emberAfSetCommandEndpoints(endpoint,destinationEndpoint);
+    emberAfSendCommandUnicastWithCallback(EMBER_OUTGOING_DIRECT,
+                                          0x0000,
+                                          (EmberAfMessageSentFunction)(&retrySendReport));
+  }
+  else
+  {
+    emberAfFindActiveEndpoints(0x0000,activeEndpointResult);
   }
 }
 

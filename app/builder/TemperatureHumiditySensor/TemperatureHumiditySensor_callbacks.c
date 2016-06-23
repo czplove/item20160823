@@ -24,7 +24,7 @@
 const uint16_t clusterlist[REPORTING_CLUSTER_LISTS] = {
   ZCL_POWER_CONFIG_CLUSTER_ID,
   ZCL_TEMP_MEASUREMENT_CLUSTER_ID,
-  ZCL_RELATIVE_HUMIDITY_MEASUREMENT_CLUSTER_ID
+  ZCL_RELATIVE_HUMIDITY_MEASUREMENT_CLUSTER_ID,
 };
 #define BUTTON_DEBOUNCE_TIME_MS     50
 #define MAX_TIME_BETWEEN_PRESSES_MS 600
@@ -266,7 +266,7 @@ boolean emberAfStackStatusCallback(EmberStatus status)
       newEntry.attributeId = ZCL_TEMP_MEASURED_VALUE_ATTRIBUTE_ID;
       newEntry.clusterId = ZCL_TEMP_MEASUREMENT_CLUSTER_ID;
       newEntry.data.reported.minInterval = 10;
-      newEntry.data.reported.maxInterval = 60;
+      newEntry.data.reported.maxInterval = 180;
       newEntry.data.reported.reportableChange = 100;
       newEntry.direction = EMBER_ZCL_REPORTING_DIRECTION_REPORTED;
       newEntry.endpoint = emberAfPrimaryEndpoint();
@@ -277,8 +277,19 @@ boolean emberAfStackStatusCallback(EmberStatus status)
       newEntry.attributeId = ZCL_RELATIVE_HUMIDITY_MEASURED_VALUE_ATTRIBUTE_ID;
       newEntry.clusterId = ZCL_RELATIVE_HUMIDITY_MEASUREMENT_CLUSTER_ID;
       newEntry.data.reported.minInterval = 10;
-      newEntry.data.reported.maxInterval = 60;
+      newEntry.data.reported.maxInterval = 180;
       newEntry.data.reported.reportableChange = 500;
+      newEntry.direction = EMBER_ZCL_REPORTING_DIRECTION_REPORTED;
+      newEntry.endpoint = emberAfPrimaryEndpoint();
+      newEntry.manufacturerCode = EMBER_AF_NULL_MANUFACTURER_CODE;
+      newEntry.mask = CLUSTER_MASK_SERVER;
+      emberAfPluginReportingConfigureReportedAttribute(&newEntry);
+
+      newEntry.attributeId = ZCL_LAST_MESSAGE_RSSI_ATTRIBUTE_ID;
+      newEntry.clusterId = ZCL_DIAGNOSTICS_CLUSTER_ID;
+      newEntry.data.reported.minInterval = 60;
+      newEntry.data.reported.maxInterval = 60;
+      newEntry.data.reported.reportableChange = 10;
       newEntry.direction = EMBER_ZCL_REPORTING_DIRECTION_REPORTED;
       newEntry.endpoint = emberAfPrimaryEndpoint();
       newEntry.manufacturerCode = EMBER_AF_NULL_MANUFACTURER_CODE;
