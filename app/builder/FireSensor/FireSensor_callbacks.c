@@ -64,7 +64,17 @@ void emberAfPluginLowVoltageShutdownGetVoltageCallback(uint16_t currentVoltage)
   uint8_t batteryAlarmMask;
   uint8_t voltage = currentVoltage/100;
   uint8_t batteryPercentage  = 0;
-  if(voltage>24 && voltage < 33 )
+#ifdef  WL_YG0001
+  if(voltage>70 && voltage < 90)
+  {
+    batteryPercentage = (uint8_t)(((float)currentVoltage -7000)/10);
+  }
+  else if(voltage >= 90)
+  {
+    batteryPercentage = 0xC8;
+  }
+#else
+  if(voltage>24 && voltage < 33)
   {
     batteryPercentage = (uint8_t)(((float)currentVoltage*2 -4800)/9);
   }
@@ -72,6 +82,8 @@ void emberAfPluginLowVoltageShutdownGetVoltageCallback(uint16_t currentVoltage)
   {
     batteryPercentage = 0xC8;
   }
+#endif
+
   for (i = 0; i < emberAfEndpointCount(); i++) {
     endpoint = emberAfEndpointFromIndex(i);
     if (emberAfContainsServer(endpoint, ZCL_POWER_CONFIG_CLUSTER_ID))
@@ -167,9 +179,13 @@ boolean emberAfStackStatusCallback(EmberStatus status)
  */
 void emberAfPluginButtonInterfaceButton0PressingCallback(void)
 {
+#ifdef WL_YG0001
+  emberAfPluginButtonInterfaceButton3PressingCallback();
+#else
   emberAfAppPrintln("   > LEAVE NETWORK");
   emberAfPluginConnectionManagerLeaveNetworkAndStartSearchForNewOne();
   emberAfPluginConnectionManagerFactoryReset();
+#endif
 }
 
 /** @brief Power Configuration Cluster Server Attribute Changed
@@ -195,3 +211,20 @@ void emberAfPowerConfigClusterServerAttributeChangedCallback(int8u endpoint,
     break;
   }
 }
+
+/** @brief Button0 Pressed Long
+ *
+ * This function returns the number of times a button was short pressed.
+ *
+ * @param timePressedMs Amount of time button 0 was pressed.  Ver.: always
+ * @param pressedAtReset Was the button pressed at startup.  Ver.: always
+ */
+void emberAfPluginButtonInterfaceButton0PressedLongCallback(uint16_t timePressedMs,
+                                                            bool pressedAtReset)
+{
+#ifdef WL_YG0001
+  emberAfPluginButtonInterfaceButton3PressedLongCallback(timePressedMs,pressedAtReset);
+#endif
+}
+
+

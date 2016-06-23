@@ -6,6 +6,7 @@
  * Copyright 2008 by Ember Corporation. All rights reserved.                *80*
  */
 #include PLATFORM_HEADER
+#include "app/framework/include/af.h"
 #include "stack/include/error.h"
 #include "hal/micro/micro-common.h"
 #include "hal/micro/cortexm3/micro-common.h"
@@ -24,6 +25,8 @@ static uint16_t adcConfig[NUM_ADC_USERS];
 static bool adcCalibrated;
 static int16_t Nvss;
 static int16_t Nvdd;
+static int16u Nvref;
+static int16u Nvcc;
 static uint16_t adcStaticConfig;
 
 void halAdcSetClock(bool slow)
@@ -260,6 +263,44 @@ int32_t halConvertValueToVolts(uint16_t value)
     V = (int32_t)((N*((int32_t)halInternalGetVreg())*5) >> 16);
   } else {
      V = -32768;
+  }
+  return V;
+}
+EmberStatus halBatteryAdcCalibrate(ADCUser id)
+{
+  EmberStatus stat;
+
+  halStartAdcConversion(id,
+                        ADC_REF_INT,
+                        ADC_SOURCE_VREF,
+                        ADC_CONVERSION_TIME_US_4096);
+  stat = halReadAdcBlocking(id, (int16u *)(&Nvref));
+  if (stat == EMBER_ADC_CONVERSION_DONE) {
+    halStartAdcConversion(id,
+                          ADC_REF_INT,
+                          ADC_SOURCE_ADC0_GND,
+                          ADC_CONVERSION_TIME_US_4096);
+    stat = halReadAdcBlocking(id, (int16u *)(&Nvcc));
+  }
+  if (stat == EMBER_ADC_CONVERSION_DONE) {
+    adcCalibrated = TRUE;
+  } else {
+    adcCalibrated = FALSE;
+    stat = EMBER_ERR_FATAL;
+  }
+  return stat;
+}
+uint16_t halConvertBatteryVoltagemVolts(void)
+{
+  uint16_t V;
+  halClearLed(BOARDADCCTRLOUTPUT);
+  if (!adcCalibrated) {
+    halBatteryAdcCalibrate(ADC_USER_APP);
+  }
+  halSetLed(BOARDADCCTRLOUTPUT);
+  if (adcCalibrated) {
+    assert(Nvcc);
+    V = (uint16_t)(((float)1250* (float)Nvcc/(float)Nvref)*9);
   }
   return V;
 }

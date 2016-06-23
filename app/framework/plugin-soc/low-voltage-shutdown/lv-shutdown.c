@@ -62,7 +62,11 @@ void emberAfPluginLowVoltageShutdownInitCallback(void)
 // Ask the HAL for the current VDD voltage (e.g. battery voltage)
 uint16_t emberAfPluginLowVoltageShutdownGetVoltage(void)
 {
+#ifdef WL_YG0001
+  uint16_t currentVotage = halConvertBatteryVoltagemVolts();
+#else
   uint16_t currentVotage = halMeasureVdd(VDD_MEASURE_RATE);
+#endif
   emberAfPluginLowVoltageShutdownGetVoltageCallback(currentVotage);
   return currentVotage;
 }

@@ -105,17 +105,24 @@
  * abstraction on top of the 3 LEDs for verbose coding.
  */
 enum HalBoardLedPins {
+#if defined(WL_YG0001)
+  BOARDLED0 = 			PORTB_PIN(7),
+  BOARDLED1 = 			PORTB_PIN(6),
+  BOARDLED2 = 			PORTC_PIN(0),
+  BOARDADCCTRLOUTPUT = 	PORTB_PIN(4),
+#else
   BOARDLED0 = 			PORTB_PIN(7),
   BOARDLED1 = 			PORTB_PIN(6),
   BOARDLED2 = 			PORTC_PIN(0),
   BOARDTAMPEROUTPUT = 	PORTC_PIN(1),
+#endif
   BOARDLED3 = BOARDLED2,
   BOARD_ACTIVITY_LED  = BOARDLED2,
   BOARD_HEARTBEAT_LED = BOARDLED2
 };
 
 /** @} END OF LED DEFINITIONS  */
-#define GPIO_SENSOR_PIN                     3
+#define GPIO_SENSOR_PIN                     7
 #define GPIO_SENSOR_PORT                    HAL_GIC_GPIO_PORTA
 #define GPIO_SENSOR_IRQ                     HAL_GIC_IRQ_NUMC
 
@@ -175,7 +182,7 @@ enum HalBoardLedPins {
  * are compiled in.
  * Remember there may be other things that might want to use IRQC.
  */
-//#define BUTTON1             PORTA_PIN(3)
+//#define BUTTON1             PORTA_PIN(7)
 /**
  * @brief The GPIO input register for BUTTON1.
  */
@@ -185,7 +192,7 @@ enum HalBoardLedPins {
  * Remember there may be other things that might want to use IRQC.
  * @note For this board, IRQC is pointed at PA3
  */
-#define BUTTON1_SEL()       do { GPIO_IRQCSEL = PORTA_PIN(3); } while(0)
+#define BUTTON1_SEL()       do { GPIO_IRQCSEL = PORTA_PIN(7); } while(0)
 /**
  * @brief The interrupt service routine for BUTTON1.
  * Remember there may be other things that might want to use IRQC.
@@ -251,6 +258,7 @@ enum HalBoardLedPins {
  * are compiled in.
  * Remember there may be other things that might want to use IRQD.
  */
+#ifndef WL_YG0001
 #define BUTTON3             PORTB_PIN(5)
 /**
  * @brief The GPIO input register for BUTTON3.
@@ -281,6 +289,7 @@ enum HalBoardLedPins {
  * @brief The missed interrupt bit for BUTTON3.
  */
 #define BUTTON3_MISS_BIT    INT_MISSIRQD
+#endif
 //@} //END OF BUTTON DEFINITIONS
 
 
@@ -1070,8 +1079,8 @@ uint16_t gpioCfgPowerUp[6] = {                                                  
                              (GPIOCFG_OUT_ALT    <<PB1_CFG_BIT)| /* SC1SDA */ \
                              (GPIOCFG_OUT_ALT    <<PB2_CFG_BIT)| /* SC1SCL */ \
                              (GPIOCFG_IN         <<PB3_CFG_BIT)),             \
-                            ((GPIOCFG_IN         <<PB4_CFG_BIT)|              \
-                             (GPIOCFG_IN         <<PB5_CFG_BIT)|              \
+                            ((GPIOCFG_OUT        <<PB4_CFG_BIT)|              \
+                             (GPIOCFG_ANALOG     <<PB5_CFG_BIT)|              \
                              /* Red Led */                                    \
                              (GPIOCFG_OUT        <<PB6_CFG_BIT)|              \
                              /* Green Led */                                  \
@@ -1099,7 +1108,7 @@ uint8_t gpioOutPowerUp[3] = {                                               \
                             (GPIOOUT_PULLUP     <<PA4_BIT)|               \
                             (1                  <<PA5_BIT)|               \
                             (1                  <<PA6_BIT)|               \
-                            (0                  <<PA7_BIT)),              \
+                            (GPIOOUT_PULLUP     <<PA7_BIT)),              \
                              /* Button 0  */                              \
                            ((GPIOOUT_PULLUP     <<PB0_BIT)|               \
                             (1                  <<PB1_BIT)|  /* SC1SDA */ \
@@ -1138,8 +1147,8 @@ uint16_t gpioCfgPowerDown[6] = {                                                
                              (GPIOCFG_OUT_ALT    <<PB1_CFG_BIT)| /* SC1SDA */ \
                              (GPIOCFG_OUT_ALT    <<PB2_CFG_BIT)| /* SC1SCL */ \
                              (GPIOCFG_IN         <<PB3_CFG_BIT)),             \
-                            ((GPIOCFG_IN         <<PB4_CFG_BIT)|              \
-                             (GPIOCFG_IN         <<PB5_CFG_BIT)|              \
+                            ((GPIOCFG_OUT        <<PB4_CFG_BIT)|              \
+                             (GPIOCFG_ANALOG     <<PB5_CFG_BIT)|              \
                              /* Red Led */                                    \
                              (GPIOCFG_OUT        <<PB6_CFG_BIT)|              \
                              /* Green Led */                                  \
@@ -1167,7 +1176,7 @@ uint8_t gpioOutPowerDown[3] = {                                               \
                             (GPIOOUT_PULLUP     <<PA4_BIT)|               \
                             (1                  <<PA5_BIT)|               \
                             (1                  <<PA6_BIT)|               \
-                            (0                  <<PA7_BIT)),              \
+                            (GPIOOUT_PULLUP     <<PA7_BIT)),              \
                              /* Button 0  */                              \
                            ((GPIOOUT_PULLUP     <<PB0_BIT)|               \
                             (1                  <<PB1_BIT)|  /* SC1SDA */ \
@@ -1290,11 +1299,11 @@ uint8_t gpioOutPowerDown[3] = {                                               \
 #define WAKE_ON_PA0   false
 #define WAKE_ON_PA1   false
 #define WAKE_ON_PA2   false
-#define WAKE_ON_PA3   true
+#define WAKE_ON_PA3   false
 #define WAKE_ON_PA4   false
 #define WAKE_ON_PA5   false
 #define WAKE_ON_PA6   false
-#define WAKE_ON_PA7   false
+#define WAKE_ON_PA7   true
 #define WAKE_ON_PB0   true
 #define WAKE_ON_PB1   false
 #if SLEEPY_IP_MODEM_UART  // SC1RXD

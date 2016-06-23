@@ -6,7 +6,7 @@ ConfiguratorID:auto-EM35X
 
 #  Output directory which is used as a root for all generated files. The actual
 #  files relative to that directory are defined by individual file name.
-GenerationDirectory:PATH(ABSOLUTE):D:\SiliconLabs\EmberZNet5.7.0-GA
+GenerationDirectory:PATH(ABSOLUTE):E:\SiliconLabs\EmberZNet5.7.0-GA
 
 #  Unique identifier for this device. This string should be in a form of a C
 #  identifier, as it will be used in both generated variable, macros, as well as
@@ -337,7 +337,7 @@ FlashAttributes:1280,16,server,0:1280,0,server,0:1280,1,server,0:1280,17,server,
 SingletonAttributes:2821,284,server,0:2821,285,server,0:2821,273,server,0:2821,272,server,0:2821,271,server,0:2821,270,server,0:2821,269,server,0:2821,268,server,0:2821,266,server,0:2821,260,server,0:2821,0,server,0:2821,283,server,0:2821,281,server,0
 
 #  User defined default values for attributes.
-AttributeDefaults:0,7,server,0,0x03:0,6,server,0,20160622:0,5,server,0,T-YG01:0,4,server,0,Wulian:0,1,server,0,0x02:0,2,server,0,0x01:0,3,server,0,0x01:1280,1,server,0,0x0028:1,53,server,0,0x01:1,54,server,0,0x1A
+AttributeDefaults:0,7,server,0,0x03:0,6,server,0,20160622:0,5,server,0,T-YG0001:0,4,server,0,Wulian:0,1,server,0,0x02:0,2,server,0,0x01:0,3,server,0,0x01:1280,1,server,0,0x0028:1,53,server,0,0x01:1,54,server,0,0x53
 
 #  Lists the channels that this application will be configured to use.
 Channels:11
@@ -358,7 +358,7 @@ Host:unknown
 Platform:em357
 
 #  Enable callbacks.
-Callbacks:emberAfMainInitCallback,emberAfAlarmClusterServerInitCallback,emberAfAlarmClusterServerTickCallback,emberAfAlarmClusterServerAttributeChangedCallback,emberAfPluginLowVoltageShutdownGetVoltageCallback,emberAfPluginBasicResetToFactoryDefaultsCallback,emberAfStackStatusCallback,emberAfPluginButtonInterfaceButton0PressingCallback,emberAfPowerConfigClusterServerAttributeChangedCallback,
+Callbacks:emberAfMainInitCallback,emberAfAlarmClusterServerInitCallback,emberAfAlarmClusterServerTickCallback,emberAfAlarmClusterServerAttributeChangedCallback,emberAfPluginLowVoltageShutdownGetVoltageCallback,emberAfPluginBasicResetToFactoryDefaultsCallback,emberAfStackStatusCallback,emberAfPluginButtonInterfaceButton0PressingCallback,emberAfPowerConfigClusterServerAttributeChangedCallback,emberAfPluginButtonInterfaceButton0PressedLongCallback,
 
 #  If bindings are enabled then this is the maximum number of supported
 #  bindings.

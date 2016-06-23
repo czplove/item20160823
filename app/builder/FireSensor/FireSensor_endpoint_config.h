@@ -15,13 +15,13 @@
 #if BIGENDIAN_CPU
 #define GENERATED_DEFAULTS { \
 6,'W','u','l','i','a','n',0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 /* 0,Default value: Basic,manufacturer name */, \
-6,'T','-','Y','G','0','1',0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 /* 33,Default value: Basic,model identifier */, \
+8,'T','-','Y','G','0','0','0','1',0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 /* 33,Default value: Basic,model identifier */, \
 8,'2','0','1','6','0','6','2','2',0,0,0,0,0,0,0,0 /* 66,Default value: Basic,date code */, \
   }
 #else // ! BIGENDIAN_CPU
 #define GENERATED_DEFAULTS { \
 6,'W','u','l','i','a','n',0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 /* 0,Default value: Basic,manufacturer name */, \
-6,'T','-','Y','G','0','1',0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 /* 33,Default value: Basic,model identifier */, \
+8,'T','-','Y','G','0','0','0','1',0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 /* 33,Default value: Basic,model identifier */, \
 8,'2','0','1','6','0','6','2','2',0,0,0,0,0,0,0,0 /* 66,Default value: Basic,date code */, \
   }
 #endif // BIGENDIAN_CPU
@@ -45,7 +45,7 @@
     { 0x0020, ZCL_INT8U_ATTRIBUTE_TYPE, 1, (ATTRIBUTE_MASK_SINGLETON), { (uint8_t*)0x00UL } }, /* 11 / Power Configuration / battery voltage*/\
     { 0x0021, ZCL_INT8U_ATTRIBUTE_TYPE, 1, (ATTRIBUTE_MASK_SINGLETON), { (uint8_t*)0x00 } }, /* 12 / Power Configuration / battery percentage remaining*/\
     { 0x0035, ZCL_BITMAP8_ATTRIBUTE_TYPE, 1, (ATTRIBUTE_MASK_WRITABLE|ATTRIBUTE_MASK_SINGLETON), { (uint8_t*)0x01 } }, /* 13 / Power Configuration / battery alarm mask*/\
-    { 0x0036, ZCL_INT8U_ATTRIBUTE_TYPE, 1, (ATTRIBUTE_MASK_WRITABLE|ATTRIBUTE_MASK_SINGLETON), { (uint8_t*)0x1A } }, /* 14 / Power Configuration / battery voltage min threshold*/\
+    { 0x0036, ZCL_INT8U_ATTRIBUTE_TYPE, 1, (ATTRIBUTE_MASK_WRITABLE|ATTRIBUTE_MASK_SINGLETON), { (uint8_t*)0x53 } }, /* 14 / Power Configuration / battery voltage min threshold*/\
     { 0x0000, ZCL_INT16U_ATTRIBUTE_TYPE, 2, (ATTRIBUTE_MASK_WRITABLE), { (uint8_t*)0x0000 } }, /* 15 / Identify / identify time*/\
     { 0x0000, ZCL_ENUM8_ATTRIBUTE_TYPE, 1, (ATTRIBUTE_MASK_TOKENIZE), { (uint8_t*)0x00 } }, /* 16 / IAS Zone / zone state*/\
     { 0x0001, ZCL_ENUM16_ATTRIBUTE_TYPE, 2, (ATTRIBUTE_MASK_TOKENIZE), { (uint8_t*)0x0028 } }, /* 17 / IAS Zone / zone type*/\

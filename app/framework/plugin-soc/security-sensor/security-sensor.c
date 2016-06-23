@@ -249,11 +249,17 @@ void emberAfPluginSecuritySensorButtonPressCountEventHandler(void)
       emberAfPluginConnectionManagerLeaveNetworkAndStartSearchForNewOne();
     }
   }
-
+  if(consecutiveButtonPressCount == 8){
+#ifdef WL_YG0001
+    emberAfAppPrintln("   > LEAVE NETWORK");
+    emberAfPluginConnectionManagerLeaveNetworkAndStartSearchForNewOne();
+    emberAfPluginConnectionManagerFactoryReset();
+#endif
+  }
   consecutiveButtonPressCount = 0;
 
   emberEventControlSetInactive(
-    emberAfPluginSecuritySensorButtonPressCountEventControl);
+                               emberAfPluginSecuritySensorButtonPressCountEventControl);
 }
 
 //------------------------------------------------------------------------------
