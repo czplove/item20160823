@@ -137,7 +137,7 @@
 /**** Debug printing section ****/
 
 // Global switch
-// #define EMBER_AF_PRINT_ENABLE
+#define EMBER_AF_PRINT_ENABLE
 // Individual areas
 #define EMBER_AF_PRINT_CORE 0x0001
 #define EMBER_AF_PRINT_APP 0x0002
