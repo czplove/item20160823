@@ -565,7 +565,7 @@ power=3
 {setupId:rf4ceZrc
 }
 {setupId:serial
-em357=0,false,*,*,*,*,*,1,false,*,*,*,*,*
+em357=0,false,*,*,*,*,*,1,true,*,*,*,*,*
 }
 {setupId:token
 }
