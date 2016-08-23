@@ -414,7 +414,7 @@ DefaultResponsePolicy:2
 DebugLevel:0
 
 #  Configuration of command-line interface.
-CLIMode:-1
+CLIMode:2
 
 #  Configuration of heartbeat.
 HeartbeatLed:2

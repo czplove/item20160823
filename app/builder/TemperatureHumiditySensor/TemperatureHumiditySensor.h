@@ -72,6 +72,7 @@
 #define EMBER_AF_TX_POWER_MODE EMBER_TX_POWER_MODE_BOOST
 
 /**** HAL Section ****/
+#define ZA_CLI_FULL
 
 /**** Callback Section ****/
 #define EMBER_CALLBACK_MAIN_INIT
