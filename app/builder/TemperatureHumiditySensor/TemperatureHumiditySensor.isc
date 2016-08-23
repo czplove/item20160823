@@ -511,7 +511,7 @@ LegacyCli:false
 AddCustomCli:false
 
 #  Include command and argument descriptions in the embedded code.
-IncludeCommandDescriptions:false
+IncludeCommandDescriptions:true
 
 #  If set, then project-specific callbacks file will be generated.
 GenerateCallbacksFile:true
@@ -978,4 +978,6 @@ AppPluginOption:EMBER_AF_PLUGIN_END_DEVICE_SUPPORT_ENABLE_POLL_COMPLETED_CALLBAC
 AppPluginOption:EMBER_AF_PLUGIN_END_DEVICE_SUPPORT_SHORT_POLL_INTERVAL_SECONDS,1
 
 AppPluginOption:EMBER_BINDING_TABLE_SIZE,6
+
+AppPluginOption:EMBER_AF_PLUGIN_IDLE_SLEEP_STAY_AWAKE_WHEN_NOT_JOINED,true
 

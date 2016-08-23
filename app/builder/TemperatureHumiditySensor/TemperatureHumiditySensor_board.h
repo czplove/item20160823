@@ -1031,10 +1031,10 @@ uint16_t gpioCfgPowerUp[6] = {                                                \
                              (GPIOCFG_IN         <<PA7_CFG_BIT)),             \
                              /* Button 0  */                                  \
                             ((GPIOCFG_IN         <<PB0_CFG_BIT)|              \
-                             (GPIOCFG_OUT        <<PB1_CFG_BIT)| /* SC1SDA */ \
-                             (GPIOCFG_OUT        <<PB2_CFG_BIT)| /* SC1SCL */ \
-                             (GPIOCFG_IN         <<PB3_CFG_BIT)),             \
-                            ((GPIOCFG_IN         <<PB4_CFG_BIT)|              \
+                             (PWRUP_CFG_SC1_TXD        <<PB1_CFG_BIT)| /* SC1SDA */ \
+                             (GPIOCFG_IN_PUD        <<PB2_CFG_BIT)| /* SC1SCL */ \
+                             (GPIOCFG_IN_PUD         <<PB3_CFG_BIT)),             \
+                            ((GPIOCFG_OUT_ALT         <<PB4_CFG_BIT)|              \
                              (GPIOCFG_IN         <<PB5_CFG_BIT)|              \
                              (GPIOCFG_IN         <<PB6_CFG_BIT)|              \
                              /* Green Led */                                  \
@@ -1099,7 +1099,7 @@ uint8_t gpioOutPowerUp[3] = {                                             \
                            ((GPIOOUT_PULLUP     <<PB0_BIT)|               \
                             (1                  <<PB1_BIT)|  /* SC1SDA */ \
                             (1                  <<PB2_BIT)|  /* SC1SCL */ \
-                            (0                  <<PB3_BIT)|               \
+                            (1                  <<PB3_BIT)|               \
                             (0                  <<PB4_BIT)|               \
                             (0                  <<PB5_BIT)|               \
                             (0                  <<PB6_BIT)|               \
@@ -1163,9 +1163,9 @@ uint16_t gpioCfgPowerDown[6] = {                                              \
                              /* Button 0  */                                  \
                             ((GPIOCFG_IN         <<PB0_CFG_BIT)|              \
                              (GPIOCFG_OUT        <<PB1_CFG_BIT)| /* SC1SDA */ \
-                             (GPIOCFG_OUT        <<PB2_CFG_BIT)| /* SC1SCL */ \
-                             (GPIOCFG_IN         <<PB3_CFG_BIT)),             \
-                            ((GPIOCFG_IN         <<PB4_CFG_BIT)|              \
+                             (GPIOCFG_IN_PUD        <<PB2_CFG_BIT)| /* SC1SCL */ \
+                             (GPIOCFG_IN_PUD         <<PB3_CFG_BIT)),             \
+                            ((GPIOCFG_OUT         <<PB4_CFG_BIT)|              \
                              (GPIOCFG_IN         <<PB5_CFG_BIT)|              \
                              (GPIOCFG_IN         <<PB6_CFG_BIT)|              \
                              /* Green Led */                                  \
@@ -1228,9 +1228,9 @@ uint8_t gpioOutPowerDown[3] = {                                           \
                              /* Button 0  */                              \
                            ((GPIOOUT_PULLUP     <<PB0_BIT)|               \
                             (1                  <<PB1_BIT)|  /* SC1SDA */ \
-                            (1                  <<PB2_BIT)|  /* SC1SCL */ \
-                            (0                  <<PB3_BIT)|               \
-                            (0                  <<PB4_BIT)|               \
+                            (GPIOOUT_PULLUP                  <<PB2_BIT)|  /* SC1SCL */ \
+                            (GPIOOUT_PULLUP                  <<PB3_BIT)|               \
+                            (PWRDN_OUT_SC1_nRTS                  <<PB4_BIT)|               \
                             (0                  <<PB5_BIT)|               \
                             (0                  <<PB6_BIT)|               \
                             (1                  <<PB7_BIT)),              \

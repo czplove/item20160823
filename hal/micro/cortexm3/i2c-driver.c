@@ -132,7 +132,7 @@ void halI2cInitialize(void)
 // This initialization callback is for compatibility with AFV2.
 void emberAfPluginI2cDriverInitCallback(void)
 {
-  halI2cInitialize();
+  //-halI2cInitialize();
 }
 
 static void i2cSaveAndConfigSC(void)

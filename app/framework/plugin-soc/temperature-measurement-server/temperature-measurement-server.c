@@ -71,8 +71,10 @@ void emberAfPluginTemperatureMeasurementServerStackStatusCallback(
 //******************************************************************************
 void emberAfPluginTemperatureMeasurementServerReadEventHandler(void)
 {
-  int32_t boardTemperatureMilliC = halTemperatureStartRead();
+  //-int32_t boardTemperatureMilliC = halTemperatureStartRead();
 
+  
+  
   emberEventControlSetInactive(
     emberAfPluginTemperatureMeasurementServerReadEventControl);
 }
@@ -91,6 +93,8 @@ void emberAfPluginTemperatureDataReadyCallback(int16_t temperatureCentiC,
     emberAfAppPrintln("Error reading temperature and humidity from HW");
   }
 
+  emberSerialInit(APP_SERIAL, BAUD_115200, PARITY_NONE, 1);
+  
   emberEventControlSetDelayMS(
                               emberAfPluginTemperatureMeasurementServerReadEventControl,
                               temperatureMeasurementRateMS);

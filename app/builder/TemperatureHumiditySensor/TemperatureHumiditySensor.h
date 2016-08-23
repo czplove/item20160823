@@ -59,6 +59,7 @@
 
 /**** CLI Section ****/
 #define EMBER_AF_GENERATE_CLI
+#define EMBER_COMMAND_INTEPRETER_HAS_DESCRIPTION_FIELD
 
 /**** Security Section ****/
 #define EMBER_AF_HAS_SECURITY_PROFILE_HA
@@ -225,6 +226,7 @@
 // Use this macro to check if Idle/Sleep plugin is included
 #define EMBER_AF_PLUGIN_IDLE_SLEEP
 // User options for plugin Idle/Sleep
+#define EMBER_AF_PLUGIN_IDLE_SLEEP_STAY_AWAKE_WHEN_NOT_JOINED
 #define EMBER_AF_PLUGIN_IDLE_SLEEP_MINIMUM_SLEEP_DURATION_MS 5
 
 // Use this macro to check if Low Voltage Shutdown plugin is included
