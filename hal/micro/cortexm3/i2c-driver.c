@@ -113,15 +113,6 @@ static uint16_t scMode     = 0;
 static uint16_t scRatelin  = 0;
 static uint16_t scRateexp  = 0;
 
-void halI2cinitgpio(void)
-{
-  //-GPIO_PBOUT = gpioOutPowerUp[1];
-  GPIO_PBCFGL = ((GPIOCFG_IN         <<PB0_CFG_BIT)|              \
-                             (GPIOCFG_OUT        <<PB1_CFG_BIT)| /* SC1SDA */ \
-                             (GPIOCFG_OUT        <<PB2_CFG_BIT)| /* SC1SCL */ \
-                             (GPIOCFG_IN         <<PB3_CFG_BIT));
-}
-
 void halI2cInitialize(void)
 {
 // Initialize SCx port to I2C with 100kHz SCL
@@ -141,34 +132,10 @@ void halI2cInitialize(void)
 // This initialization callback is for compatibility with AFV2.
 void emberAfPluginI2cDriverInitCallback(void)
 {
-  //-halI2cinitgpio();
   //-halI2cInitialize();
 }
 
-static void rmwRadioPowerOutReg(uint8_t radioPowerOut[],
-                                uint32_t volatile * outReg,
-                                uint8_t outVar)
-{
-  uint32_t temp = *outReg;
-  uint8_t i;
-  
-  //don't waste time with a register that doesn't have anything to be done
-  if(gpioRadioPowerBoardMask&(((GpioMaskType)0xFF)<<(8*outVar))) {
-    //loop over the 8 pins of the outReg
-    for(i=0; i<8; i++) {
-      if((gpioRadioPowerBoardMask>>((8*outVar)+i))&1) {
-        //read-modify-write the pin's out if the mask says it pertains
-        //to the radio's power state
-        temp &= ~(0x1u<<(1*i));
-        temp |= (radioPowerOut[outVar]&(0x1<<(1*i)));
-      }
-    }
-  }
-  
-  *outReg = temp;
-}
-
-static void i2cSaveAndConfigSC(void)  //-保存当前串口的参数,修改为I2C参数
+static void i2cSaveAndConfigSC(void)
 {
   // This function will save the GPIO and serial control peripherals' config
   // state and reconfigure them to be used for an I2C transaction based on the
@@ -183,15 +150,6 @@ static void i2cSaveAndConfigSC(void)  //-保存当前串口的参数,修改为I2C参数
   scMode     = SCx_REG(I2C_SC_PORT, MODE);
   scRatelin  = SCx_REG(I2C_SC_PORT, RATELIN);
   scRateexp  = SCx_REG(I2C_SC_PORT, RATEEXP);
-  
-  rmwRadioPowerOutReg(gpioOutPowerUp, &GPIO_PBOUT, 1);
-  
-  // Set the config bits for SCL and SDA to be OUT_ALT_OD
-  I2C_SCL_GPIO_CFG = (I2C_SCL_GPIO_CFG & ~I2C_SCL_GPIO_CFG_MASK)
-                     | (GPIOCFG_OUT_ALT_OD << I2C_SCL_GPIO_CFG_SHIFT);
-
-  I2C_SDA_GPIO_CFG = (I2C_SDA_GPIO_CFG & ~I2C_SDA_GPIO_CFG_MASK)
-                     | (GPIOCFG_OUT_ALT_OD << I2C_SDA_GPIO_CFG_SHIFT);
 
   // Set the serial controller rate registers, then enable the SC in I2C mode
   SCx_REG(I2C_SC_PORT, MODE)    = SC_MODE_DISABLED; // Disable the port
@@ -199,10 +157,15 @@ static void i2cSaveAndConfigSC(void)  //-保存当前串口的参数,修改为I2C参数
   SCx_REG(I2C_SC_PORT, RATEEXP) = SC_RATEEXP_100K;
   SCx_REG(I2C_SC_PORT, MODE)    = SC_MODE_TWI;
 
-  
+  // Set the config bits for SCL and SDA to be OUT_ALT_OD
+  I2C_SCL_GPIO_CFG = (I2C_SCL_GPIO_CFG & ~I2C_SCL_GPIO_CFG_MASK)
+                     | (GPIOCFG_OUT_ALT_OD << I2C_SCL_GPIO_CFG_SHIFT);
+
+  I2C_SDA_GPIO_CFG = (I2C_SDA_GPIO_CFG & ~I2C_SDA_GPIO_CFG_MASK)
+                     | (GPIOCFG_OUT_ALT_OD << I2C_SDA_GPIO_CFG_SHIFT);
 }
 
-static void i2cRestoreConfigSC(void)  //-恢复为串口配置
+static void i2cRestoreConfigSC(void)
 {
   // This function will save the GPIO and serial control peripherals' config
   // state and reconfigure them to be used for an I2C transaction based on the
