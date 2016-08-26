@@ -36,6 +36,8 @@ static uint8_t consecutiveButtonPressCount = 0;
 // Event control struct declaration
 EmberEventControl emberAfButton0PressCountEventControl;
 
+extern uint8_t ForbidJoinNetwork_Model;
+
 // Event function forward declaration
 void emberAfButton0PressCountEventHandler(void);
 
@@ -60,6 +62,7 @@ void emberAfButton0PressCountEventHandler(void)
     } else if (consecutiveButtonPressCount == 6) {
       emberAfStartMoveCallback();
     }
+    ForbidJoinNetwork_Model = 0;
   } else {
     // If not a network, then regardless of button presses or length, we want to
     // make sure we are looking for a network.
@@ -122,6 +125,7 @@ void emberAfPluginButtonInterfaceButton0PressingCallback(void)
 {
   emberAfPluginConnectionManagerFactoryReset();
   emberLeaveNetwork();
+  ForbidJoinNetwork_Model = 1;
 
 }
 
