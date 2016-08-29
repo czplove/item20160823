@@ -200,6 +200,8 @@ void networkExtendedPanIdCommand(void)
   emberAfAppPrintln("");
 }
 
+extern uint8_t ForbidJoinNetwork_Model;
+
 // network leave
 void networkLeaveCommand(void)
 {
@@ -207,6 +209,7 @@ void networkLeaveCommand(void)
   status = emberLeaveNetwork();
   UNUSED_VAR(status);
   emberAfAppPrintln("%p 0x%x", "leave",  status);
+  ForbidJoinNetwork_Model = 1;
 }
 
 // network pjoin <time>
