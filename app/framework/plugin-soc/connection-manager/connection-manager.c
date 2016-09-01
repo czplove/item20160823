@@ -308,6 +308,9 @@ void emberAfPluginConnectionManagerPollEventHandler(void)
 void emberAfPluginConnectionManagerRejoinEventHandler(void)
 {
   emberEventControlSetInactive(emberAfPluginConnectionManagerRejoinEventControl);
+  
+  if(ForbidJoinNetwork_Model == 1)
+    return;
 
   emberAfAppPrint("Rejoin event function ");
   printNetworkState(emberAfNetworkState());

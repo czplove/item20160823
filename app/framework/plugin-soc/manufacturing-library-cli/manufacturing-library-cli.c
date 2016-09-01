@@ -288,6 +288,8 @@ void emAfMfglibStatusCommand(void)
                        savedLinkQuality,
                        savedRssi,
                        savedPktLength);
+   
+   inReceivedStream = false;
 
 }
 
