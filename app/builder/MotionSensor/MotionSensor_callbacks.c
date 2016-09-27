@@ -199,8 +199,9 @@ boolean emberAfStackStatusCallback(EmberStatus status)
 void emberAfPluginButtonInterfaceButton0PressingCallback(void)
 {
   emberAfAppPrintln("   > LEAVE NETWORK");
-  emberAfPluginConnectionManagerLeaveNetworkAndStartSearchForNewOne();
-  emberAfPluginConnectionManagerFactoryReset();
+  //FOR TEST
+  //emberAfPluginConnectionManagerLeaveNetworkAndStartSearchForNewOne();
+  //emberAfPluginConnectionManagerFactoryReset();
 }
 
 /** @brief Power Configuration Cluster Server Attribute Changed

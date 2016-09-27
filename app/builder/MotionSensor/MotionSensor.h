@@ -138,7 +138,7 @@
 /**** Debug printing section ****/
 
 // Global switch
-// #define EMBER_AF_PRINT_ENABLE
+#define EMBER_AF_PRINT_ENABLE
 // Individual areas
 #define EMBER_AF_PRINT_CORE 0x0001
 #define EMBER_AF_PRINT_APP 0x0002
@@ -234,6 +234,7 @@
 // Use this macro to check if Idle/Sleep plugin is included
 #define EMBER_AF_PLUGIN_IDLE_SLEEP
 // User options for plugin Idle/Sleep
+#define EMBER_AF_PLUGIN_IDLE_SLEEP_STAY_AWAKE_WHEN_NOT_JOINED
 #define EMBER_AF_PLUGIN_IDLE_SLEEP_MINIMUM_SLEEP_DURATION_MS 5
 
 // Use this macro to check if Low Voltage Shutdown plugin is included
