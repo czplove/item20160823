@@ -200,6 +200,7 @@ void networkExtendedPanIdCommand(void)
   emberAfAppPrintln("");
 }
 
+extern uint8_t ForbidJoinNetwork_Model;
 // network leave
 void networkLeaveCommand(void)
 {

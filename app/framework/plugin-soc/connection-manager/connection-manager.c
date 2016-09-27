@@ -82,7 +82,7 @@ EmberEventControl emberAfPluginConnectionManagerPollEventControl;
 
 //------------------------------------------------------------------------------
 // plugin private global variables
-
+uint8_t ForbidJoinNetwork_Model;
 static NetworkStateMessage networkStateMessages[] =
 {
   {EMBER_NETWORK_UP,                "EMBER_NETWORK_UP"},
@@ -179,6 +179,8 @@ void emberAfPluginNetworkFindFinishedCallback(EmberStatus status)
     emberEventControlSetInactive(emberAfPluginConnectionManagerRejoinEventControl);
   } else {
     // delay the rejoin for 5 seconds.
+      if(ForbidJoinNetwork_Model == 0)
+      {
 	if(networkJoinAttempts < REJOIN_ATTEMPTS)
     {
       emberEventControlSetDelayQS(emberAfPluginConnectionManagerRejoinEventControl,
@@ -189,6 +191,7 @@ void emberAfPluginNetworkFindFinishedCallback(EmberStatus status)
       emberEventControlSetDelayMinutes(emberAfPluginConnectionManagerRejoinEventControl,
                                        REJOIN_TIME_MINUTES);
     }
+      }
   }
 }
 
@@ -303,7 +306,8 @@ void emberAfPluginConnectionManagerPollEventHandler(void)
 void emberAfPluginConnectionManagerRejoinEventHandler(void)
 {
   emberEventControlSetInactive(emberAfPluginConnectionManagerRejoinEventControl);
-
+  if(ForbidJoinNetwork_Model == 1)
+    return;
   emberAfAppPrint("Rejoin event function ");
   printNetworkState(emberAfNetworkState());
 

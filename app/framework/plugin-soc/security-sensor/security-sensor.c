@@ -57,7 +57,7 @@
 // manually generates it via a button press.  Set to 3 minutes to comply with
 // EZ mode commissioning specification
 #define MANUAL_IDENTIFY_TIME_S          180
-
+extern uint8_t ForbidJoinNetwork_Model;
 //------------------------------------------------------------------------------
 // Plugin private types and enums
 enum {
@@ -97,6 +97,7 @@ static uint8_t contactStatus = STATUS_NO_ALARM;
 static uint8_t batteryStatus = STATUS_BATTERY_OK;
 // Number of consecutive button presses received thus far
 static uint8_t consecutiveButtonPressCount = 0;
+
 
 //------------------------------------------------------------------------------
 // Implemented Functions
@@ -241,9 +242,12 @@ void emberAfPluginSecuritySensorButtonPressCountEventHandler(void)
     } else if (consecutiveButtonPressCount == 6) {
       emberAfStartMoveCallback();
     }
+    
+    
   } else {
     // If not a network, then regardless of button presses or length, we want to
     // make sure we are looking for a network.
+    ForbidJoinNetwork_Model = 0;
     emberAfPluginConnectionManagerResetJoinAttempts();
     if (!emberStackIsPerformingRejoin()) {
       emberAfPluginConnectionManagerLeaveNetworkAndStartSearchForNewOne();

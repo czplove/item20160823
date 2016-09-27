@@ -284,6 +284,11 @@ void emAfMfglibStatusCommand(void)
   emberAfCorePrintln("%p tone test running: %p", PLUGIN_NAME, (mfgToneTestRunning ? "yes" : "no"));
   emberAfCorePrintln("%p stream test running: %p", PLUGIN_NAME, (mfgStreamTestRunning ? "yes": "no"));
   emberAfCorePrintln("Total %p packets received: %d", PLUGIN_NAME, mfgTotalPacketCounter);
+  emberAfCorePrintln("First packet: lqi %d, rssi %d, len %d",
+                       savedLinkQuality,
+                       savedRssi,
+                       savedPktLength);
+
 }
 
 void emAfMfglibSetChannelCommand(void)

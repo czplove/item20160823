@@ -23,7 +23,7 @@ const uint16_t clusterlist[REPORTING_CLUSTER_LISTS] = {
 };
 static HalLowBatteryState lastBatteryStatus = HAL_LOW_BATTERY_NOT_ACTIVE;
 static HalLowBatteryState newBatteryStatus = HAL_LOW_BATTERY_NOT_ACTIVE;
-
+extern uint8_t ForbidJoinNetwork_Model;
 
 /** @brief Main Init
  *
@@ -174,16 +174,16 @@ boolean emberAfStackStatusCallback(EmberStatus status)
       newEntry.mask = CLUSTER_MASK_SERVER;
       emberAfPluginReportingConfigureReportedAttribute(&newEntry);
 
-      newEntry.attributeId = ZCL_LAST_MESSAGE_RSSI_ATTRIBUTE_ID;
-      newEntry.clusterId = ZCL_DIAGNOSTICS_CLUSTER_ID;
-      newEntry.data.reported.minInterval = 60;
-      newEntry.data.reported.maxInterval = 60;
-      newEntry.data.reported.reportableChange = 10;
-      newEntry.direction = EMBER_ZCL_REPORTING_DIRECTION_REPORTED;
-      newEntry.endpoint = emberAfPrimaryEndpoint();
-      newEntry.manufacturerCode = EMBER_AF_NULL_MANUFACTURER_CODE;
-      newEntry.mask = CLUSTER_MASK_SERVER;
-      emberAfPluginReportingConfigureReportedAttribute(&newEntry);
+//      newEntry.attributeId = ZCL_LAST_MESSAGE_RSSI_ATTRIBUTE_ID;
+//      newEntry.clusterId = ZCL_DIAGNOSTICS_CLUSTER_ID;
+//      newEntry.data.reported.minInterval = 60;
+//      newEntry.data.reported.maxInterval = 60;
+//      newEntry.data.reported.reportableChange = 10;
+//      newEntry.direction = EMBER_ZCL_REPORTING_DIRECTION_REPORTED;
+//      newEntry.endpoint = emberAfPrimaryEndpoint();
+//      newEntry.manufacturerCode = EMBER_AF_NULL_MANUFACTURER_CODE;
+//      newEntry.mask = CLUSTER_MASK_SERVER;
+//      emberAfPluginReportingConfigureReportedAttribute(&newEntry);
     }
     emberAfPluginLowVoltageShutdownGetVoltage();
     break;
@@ -199,9 +199,10 @@ boolean emberAfStackStatusCallback(EmberStatus status)
 void emberAfPluginButtonInterfaceButton0PressingCallback(void)
 {
   emberAfAppPrintln("   > LEAVE NETWORK");
-  //FOR TEST
   //emberAfPluginConnectionManagerLeaveNetworkAndStartSearchForNewOne();
-  //emberAfPluginConnectionManagerFactoryReset();
+  emberAfPluginConnectionManagerFactoryReset();
+  emberLeaveNetwork();
+  ForbidJoinNetwork_Model = 1;
 }
 
 /** @brief Power Configuration Cluster Server Attribute Changed
