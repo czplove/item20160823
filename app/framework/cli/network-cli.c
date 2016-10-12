@@ -207,6 +207,7 @@ void networkLeaveCommand(void)
   EmberStatus status;
   status = emberLeaveNetwork();
   UNUSED_VAR(status);
+  ForbidJoinNetwork_Model == 1;
   emberAfAppPrintln("%p 0x%x", "leave",  status);
 }
 

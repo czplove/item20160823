@@ -1,12 +1,12 @@
 #ISD App Configuration:3.1
-# ISD version: 3.3.1985
+# ISD version: 3.3.1959
 #  Identified of a stack descriptor used for this configuration. This should not
 #  be changed manually, unless you really know what you are doing.
 ConfiguratorID:auto-EM35X
 
 #  Output directory which is used as a root for all generated files. The actual
 #  files relative to that directory are defined by individual file name.
-GenerationDirectory:PATH(ABSOLUTE):D:\SiliconLabs\EmberZNet5.7.0-GA
+GenerationDirectory:PATH(ABSOLUTE):D:\EMBER\EmberZNet5.7.0-GA
 
 #  Unique identifier for this device. This string should be in a form of a C
 #  identifier, as it will be used in both generated variable, macros, as well as
@@ -538,7 +538,7 @@ em357=null,
 {setupId:callbackConfiguration
 }
 {setupId:debugConfiguration
-off
+on
 area name off
 appSerial=1
 remove,ALARM_CLUSTER
@@ -974,8 +974,6 @@ AppPluginOption:EMBER_AF_PLUGIN_NETWORK_FIND_RADIO_TX_CALLBACK,true
 
 AppPluginOption:EMBER_AF_REJOIN_ATTEMPTS_MAX,10
 
-AppPluginOption:EMBER_AF_PLUGIN_IDLE_SLEEP_STAY_AWAKE_WHEN_NOT_JOINED,false
-
 AppPluginOption:EMBER_AF_PLUGIN_ADDRESS_TABLE_SIZE,4
 
 AppPluginOption:EMBER_AF_PLUGIN_SECURITY_SENSOR_TIME_BETWEEN_PRESSES_MS,600
@@ -1001,4 +999,6 @@ AppPluginOption:EMBER_AF_PLUGIN_END_DEVICE_SUPPORT_MAX_MISSED_POLLS,4
 AppPluginOption:EMBER_AF_PLUGIN_END_DEVICE_SUPPORT_ENABLE_POLL_COMPLETED_CALLBACK,false
 
 AppPluginOption:EMBER_AF_PLUGIN_END_DEVICE_SUPPORT_SHORT_POLL_INTERVAL_SECONDS,1
+
+AppPluginOption:EMBER_AF_PLUGIN_IDLE_SLEEP_STAY_AWAKE_WHEN_NOT_JOINED,true
 
