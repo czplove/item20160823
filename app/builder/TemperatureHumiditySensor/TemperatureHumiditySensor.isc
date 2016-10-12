@@ -1,5 +1,5 @@
 #ISD App Configuration:3.1
-# ISD version: 3.3.1985
+# ISD version: 3.3.1959
 #  Identified of a stack descriptor used for this configuration. This should not
 #  be changed manually, unless you really know what you are doing.
 ConfiguratorID:auto-EM35X
@@ -326,18 +326,18 @@ ZigbeeProNetwork:*Primary,ZA_SLEEPY_END_DEVICE,HA
 #  A list of optional attributes that are included in this configuration. Format
 #  is a list of "clusterId,attributeId,<server|client>,manufacturerCode"
 #  entries, separated by semicolon.
-OptionalAttributes:1,53,server,0:0,1,server,0:0,2,server,0:0,3,server,0:0,4,server,0:0,5,server,0:0,6,server,0:0,16,server,0:0,17,server,0:0,18,server,0:1,32,server,0:1,54,server,0:1,33,server,0:2821,0,server,0:2821,260,server,0:2821,266,server,0:2821,268,server,0:2821,269,server,0:2821,270,server,0:2821,271,server,0:2821,272,server,0:2821,273,server,0:2821,283,server,0:2821,284,server,0:2821,285,server,0
+OptionalAttributes:1,53,server,0:0,1,server,0:0,2,server,0:0,3,server,0:0,4,server,0:0,5,server,0:0,6,server,0:0,16,server,0:0,17,server,0:0,18,server,0:1,32,server,0:1,54,server,0:1,33,server,0:2821,0,server,0:2821,260,server,0:2821,266,server,0:2821,268,server,0:2821,269,server,0:2821,270,server,0:2821,271,server,0:2821,272,server,0:2821,273,server,0:2821,283,server,0:2821,284,server,0:2821,285,server,0:0,20,server,0
 
 #  A list of attributes that are to be saved as tokens in persistent memory.
 #  Format is a list of "clusterId,attributeId,<server|client>,manufacturerCode"
 #  entries, separated by semicolon.
-FlashAttributes:2821,283,server,0:2821,285,server,0:2821,284,server,0:2821,273,server,0:2821,272,server,0:2821,271,server,0:2821,270,server,0:2821,269,server,0:2821,268,server,0:2821,266,server,0:2821,260,server,0:2821,0,server,0
+FlashAttributes:2821,283,server,0:2821,285,server,0:2821,284,server,0:2821,273,server,0:2821,272,server,0:2821,271,server,0:2821,270,server,0:2821,269,server,0:2821,268,server,0:2821,266,server,0:2821,260,server,0:2821,0,server,0:0,20,server,0
 
 #  Attributes which have their singletoness overridden from default value.
 SingletonAttributes:2821,283,server,0:2821,284,server,0:2821,285,server,0:2821,266,server,0:2821,268,server,0:2821,269,server,0:2821,270,server,0:2821,271,server,0:2821,272,server,0:2821,273,server,0:2821,260,server,0:2821,0,server,0
 
 #  User defined default values for attributes.
-AttributeDefaults:0,4,server,0,Wulian:0,6,server,0,20160621:0,7,server,0,0x03:1026,2,server,0,0x2EE0:1026,1,server,0,0xF060:1029,0,server,0,0x0000:1029,1,server,0,0x0000:1029,2,server,0,0x2710:0,5,server,0,T-WS01:1,54,server,0,0x1A:1,55,server,0,0x00:1,56,server,0,0x00:1,57,server,0,0x00:1,53,server,0,0x01:0,1,server,0,0x02:0,2,server,0,0x01:0,3,server,0,0x01
+AttributeDefaults:0,4,server,0,Wulian:0,6,server,0,20160621:0,7,server,0,0x03:1026,2,server,0,0x2EE0:1026,1,server,0,0xF060:1029,0,server,0,0x0000:1029,1,server,0,0x0000:1029,2,server,0,0x2710:0,5,server,0,T-WS01:1,54,server,0,0x1A:1,55,server,0,0x00:1,56,server,0,0x00:1,57,server,0,0x00:1,53,server,0,0x01:0,1,server,0,0x02:0,2,server,0,0x01:0,3,server,0,0x01:0,20,server,0,0x01
 
 #  Lists the channels that this application will be configured to use.
 Channels:11
@@ -541,7 +541,7 @@ em357=null,
 {setupId:callbackConfiguration
 }
 {setupId:debugConfiguration
-off
+on
 area name off
 appSerial=1
 }
@@ -979,5 +979,5 @@ AppPluginOption:EMBER_AF_PLUGIN_END_DEVICE_SUPPORT_SHORT_POLL_INTERVAL_SECONDS,1
 
 AppPluginOption:EMBER_BINDING_TABLE_SIZE,6
 
-AppPluginOption:EMBER_AF_PLUGIN_IDLE_SLEEP_STAY_AWAKE_WHEN_NOT_JOINED,true
+AppPluginOption:EMBER_AF_PLUGIN_IDLE_SLEEP_STAY_AWAKE_WHEN_NOT_JOINED,false
 

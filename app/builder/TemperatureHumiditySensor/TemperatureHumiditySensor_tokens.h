@@ -6,30 +6,32 @@
 
 
 // Identifier tags for tokens
+// Creator for attribute: disable local config, singleton.
+#define CREATOR_DISABLE_LOCAL_CONFIG_SINGLETON 0xB000
 // Creator for attribute: number of resets, singleton.
-#define CREATOR_NUMBER_OF_RESETS_SINGLETON 0xB000
+#define CREATOR_NUMBER_OF_RESETS_SINGLETON 0xB001
 // Creator for attribute: mac tx unicast retry, singleton.
-#define CREATOR_MAC_TX_UCAST_RETRY_SINGLETON 0xB001
+#define CREATOR_MAC_TX_UCAST_RETRY_SINGLETON 0xB002
 // Creator for attribute: aps tx unicast retries, singleton.
-#define CREATOR_APS_TX_UCAST_RETRY_SINGLETON 0xB002
+#define CREATOR_APS_TX_UCAST_RETRY_SINGLETON 0xB003
 // Creator for attribute: route discovery initiated, singleton.
-#define CREATOR_ROUTE_DISC_INITIATED_SINGLETON 0xB003
+#define CREATOR_ROUTE_DISC_INITIATED_SINGLETON 0xB004
 // Creator for attribute: neighbor added, singleton.
-#define CREATOR_NEIGHBOR_ADDED_SINGLETON 0xB004
+#define CREATOR_NEIGHBOR_ADDED_SINGLETON 0xB005
 // Creator for attribute: neighbor moved, singleton.
-#define CREATOR_NEIGHBOR_REMOVED_SINGLETON 0xB005
+#define CREATOR_NEIGHBOR_REMOVED_SINGLETON 0xB006
 // Creator for attribute: neighbor stale, singleton.
-#define CREATOR_NEIGHBOR_STALE_SINGLETON 0xB006
+#define CREATOR_NEIGHBOR_STALE_SINGLETON 0xB007
 // Creator for attribute: join indication, singleton.
-#define CREATOR_JOIN_INDICATION_SINGLETON 0xB007
+#define CREATOR_JOIN_INDICATION_SINGLETON 0xB008
 // Creator for attribute: child moved, singleton.
-#define CREATOR_CHILD_MOVED_SINGLETON 0xB008
+#define CREATOR_CHILD_MOVED_SINGLETON 0xB009
 // Creator for attribute: average mac retry per aps message sent, singleton.
-#define CREATOR_AVERAGE_MAC_RETRY_PER_APS_MSG_SENT_SINGLETON 0xB009
+#define CREATOR_AVERAGE_MAC_RETRY_PER_APS_MSG_SENT_SINGLETON 0xB00A
 // Creator for attribute: last message lqi, singleton.
-#define CREATOR_LAST_MESSAGE_LQI_SINGLETON 0xB00A
+#define CREATOR_LAST_MESSAGE_LQI_SINGLETON 0xB00B
 // Creator for attribute: last message rssi, singleton.
-#define CREATOR_LAST_MESSAGE_RSSI_SINGLETON 0xB00B
+#define CREATOR_LAST_MESSAGE_RSSI_SINGLETON 0xB00C
 
 
 // Types for the tokens
@@ -46,11 +48,13 @@ typedef uint16_t  tokType_route_disc_initiated;
 typedef uint16_t  tokType_aps_tx_ucast_retry;
 typedef uint16_t  tokType_mac_tx_ucast_retry;
 typedef uint16_t  tokType_number_of_resets;
+typedef uint8_t  tokType_disable_local_config;
 #endif // DEFINETYPES
 
 
 // Actual token definitions
 #ifdef DEFINETOKENS
+DEFINE_BASIC_TOKEN(DISABLE_LOCAL_CONFIG_SINGLETON, tokType_disable_local_config, 0x01)
 DEFINE_BASIC_TOKEN(NUMBER_OF_RESETS_SINGLETON, tokType_number_of_resets, 0x0000)
 DEFINE_BASIC_TOKEN(MAC_TX_UCAST_RETRY_SINGLETON, tokType_mac_tx_ucast_retry, 0x0000)
 DEFINE_BASIC_TOKEN(APS_TX_UCAST_RETRY_SINGLETON, tokType_aps_tx_ucast_retry, 0x0000)
@@ -71,6 +75,8 @@ DEFINE_BASIC_TOKEN(LAST_MESSAGE_RSSI_SINGLETON, tokType_last_message_rssi, 0x000
   uint8_t ptr[2]; \
   uint8_t curNetwork = emberGetCurrentNetwork(); \
   uint8_t epNetwork; \
+  halCommonGetToken((tokType_disable_local_config *)ptr, TOKEN_DISABLE_LOCAL_CONFIG_SINGLETON); \
+  emberAfWriteServerAttribute(1, ZCL_BASIC_CLUSTER_ID, ZCL_DISABLE_LOCAL_CONFIG_ATTRIBUTE_ID, (uint8_t*)ptr, ZCL_BITMAP8_ATTRIBUTE_TYPE); \
   halCommonGetToken((tokType_number_of_resets *)ptr, TOKEN_NUMBER_OF_RESETS_SINGLETON); \
   emberAfWriteServerAttribute(1, ZCL_DIAGNOSTICS_CLUSTER_ID, ZCL_NUMBER_OF_RESETS_ATTRIBUTE_ID, (uint8_t*)ptr, ZCL_INT16U_ATTRIBUTE_TYPE); \
   halCommonGetToken((tokType_mac_tx_ucast_retry *)ptr, TOKEN_MAC_TX_UCAST_RETRY_SINGLETON); \
@@ -103,7 +109,10 @@ DEFINE_BASIC_TOKEN(LAST_MESSAGE_RSSI_SINGLETON, tokType_last_message_rssi, 0x000
   uint8_t allZeroData[2]; \
   MEMSET(allZeroData, 0, 2); \
   if ( data == NULL ) data = allZeroData; \
-  if ( clusterId == 0x0B05 ) { \
+  if ( clusterId == 0x00 ) { \
+    if ( metadata->attributeId == 0x0014 && !emberAfAttributeIsClient(metadata) ) \
+      halCommonSetToken(TOKEN_DISABLE_LOCAL_CONFIG_SINGLETON, data); \
+  } else if ( clusterId == 0x0B05 ) { \
     if ( metadata->attributeId == 0x0000 && !emberAfAttributeIsClient(metadata) ) \
       halCommonSetToken(TOKEN_NUMBER_OF_RESETS_SINGLETON, data); \
     if ( metadata->attributeId == 0x0104 && !emberAfAttributeIsClient(metadata) ) \
