@@ -42,30 +42,29 @@
     { 0x0010, ZCL_CHAR_STRING_ATTRIBUTE_TYPE, 17, (ATTRIBUTE_MASK_WRITABLE|ATTRIBUTE_MASK_SINGLETON), { NULL } }, /* 8 / Basic / location description*/\
     { 0x0011, ZCL_ENUM8_ATTRIBUTE_TYPE, 1, (ATTRIBUTE_MASK_WRITABLE|ATTRIBUTE_MASK_SINGLETON), { (uint8_t*)0x00 } }, /* 9 / Basic / physical environment*/\
     { 0x0012, ZCL_BOOLEAN_ATTRIBUTE_TYPE, 1, (ATTRIBUTE_MASK_WRITABLE|ATTRIBUTE_MASK_SINGLETON), { (uint8_t*)0x01 } }, /* 10 / Basic / device enabled*/\
-    { 0x0014, ZCL_BITMAP8_ATTRIBUTE_TYPE, 1, (ATTRIBUTE_MASK_WRITABLE|ATTRIBUTE_MASK_TOKENIZE|ATTRIBUTE_MASK_SINGLETON), { (uint8_t*)0x01 } }, /* 11 / Basic / disable local config*/\
-    { 0x0020, ZCL_INT8U_ATTRIBUTE_TYPE, 1, (ATTRIBUTE_MASK_SINGLETON), { (uint8_t*)0x00UL } }, /* 12 / Power Configuration / battery voltage*/\
-    { 0x0021, ZCL_INT8U_ATTRIBUTE_TYPE, 1, (ATTRIBUTE_MASK_SINGLETON), { (uint8_t*)0x00 } }, /* 13 / Power Configuration / battery percentage remaining*/\
-    { 0x0035, ZCL_BITMAP8_ATTRIBUTE_TYPE, 1, (ATTRIBUTE_MASK_WRITABLE|ATTRIBUTE_MASK_SINGLETON), { (uint8_t*)0x01 } }, /* 14 / Power Configuration / battery alarm mask*/\
-    { 0x0036, ZCL_INT8U_ATTRIBUTE_TYPE, 1, (ATTRIBUTE_MASK_WRITABLE|ATTRIBUTE_MASK_SINGLETON), { (uint8_t*)0x1A } }, /* 15 / Power Configuration / battery voltage min threshold*/\
-    { 0x0000, ZCL_INT16U_ATTRIBUTE_TYPE, 2, (ATTRIBUTE_MASK_WRITABLE), { (uint8_t*)0x0000 } }, /* 16 / Identify / identify time*/\
-    { 0x0000, ZCL_INT16S_ATTRIBUTE_TYPE, 2, (0x00), { (uint8_t*)0x0000 } }, /* 17 / Temperature Measurement / measured value*/\
-    { 0x0001, ZCL_INT16S_ATTRIBUTE_TYPE, 2, (0x00), { (uint8_t*)0xF060 } }, /* 18 / Temperature Measurement / min measured value*/\
-    { 0x0002, ZCL_INT16S_ATTRIBUTE_TYPE, 2, (0x00), { (uint8_t*)0x2EE0 } }, /* 19 / Temperature Measurement / max measured value*/\
-    { 0x0000, ZCL_INT16U_ATTRIBUTE_TYPE, 2, (0x00), { (uint8_t*)0x0000 } }, /* 20 / Relative Humidity Measurement / measured value*/\
-    { 0x0001, ZCL_INT16U_ATTRIBUTE_TYPE, 2, (0x00), { (uint8_t*)0x0000 } }, /* 21 / Relative Humidity Measurement / min measured value*/\
-    { 0x0002, ZCL_INT16U_ATTRIBUTE_TYPE, 2, (0x00), { (uint8_t*)0x2710 } }, /* 22 / Relative Humidity Measurement / max measured value*/\
-    { 0x0000, ZCL_INT16U_ATTRIBUTE_TYPE, 2, (ATTRIBUTE_MASK_TOKENIZE|ATTRIBUTE_MASK_SINGLETON), { (uint8_t*)0x0000 } }, /* 23 / Diagnostics / number of resets*/\
-    { 0x0104, ZCL_INT16U_ATTRIBUTE_TYPE, 2, (ATTRIBUTE_MASK_TOKENIZE|ATTRIBUTE_MASK_SINGLETON), { (uint8_t*)0x0000 } }, /* 24 / Diagnostics / mac tx unicast retry*/\
-    { 0x010A, ZCL_INT16U_ATTRIBUTE_TYPE, 2, (ATTRIBUTE_MASK_TOKENIZE|ATTRIBUTE_MASK_SINGLETON), { (uint8_t*)0x0000 } }, /* 25 / Diagnostics / aps tx unicast retries*/\
-    { 0x010C, ZCL_INT16U_ATTRIBUTE_TYPE, 2, (ATTRIBUTE_MASK_TOKENIZE|ATTRIBUTE_MASK_SINGLETON), { (uint8_t*)0x0000 } }, /* 26 / Diagnostics / route discovery initiated*/\
-    { 0x010D, ZCL_INT16U_ATTRIBUTE_TYPE, 2, (ATTRIBUTE_MASK_TOKENIZE|ATTRIBUTE_MASK_SINGLETON), { (uint8_t*)0x0000 } }, /* 27 / Diagnostics / neighbor added*/\
-    { 0x010E, ZCL_INT16U_ATTRIBUTE_TYPE, 2, (ATTRIBUTE_MASK_TOKENIZE|ATTRIBUTE_MASK_SINGLETON), { (uint8_t*)0x0000 } }, /* 28 / Diagnostics / neighbor moved*/\
-    { 0x010F, ZCL_INT16U_ATTRIBUTE_TYPE, 2, (ATTRIBUTE_MASK_TOKENIZE|ATTRIBUTE_MASK_SINGLETON), { (uint8_t*)0x0000 } }, /* 29 / Diagnostics / neighbor stale*/\
-    { 0x0110, ZCL_INT16U_ATTRIBUTE_TYPE, 2, (ATTRIBUTE_MASK_TOKENIZE|ATTRIBUTE_MASK_SINGLETON), { (uint8_t*)0x0000 } }, /* 30 / Diagnostics / join indication*/\
-    { 0x0111, ZCL_INT16U_ATTRIBUTE_TYPE, 2, (ATTRIBUTE_MASK_TOKENIZE|ATTRIBUTE_MASK_SINGLETON), { (uint8_t*)0x0000 } }, /* 31 / Diagnostics / child moved*/\
-    { 0x011B, ZCL_INT16U_ATTRIBUTE_TYPE, 2, (ATTRIBUTE_MASK_TOKENIZE|ATTRIBUTE_MASK_SINGLETON), { (uint8_t*)0x0000 } }, /* 32 / Diagnostics / average mac retry per aps message sent*/\
-    { 0x011C, ZCL_INT8U_ATTRIBUTE_TYPE, 1, (ATTRIBUTE_MASK_TOKENIZE|ATTRIBUTE_MASK_SINGLETON), { (uint8_t*)0x0000 } }, /* 33 / Diagnostics / last message lqi*/\
-    { 0x011D, ZCL_INT8S_ATTRIBUTE_TYPE, 1, (ATTRIBUTE_MASK_TOKENIZE|ATTRIBUTE_MASK_SINGLETON), { (uint8_t*)0x0000 } }, /* 34 / Diagnostics / last message rssi*/\
+    { 0x0020, ZCL_INT8U_ATTRIBUTE_TYPE, 1, (ATTRIBUTE_MASK_SINGLETON), { (uint8_t*)0x00UL } }, /* 11 / Power Configuration / battery voltage*/\
+    { 0x0021, ZCL_INT8U_ATTRIBUTE_TYPE, 1, (ATTRIBUTE_MASK_SINGLETON), { (uint8_t*)0x00 } }, /* 12 / Power Configuration / battery percentage remaining*/\
+    { 0x0035, ZCL_BITMAP8_ATTRIBUTE_TYPE, 1, (ATTRIBUTE_MASK_WRITABLE|ATTRIBUTE_MASK_SINGLETON), { (uint8_t*)0x01 } }, /* 13 / Power Configuration / battery alarm mask*/\
+    { 0x0036, ZCL_INT8U_ATTRIBUTE_TYPE, 1, (ATTRIBUTE_MASK_WRITABLE|ATTRIBUTE_MASK_SINGLETON), { (uint8_t*)0x1A } }, /* 14 / Power Configuration / battery voltage min threshold*/\
+    { 0x0000, ZCL_INT16U_ATTRIBUTE_TYPE, 2, (ATTRIBUTE_MASK_WRITABLE), { (uint8_t*)0x0000 } }, /* 15 / Identify / identify time*/\
+    { 0x0000, ZCL_INT16S_ATTRIBUTE_TYPE, 2, (0x00), { (uint8_t*)0x0000 } }, /* 16 / Temperature Measurement / measured value*/\
+    { 0x0001, ZCL_INT16S_ATTRIBUTE_TYPE, 2, (0x00), { (uint8_t*)0xF060 } }, /* 17 / Temperature Measurement / min measured value*/\
+    { 0x0002, ZCL_INT16S_ATTRIBUTE_TYPE, 2, (0x00), { (uint8_t*)0x2EE0 } }, /* 18 / Temperature Measurement / max measured value*/\
+    { 0x0000, ZCL_INT16U_ATTRIBUTE_TYPE, 2, (0x00), { (uint8_t*)0x0000 } }, /* 19 / Relative Humidity Measurement / measured value*/\
+    { 0x0001, ZCL_INT16U_ATTRIBUTE_TYPE, 2, (0x00), { (uint8_t*)0x0000 } }, /* 20 / Relative Humidity Measurement / min measured value*/\
+    { 0x0002, ZCL_INT16U_ATTRIBUTE_TYPE, 2, (0x00), { (uint8_t*)0x2710 } }, /* 21 / Relative Humidity Measurement / max measured value*/\
+    { 0x0000, ZCL_INT16U_ATTRIBUTE_TYPE, 2, (ATTRIBUTE_MASK_TOKENIZE|ATTRIBUTE_MASK_SINGLETON), { (uint8_t*)0x0000 } }, /* 22 / Diagnostics / number of resets*/\
+    { 0x0104, ZCL_INT16U_ATTRIBUTE_TYPE, 2, (ATTRIBUTE_MASK_TOKENIZE|ATTRIBUTE_MASK_SINGLETON), { (uint8_t*)0x0000 } }, /* 23 / Diagnostics / mac tx unicast retry*/\
+    { 0x010A, ZCL_INT16U_ATTRIBUTE_TYPE, 2, (ATTRIBUTE_MASK_TOKENIZE|ATTRIBUTE_MASK_SINGLETON), { (uint8_t*)0x0000 } }, /* 24 / Diagnostics / aps tx unicast retries*/\
+    { 0x010C, ZCL_INT16U_ATTRIBUTE_TYPE, 2, (ATTRIBUTE_MASK_TOKENIZE|ATTRIBUTE_MASK_SINGLETON), { (uint8_t*)0x0000 } }, /* 25 / Diagnostics / route discovery initiated*/\
+    { 0x010D, ZCL_INT16U_ATTRIBUTE_TYPE, 2, (ATTRIBUTE_MASK_TOKENIZE|ATTRIBUTE_MASK_SINGLETON), { (uint8_t*)0x0000 } }, /* 26 / Diagnostics / neighbor added*/\
+    { 0x010E, ZCL_INT16U_ATTRIBUTE_TYPE, 2, (ATTRIBUTE_MASK_TOKENIZE|ATTRIBUTE_MASK_SINGLETON), { (uint8_t*)0x0000 } }, /* 27 / Diagnostics / neighbor moved*/\
+    { 0x010F, ZCL_INT16U_ATTRIBUTE_TYPE, 2, (ATTRIBUTE_MASK_TOKENIZE|ATTRIBUTE_MASK_SINGLETON), { (uint8_t*)0x0000 } }, /* 28 / Diagnostics / neighbor stale*/\
+    { 0x0110, ZCL_INT16U_ATTRIBUTE_TYPE, 2, (ATTRIBUTE_MASK_TOKENIZE|ATTRIBUTE_MASK_SINGLETON), { (uint8_t*)0x0000 } }, /* 29 / Diagnostics / join indication*/\
+    { 0x0111, ZCL_INT16U_ATTRIBUTE_TYPE, 2, (ATTRIBUTE_MASK_TOKENIZE|ATTRIBUTE_MASK_SINGLETON), { (uint8_t*)0x0000 } }, /* 30 / Diagnostics / child moved*/\
+    { 0x011B, ZCL_INT16U_ATTRIBUTE_TYPE, 2, (ATTRIBUTE_MASK_TOKENIZE|ATTRIBUTE_MASK_SINGLETON), { (uint8_t*)0x0000 } }, /* 31 / Diagnostics / average mac retry per aps message sent*/\
+    { 0x011C, ZCL_INT8U_ATTRIBUTE_TYPE, 1, (ATTRIBUTE_MASK_TOKENIZE|ATTRIBUTE_MASK_SINGLETON), { (uint8_t*)0x0000 } }, /* 32 / Diagnostics / last message lqi*/\
+    { 0x011D, ZCL_INT8S_ATTRIBUTE_TYPE, 1, (ATTRIBUTE_MASK_TOKENIZE|ATTRIBUTE_MASK_SINGLETON), { (uint8_t*)0x0000 } }, /* 33 / Diagnostics / last message rssi*/\
   }
 
 
@@ -77,13 +76,13 @@ PGM EmberAfGenericClusterFunction emberAfFuncArrayIdentifyClusterServer[] = { (E
 
 // Clusters defitions
 #define GENERATED_CLUSTERS { \
-    { 0x0000, (EmberAfAttributeMetadata*)&(generatedAttributes[0]), 12, 0, (CLUSTER_MASK_SERVER), NULL,  },    \
-    { 0x0001, (EmberAfAttributeMetadata*)&(generatedAttributes[12]), 4, 0, (CLUSTER_MASK_SERVER| CLUSTER_MASK_ATTRIBUTE_CHANGED_FUNCTION), emberAfFuncArrayPowerConfigClusterServer, },    \
-    { 0x0003, (EmberAfAttributeMetadata*)&(generatedAttributes[16]), 0, 0, (CLUSTER_MASK_CLIENT), NULL,  },    \
-    { 0x0003, (EmberAfAttributeMetadata*)&(generatedAttributes[16]), 1, 2, (CLUSTER_MASK_SERVER| CLUSTER_MASK_INIT_FUNCTION| CLUSTER_MASK_ATTRIBUTE_CHANGED_FUNCTION), emberAfFuncArrayIdentifyClusterServer, },    \
-    { 0x0402, (EmberAfAttributeMetadata*)&(generatedAttributes[17]), 3, 6, (CLUSTER_MASK_SERVER), NULL,  },    \
-    { 0x0405, (EmberAfAttributeMetadata*)&(generatedAttributes[20]), 3, 6, (CLUSTER_MASK_SERVER), NULL,  },    \
-    { 0x0B05, (EmberAfAttributeMetadata*)&(generatedAttributes[23]), 12, 0, (CLUSTER_MASK_SERVER), NULL,  },    \
+    { 0x0000, (EmberAfAttributeMetadata*)&(generatedAttributes[0]), 11, 0, (CLUSTER_MASK_SERVER), NULL,  },    \
+    { 0x0001, (EmberAfAttributeMetadata*)&(generatedAttributes[11]), 4, 0, (CLUSTER_MASK_SERVER| CLUSTER_MASK_ATTRIBUTE_CHANGED_FUNCTION), emberAfFuncArrayPowerConfigClusterServer, },    \
+    { 0x0003, (EmberAfAttributeMetadata*)&(generatedAttributes[15]), 0, 0, (CLUSTER_MASK_CLIENT), NULL,  },    \
+    { 0x0003, (EmberAfAttributeMetadata*)&(generatedAttributes[15]), 1, 2, (CLUSTER_MASK_SERVER| CLUSTER_MASK_INIT_FUNCTION| CLUSTER_MASK_ATTRIBUTE_CHANGED_FUNCTION), emberAfFuncArrayIdentifyClusterServer, },    \
+    { 0x0402, (EmberAfAttributeMetadata*)&(generatedAttributes[16]), 3, 6, (CLUSTER_MASK_SERVER), NULL,  },    \
+    { 0x0405, (EmberAfAttributeMetadata*)&(generatedAttributes[19]), 3, 6, (CLUSTER_MASK_SERVER), NULL,  },    \
+    { 0x0B05, (EmberAfAttributeMetadata*)&(generatedAttributes[22]), 12, 0, (CLUSTER_MASK_SERVER), NULL,  },    \
   }
 
 
@@ -124,7 +123,7 @@ PGM EmberAfGenericClusterFunction emberAfFuncArrayIdentifyClusterServer[] = { (E
 // Largest attribute size is needed for various buffers
 #define ATTRIBUTE_LARGEST (33)
 // Total size of singleton attributes
-#define ATTRIBUTE_SINGLETONS_SIZE (134)
+#define ATTRIBUTE_SINGLETONS_SIZE (133)
 
 // Total size of attribute storage
 #define ATTRIBUTE_MAX_SIZE 14
