@@ -48,6 +48,11 @@ bool emAfOkToIdleOrSleep(void)
   if (emAfForceEndDeviceToStayAwake) {
     return false;
   }
+  if((halButtonPinState(BUTTON1)==BUTTON_PRESSED))
+  {
+    
+    return false;
+  }
 
   if (emAfStayAwakeWhenNotJoined) {
     bool awake = false;

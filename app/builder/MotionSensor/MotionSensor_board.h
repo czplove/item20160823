@@ -218,7 +218,7 @@ enum HalBoardLedPins {
  * Remember there may be other things that might want to use IRQC.
  */
 #if defined(MOTION_SENSOR_E93196)
-//#define BUTTON1             PORTB_PIN(3)
+#define BUTTON1             PORTB_PIN(6)
 /**
  * @brief The GPIO input register for BUTTON1.
  */
@@ -228,7 +228,7 @@ enum HalBoardLedPins {
  * Remember there may be other things that might want to use IRQC.
  * @note For this board, IRQC is pointed at PB3
  */
-#define BUTTON1_SEL()       do { GPIO_IRQCSEL = PORTB_PIN(3); } while(0)
+#define BUTTON1_SEL()       do { GPIO_IRQCSEL = PORTB_PIN(6); } while(0)
 #else
 //#define BUTTON1             PORTA_PIN(3)
 /**
@@ -246,7 +246,7 @@ enum HalBoardLedPins {
  * @brief The interrupt service routine for BUTTON1.
  * Remember there may be other things that might want to use IRQC.
  */
-#define BUTTON1_ISR         halIrqCIsr
+//#define BUTTON1_ISR         halIrqCIsr
 /**
  * @brief The interrupt configuration register for BUTTON1.
  */
@@ -1108,7 +1108,7 @@ uint16_t gpioCfgPowerUp[6] = {                                                  
                             ((GPIOCFG_IN         <<PB4_CFG_BIT)|              \
                              /* Red Led */                                    \
                              (GPIOCFG_OUT         <<PB5_CFG_BIT)|             \
-                             (GPIOCFG_IN         <<PB6_CFG_BIT)|              \
+                             (GPIOCFG_IN_PUD         <<PB6_CFG_BIT)|              \
                              /* Green Led */                                  \
                              (GPIOCFG_OUT        <<PB7_CFG_BIT)),             \
                             ((GPIOCFG_IN         <<PC0_CFG_BIT)|              \
@@ -1176,7 +1176,7 @@ uint8_t gpioOutPowerUp[3] = {                                               \
                             (0                  <<PB3_BIT)|               \
                             (0                  <<PB4_BIT)|               \
                             (1                  <<PB5_BIT)|               \
-                            (0                  <<PB6_BIT)|               \
+                            (1                  <<PB6_BIT)|               \
                             (1                  <<PB7_BIT)),              \
                            ((0                  <<PC0_BIT)|               \
                             (0                  <<PC1_BIT)|               \
@@ -1242,7 +1242,7 @@ uint16_t gpioCfgPowerDown[6] = {                                                
                             ((GPIOCFG_IN         <<PB4_CFG_BIT)|              \
                              /* Red Led */                                    \
                              (GPIOCFG_OUT         <<PB5_CFG_BIT)|             \
-                             (GPIOCFG_IN         <<PB6_CFG_BIT)|              \
+                             (GPIOCFG_IN_PUD         <<PB6_CFG_BIT)|              \
                              /* Green Led */                                  \
                              (GPIOCFG_OUT        <<PB7_CFG_BIT)),             \
                             ((GPIOCFG_IN         <<PC0_CFG_BIT)|              \
@@ -1310,7 +1310,7 @@ uint8_t gpioOutPowerDown[3] = {                                               \
                             (1                  <<PB3_BIT)|               \
                             (0                  <<PB4_BIT)|               \
                             (1                  <<PB5_BIT)|               \
-                            (0                  <<PB6_BIT)|               \
+                            (1                  <<PB6_BIT)|               \
                             (1                  <<PB7_BIT)),              \
                            ((0                  <<PC0_BIT)|               \
                             (0                  <<PC1_BIT)|               \
