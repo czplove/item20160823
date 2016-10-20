@@ -1,5 +1,5 @@
 #ISD App Configuration:3.1
-# ISD version: 3.3.1985
+# ISD version: 3.3.1959
 #  Identified of a stack descriptor used for this configuration. This should not
 #  be changed manually, unless you really know what you are doing.
 ConfiguratorID:auto-EM35X
@@ -541,7 +541,7 @@ em357=null,
 {setupId:callbackConfiguration
 }
 {setupId:debugConfiguration
-off
+on
 area name off
 appSerial=1
 }
@@ -979,5 +979,5 @@ AppPluginOption:EMBER_AF_PLUGIN_END_DEVICE_SUPPORT_SHORT_POLL_INTERVAL_SECONDS,1
 
 AppPluginOption:EMBER_BINDING_TABLE_SIZE,6
 
-AppPluginOption:EMBER_AF_PLUGIN_IDLE_SLEEP_STAY_AWAKE_WHEN_NOT_JOINED,true
+AppPluginOption:EMBER_AF_PLUGIN_IDLE_SLEEP_STAY_AWAKE_WHEN_NOT_JOINED,false
 
