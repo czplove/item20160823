@@ -120,6 +120,7 @@ void emberAfPluginGpioSensorDebounceEventHandler(void)
                                 6*MILLISECOND_TICKS_PER_SECOND);
 
 #endif
+  turnLedOff(BOARDLED1);
   if (emberAfNetworkState() == EMBER_JOINED_NETWORK)
   {
 #ifdef MOTION_SENSOR
@@ -163,7 +164,7 @@ static void sensorStateChangeDebounce(HalGpioSensorState status)
   if (status == HAL_GPIO_SENSOR_ACTIVE) {
     newSensorStatus = status;
 #ifdef MOTION_SENSOR
-    if (emberAfNetworkState() == EMBER_JOINED_NETWORK)
+    //-if (emberAfNetworkState() == EMBER_JOINED_NETWORK)
       turnLedOn(BOARDLED1);
 #endif
     emberEventControlSetDelayMS(emberAfPluginGpioSensorDebounceEventControl,
@@ -191,6 +192,7 @@ void halGpioSensorInitialize(void)
                                                          GPIO_SENSOR_IRQ);
   halGenericInterruptControlIrqEventRegister(irqConfig,
                            &emberAfPluginGpioSensorInterruptEventControl);
+  halGenericInterruptControlIrqEdgeConfig(irqConfig,1);
   halGenericInterruptControlIrqEnable(irqConfig);
 
   // Determine the initial value of the sensor
